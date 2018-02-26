@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MenuController">
+   <children>
+      <Button layoutX="300.0" layoutY="57.0" mnemonicParsing="false" onAction="#registraUtente" text="Registra un nuovo utente" />
+      <Button layoutX="508.0" layoutY="350.0" mnemonicParsing="false" onAction="#logOut" text="Log out" />
+      <Text fx:id="text" fill="RED" layoutX="58.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button layoutX="301.0" layoutY="128.0" mnemonicParsing="false" onAction="#importaCsv" text="Importa file in formato csv" />
+      <Button layoutX="300.0" layoutY="93.0" mnemonicParsing="false" onAction="#inserisciSatellite" text="Inserisci dati satellite" />
+      <Text layoutX="300.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amministratore" />
+      <Button layoutX="300.0" layoutY="164.0" mnemonicParsing="false" onAction="#inserisciDatiStrumento" text="Inserisci dati strumento" />
+   </children>
+</AnchorPane>
