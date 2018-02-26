@@ -127,6 +127,8 @@ public class CSVReader {
 
         List<Segmento> listaSegmenti = new ArrayList<>();
         
+        Segmento seg = new Segmento();
+        
         try {
             br = new BufferedReader(new FileReader(file));
             line = br.readLine(); // linea con nomi
@@ -144,16 +146,18 @@ public class CSVReader {
             while ((line = br.readLine()) != null) {
 
                 String[] values = line.split(cvsSplitBy);
-                double idFil = Double.parseDouble(values[0]);
-                double idBranch = Double.parseDouble(values[1]);
+                int idFil = Integer.parseInt(values[0]);
+                int idBranch = Integer.parseInt(values[1]);
                 String type = values[2];
                 double glon_br = Double.parseDouble(values[3]);
                 double glat_br = Double.parseDouble(values[4]);
                 int n = Integer.parseInt(values[5]);
                 double flux = Double.parseDouble(values[6]);
                 
-                Segmento seg = new Segmento(idFil, idBranch, type, 
+                seg = new Segmento(idFil, idBranch, type, 
                         glon_br, glat_br, n, flux);
+//               Segmento seg = new Segmento(idFil, idBranch, type, 
+//                        glon_br, glat_br, n, flux);
                 listaSegmenti.add(seg);
             }
 
@@ -162,6 +166,7 @@ public class CSVReader {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            System.out.println(seg);
            throw new FormatoFileNonSupportatoException("Errore durante la lettura del file");
         } finally {
             if (br != null) {

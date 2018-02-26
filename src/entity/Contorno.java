@@ -1,21 +1,21 @@
 package entity;
 
 public class Contorno {
-    private double idFil;
+    private int idFil;
     private double gLonCont;
     private double gLatCont;
     
-    public Contorno(double idFil, double gLonCont, double gLatCont) {
+    public Contorno(int idFil, double gLonCont, double gLatCont) {
         this.idFil = idFil;
         this.gLonCont = gLonCont;
         this.gLatCont = gLatCont;
     }
 
-    public double getIdFil() {
+    public int getIdFil() {
         return idFil;
     }
 
-    public void setIdFil(double idFil) {
+    public void setIdFil(int idFil) {
         this.idFil = idFil;
     }
 

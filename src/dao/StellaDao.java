@@ -38,7 +38,7 @@ public class StellaDao {
             Iterator<Stella> i = ls.iterator();
             while (i.hasNext()) {
                 Stella s = i.next();
-                ps.setDouble(1, s.getIdStar());
+                ps.setInt(1, s.getIdStar());
                 ps.setString(2, s.getName());
                 ps.setDouble(3, s.getgLonSt());
                 ps.setDouble(4, s.getgLatSt());

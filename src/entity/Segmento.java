@@ -1,15 +1,24 @@
 package entity;
 
 public class Segmento {
-    private double idFil;
-    private double idBranch;
+    private int idFil;
+    private int idBranch;
     private String type;
     private double gLonBr;
     private double gLatBr;
     private int n;
     private double flux;
     
-    public Segmento(double idFil, double idBranch, String type, double gLonBr, 
+    public Segmento() {
+        
+    }
+    
+    public String toString() {
+        return "idFil: " + this.idFil + "idBranch: " + 
+                this.idBranch + "idLon: " + this.gLonBr + "idLat: " + this.gLatBr;
+    }
+    
+    public Segmento(int idFil, int idBranch, String type, double gLonBr, 
             double gLatBr, int n, double flux) {
         this.idFil = idFil;
         this.idBranch = idBranch;
@@ -20,19 +29,19 @@ public class Segmento {
         this.flux = flux;
     }
 
-    public double getIdFil() {
+    public int getIdFil() {
         return idFil;
     }
 
-    public void setIdFil(double idFil) {
+    public void setIdFil(int idFil) {
         this.idFil = idFil;
     }
 
-    public double getIdBranch() {
+    public int getIdBranch() {
         return idBranch;
     }
 
-    public void setIdBranch(double idBranch) {
+    public void setIdBranch(int idBranch) {
         this.idBranch = idBranch;
     }
 

@@ -7,7 +7,7 @@ import java.sql.Connection;
 import util.DBAccess;
 
 public class Filamento {
-    private double idFil;
+    private int idFil;
     private String name;
     private double totalFlux;
     private double meanDens;
@@ -17,7 +17,7 @@ public class Filamento {
     private String satellite;
     private String instrument;
     
-    public Filamento(double idFil, String name, double totalFlux, 
+    public Filamento(int idFil, String name, double totalFlux, 
             double meanDens, double meanTemp, double ellipticity, 
             double contrast, String satellite, String instrument) {
         this.idFil = idFil;
@@ -59,11 +59,11 @@ public class Filamento {
         return res;
     }
     
-    public double getIdFil() {
+    public int getIdFil() {
         return idFil;
     }
 
-    public void setIdFil(double idFil) {
+    public void setIdFil(int idFil) {
         this.idFil = idFil;
     }
 

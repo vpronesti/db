@@ -2,8 +2,11 @@ package dao;
 
 import entity.Segmento;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
+import java.util.List;
 import util.DBAccess;
 
 public class SegmentoDao {
@@ -34,6 +37,35 @@ public class SegmentoDao {
             stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void inserisciSegmentoBatch(Connection conn, List<Segmento> ls) {
+        String sql = "insert into segmento(idfil, idbranch, type, " + 
+                "glon_br, glat_br, n, flux) values (?, ?, ?, ?, ?, ?, ?) " + 
+                "on conflict (idfil, idbranch, glon_br, glat_br) do update set " + 
+                "type = excluded.type, " + 
+                "n = excluded.n, " + 
+                "flux = excluded.flux";
+        try {
+            conn.setAutoCommit(false);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            Iterator<Segmento> i = ls.iterator();
+            while (i.hasNext()) {
+                Segmento s = i.next();
+                ps.setInt(1, s.getIdFil());
+                ps.setInt(2, s.getIdBranch());
+                ps.setString(3, s.getType());
+                ps.setDouble(4, s.getgLonBr());
+                ps.setDouble(5, s.getgLatBr());
+                ps.setInt(6, s.getN());
+                ps.setDouble(6, s.getFlux());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

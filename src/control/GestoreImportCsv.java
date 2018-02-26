@@ -38,20 +38,29 @@ public class GestoreImportCsv {
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
         boolean contornoInseribile = true;
+        
+        List<Integer> filamentiOk = new ArrayList<>();
+        
         Iterator<Contorno> i = listaContorni.iterator();
         while (i.hasNext()) {
             Contorno con = i.next();
-            if (!filamentoDao.queryEsistenzaFilamento(conn, con.getIdFil())) {
-                contornoInseribile = false;
-                break;
+            if (!filamentiOk.contains(con.getIdFil())) {
+                if (!filamentoDao.queryEsistenzaFilamento(conn, con.getIdFil())) {
+                    contornoInseribile = false;
+                    System.err.println("Nel file dei contorni esiste un filamento non presente nel db, importare prima il file dei filamenti");
+                    break;
+                } else {
+                    filamentiOk.add(con.getIdFil());
+                }
             }
         }
         if (contornoInseribile) {
-            i = listaContorni.iterator();
-            while (i.hasNext()) {
-                Contorno c = i.next();
-                contornoDao.inserisciContorno(conn, c);
-            }
+            contornoDao.inserisciContornoBatch(conn, listaContorni);
+//            i = listaContorni.iterator();
+//            while (i.hasNext()) {
+//                Contorno c = i.next();
+//                contornoDao.inserisciContorno(conn, c);
+//            }
         }
         DBAccess.getInstance().closeConnection(conn);
         return contornoInseribile;
@@ -69,28 +78,53 @@ public class GestoreImportCsv {
         // select distinct instrument
         Connection conn = DBAccess.getInstance().getConnection();
         boolean filamentoInseribile = true;
+        
+//long start = System.currentTimeMillis();
+        List<String> satellitiOk = new ArrayList<>();
+        List<String> strumentiOk = new ArrayList<>();
+
         while (i.hasNext()) {
             Filamento fil = i.next();
             String satellite = fil.getSatellite();
-            if (!satelliteDao.queryEsistenzaSatellite(conn, new BeanSatellite(satellite))) {
-                filamentoInseribile = false;
-                break;
+            if (!satellitiOk.contains(satellite)) {
+                if (!satelliteDao.queryEsistenzaSatellite(conn, new BeanSatellite(satellite))) {
+                    System.err.println("Nel file dei filamenti esiste un satellite non presente nel db, definire i satelliti prima di importare il file");
+                    filamentoInseribile = false;
+                    break;
+                } else {
+                    satellitiOk.add(satellite);
+                }
             }
+            
             String strumento = fil.getInstrument();
-            if (!strumentoDao.queryEsistenzaStrumento(conn, strumento)) {
-                filamentoInseribile = false;
-                break;
-            }          
+            if (!strumentiOk.contains(strumento)) {
+                if (!strumentoDao.queryEsistenzaStrumento(conn, strumento)) {
+                    System.err.println("Nel file dei filamenti esiste uno strumento non presente nel db, definire gli strumenti prima di importare il file");
+                    filamentoInseribile = false;
+                    break;
+                } else {
+                    strumentiOk.add(strumento);
+                }
+            }
         }
+//System.out.println("check time: " + (System.currentTimeMillis() - start));
         // si inseriscono i filamenti solo solo se 
         // i satelliti e gli strumenti sono nel db
+//start = System.currentTimeMillis();
+
         if (filamentoInseribile) {
-            i = listaFilamenti.iterator();
-            while (i.hasNext()) {
-                Filamento f = i.next();
-                filamentoDao.inserisciFilamento(conn, f);
-            }
+            filamentoDao.inserisciFilamentoBatch(conn, listaFilamenti);
         }
+
+//        if (filamentoInseribile) {
+//            i = listaFilamenti.iterator();
+//            while (i.hasNext()) {
+//                Filamento f = i.next();
+//                filamentoDao.inserisciFilamento(conn, f);
+//            }
+//        }
+
+//System.out.println("write time: " + (System.currentTimeMillis() - start));
         DBAccess.getInstance().closeConnection(conn);
         return filamentoInseribile;
     }
@@ -102,19 +136,28 @@ public class GestoreImportCsv {
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
         boolean segmentoInseribile = true;
+        
+        List<Integer> filamentiOk = new ArrayList<>();
+        
         while (i.hasNext()) {
             Segmento seg = i.next();
-            if (!filamentoDao.queryEsistenzaFilamento(conn, seg.getIdFil())) {
-                segmentoInseribile = false;
-                break;
-            }       
+            if (!filamentiOk.contains(seg.getIdFil())) {
+                if (!filamentoDao.queryEsistenzaFilamento(conn, seg.getIdFil())) {
+                    System.err.println("Nel file dei segmenti esiste un filamento non presente nel db, importare prima il file con i filamenti");
+                    segmentoInseribile = false;
+                    break;
+                } else {
+                    filamentiOk.add(seg.getIdFil());
+                }
+            }
         }
         if (segmentoInseribile) {
-            i = listaSegmenti.iterator();
-            while (i.hasNext()) {
-                Segmento s = i.next();
-                segmentoDao.inserisciSegmento(conn, s);
-            }
+            segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti);
+//            i = listaSegmenti.iterator();
+//            while (i.hasNext()) {
+//                Segmento s = i.next();
+//                segmentoDao.inserisciSegmento(conn, s);
+//            }
         }
         DBAccess.getInstance().closeConnection(conn);
         return segmentoInseribile;
@@ -140,14 +183,11 @@ public class GestoreImportCsv {
         boolean res = true;
         if (tipoFile == TipoFileCsv.CONTORNO) {
             res = this.importContorni(beanRichiesta.getFileSelezionato());
-        }
-        if (tipoFile == TipoFileCsv.FILAMENTO) {
+        } else if (tipoFile == TipoFileCsv.FILAMENTO) {
             res = this.importFilamenti(beanRichiesta.getFileSelezionato());
-        }
-        if (tipoFile == TipoFileCsv.SEGMENTO) {
+        } else if (tipoFile == TipoFileCsv.SEGMENTO) {
             res = this.importSegmenti(beanRichiesta.getFileSelezionato());    
-        }
-        if (tipoFile == TipoFileCsv.STELLA) {
+        } else if (tipoFile == TipoFileCsv.STELLA) {
             this.importStelle(beanRichiesta.getFileSelezionato()); 
         } else {
             res = false;

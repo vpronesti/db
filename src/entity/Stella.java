@@ -1,14 +1,14 @@
 package entity;
 
 public class Stella {
-    private double idStar;
+    private int idStar;
     private String name;
     private double gLonSt;
     private double gLatSt;
     private double fluxSt;
     private String type;
     
-    public Stella(double idStar, String name, double gLonSt, double gLatSt, 
+    public Stella(int idStar, String name, double gLonSt, double gLatSt, 
             double fluxSt, String type) {
         this.idStar = idStar;
         this.name = name;
@@ -19,11 +19,11 @@ public class Stella {
         
     }
 
-    public double getIdStar() {
+    public int getIdStar() {
         return idStar;
     }
 
-    public void setIdStar(double idStar) {
+    public void setIdStar(int idStar) {
         this.idStar = idStar;
     }
 
