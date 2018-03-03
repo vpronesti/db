@@ -10,9 +10,6 @@ import util.DBAccess;
 
 public class SatelliteDao {
     private static SatelliteDao instance;
-    private final static String PASS = DBAccess.DBPASSW;
-    private final static String USER = DBAccess.DBOWNER;
-    private final static String DB_URL = DBAccess.DB_URL;
 
     public static synchronized SatelliteDao getInstance() {
         if(instance == null)
@@ -22,18 +19,15 @@ public class SatelliteDao {
     
     
     /**
-     * utilizzato per l'inserimento di un sattelite nel db e per 
-     * controllare esistenza quando viene inserito un filamento
+     * utilizzato per l'inserimento di un sattelite nel db 
+     * utilizzate per l'inserimento di un filamento 
      * @param satellite
      * @return 
      */
     public boolean queryEsistenzaSatellite(Connection conn, BeanSatellite satellite) {
         boolean res = false;
-//        Connection conn = null;
         Statement stmt = null;
         try {
-//            Class.forName("org.postgresql.Driver");
-//            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
             String sql = "select * from satellite where nome = '" + 
                     satellite.getNome() + "'";
@@ -41,14 +35,11 @@ public class SatelliteDao {
             if (rs.next()){
                 res = true;
             }
+            rs.close();
             stmt.close();
-//            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
         return res;
     }
     
@@ -59,11 +50,8 @@ public class SatelliteDao {
      */
     public boolean inserisciSatellite(Connection conn, BeanSatellite satellite) {
         boolean res = true;
-//        Connection conn = null;
         Statement stmt = null;
         try {
-//            Class.forName("org.postgresql.Driver");
-//            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
             String sql = "";
             if (satellite.getTermineOperazione() != null) {
@@ -79,22 +67,19 @@ public class SatelliteDao {
                     satellite.getNome() + "', '" +  
                     satellite.getPrimaOsservazione() + "', NULL , '" + 
                     satellite.getAgenzia() + "')";
-            
             }
             stmt.executeUpdate(sql);
+            stmt.close();
         } catch (SQLException e) {
-            res = false; // non si puo inserire il satellite
+            res = false;
         } finally {
             try {
                 if (stmt != null)
                     stmt.close();
-//                if (conn != null)
-//                    conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return res;
         }
-        
-    } 
+        return res;
+    }
 }

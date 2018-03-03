@@ -20,22 +20,6 @@ public class Satellite {
         this.agenzia = agenzia;
         
     }
-    
-    public boolean inserisciSatellite() {
-        SatelliteDao satelliteDao = SatelliteDao.getInstance();
-        BeanSatellite beanSatellite = new BeanSatellite(nome, 
-                primaOsservazione, termineOperazione, agenzia);
-        Connection conn = DBAccess.getInstance().getConnection();
-        boolean res;
-        if (!satelliteDao.queryEsistenzaSatellite(conn, beanSatellite)){
-            satelliteDao.inserisciSatellite(conn, beanSatellite);
-            res = true;
-        } else {
-            res = false;
-        }
-        DBAccess.getInstance().closeConnection(conn);
-        return res;
-    }
 
     public String getNome() {
         return nome;

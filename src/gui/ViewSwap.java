@@ -18,6 +18,14 @@ public class ViewSwap {
     protected static String INSERISCISTRUMENTO = "inserisciDatiStrumento.fxml";
     protected static String INSERISCINOMESTRUMENTO = "inserisciNomeStrumento.fxml";
     protected static String INSERISCIBANDASTRUMENTO = "inserisciBandaStrumento.fxml";
+    protected static String RECUPEROINFORMAZIONIFILAMENTO = "recuperoInformazioniFilamento.fxml";
+    protected static String RICERCACONTRASTOELLITTICITA = "ricercaContrastoEllitticita.fxml";
+    protected static String RISULTATIRICERCACONTRASTOELLITTICITA = "risultatiRicercaContrastoEllitticita.fxml";
+    protected static String RICERCANUMEROSEGMENTI = "ricercaNumeroSegmenti.fxml";
+    protected static String RICERCAFILAMENTIREGIONE = "ricercaFilamentiRegione.fxml";
+    protected static String RICERCASTELLEFILAMENTO = "ricercaStelleFilamento.fxml";
+    protected static String RICERCASTELLEREGIONE = "ricercaStelleRegione.fxml";
+    protected static String RICERCADISTANZASEGMENTOCONTORNO = "ricercaDistanzaSegmentoContorno.fxml";
     
     protected static ViewSwap viewSwap;
 

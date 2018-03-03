@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RicercaContrastoEllitticitaController">
+   <children>
+      <Text layoutX="30.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Brillanza" />
+      <Text layoutX="30.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inizio intervallo ellitticita'" />
+      <Text layoutX="30.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fine intervallo ellitticita'" />
+      <Text fx:id="text" layoutX="30.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button layoutX="512.0" layoutY="354.0" mnemonicParsing="false" onAction="#cerca" text="Cerca" />
+      <Button layoutX="430.0" layoutY="354.0" mnemonicParsing="false" onAction="#indietro" text="Indietro" />
+      <TextField fx:id="brillanzaText" layoutX="233.0" layoutY="22.0" />
+      <TextField fx:id="inizioIntervalloEllitticitaText" layoutX="233.0" layoutY="50.0" />
+      <TextField fx:id="fineIntervalloEllitticitaText" layoutX="233.0" layoutY="80.0" />
+   </children>
+</AnchorPane>

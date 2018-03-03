@@ -1,5 +1,8 @@
 package entity;
 
+import dao.UtenteDao;
+import util.DBAccess;
+
 public abstract class Utente {
     private String nome;
     private String cognome;
@@ -21,7 +24,7 @@ public abstract class Utente {
         this.email = email;
         this.tipo = tipo;
     }
-
+    
     public String getNome() {
         return nome;
     }

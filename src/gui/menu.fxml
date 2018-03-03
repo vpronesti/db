@@ -6,12 +6,19 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MenuController">
    <children>
-      <Button layoutX="300.0" layoutY="57.0" mnemonicParsing="false" onAction="#registraUtente" text="Registra un nuovo utente" />
+      <Button layoutX="379.0" layoutY="57.0" mnemonicParsing="false" onAction="#registraUtente" text="Registra un nuovo utente" />
       <Button layoutX="508.0" layoutY="350.0" mnemonicParsing="false" onAction="#logOut" text="Log out" />
       <Text fx:id="text" fill="RED" layoutX="58.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Button layoutX="301.0" layoutY="128.0" mnemonicParsing="false" onAction="#importaCsv" text="Importa file in formato csv" />
-      <Button layoutX="300.0" layoutY="93.0" mnemonicParsing="false" onAction="#inserisciSatellite" text="Inserisci dati satellite" />
-      <Text layoutX="300.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amministratore" />
-      <Button layoutX="300.0" layoutY="164.0" mnemonicParsing="false" onAction="#inserisciDatiStrumento" text="Inserisci dati strumento" />
+      <Button layoutX="379.0" layoutY="130.0" mnemonicParsing="false" onAction="#importaCsv" text="Importa file in formato csv" />
+      <Button layoutX="379.0" layoutY="93.0" mnemonicParsing="false" onAction="#inserisciSatellite" text="Inserisci dati satellite" />
+      <Text layoutX="379.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amministratore" />
+      <Button layoutX="379.0" layoutY="166.0" mnemonicParsing="false" onAction="#inserisciDatiStrumento" text="Inserisci dati strumento" />
+      <Button layoutX="27.0" layoutY="57.0" mnemonicParsing="false" onAction="#recuperoInformazioniFilamento" text="Recupero infomazioni filamento" />
+      <Button layoutX="27.0" layoutY="93.0" mnemonicParsing="false" onAction="#ricercaContrastoElliticita" text="Ricerca filamento per contrasto ed ellitticita'" />
+      <Button layoutX="27.0" layoutY="130.0" mnemonicParsing="false" onAction="#ricercaFilamentoNumeroSegmenti" text="Ricerca filamento per numero di segmenti" />
+      <Button layoutX="27.0" layoutY="166.0" mnemonicParsing="false" onAction="#ricercaFilamentiRegione" text="Ricerca filamenti in una regione" />
+      <Button layoutX="27.0" layoutY="200.0" mnemonicParsing="false" onAction="#ricercaStelleFilamento" text="Ricerca informazioni stelle in un filamento" />
+      <Button layoutX="27.0" layoutY="237.0" mnemonicParsing="false" onAction="#ricercaStelleRegione" text="Ricerca stelle dentro una regione" />
+      <Button layoutX="27.0" layoutY="271.0" mnemonicParsing="false" onAction="#distanzaSegmentoContorno" text="Distanza di un segmento dal contorno" />
    </children>
 </AnchorPane>

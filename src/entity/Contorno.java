@@ -2,13 +2,18 @@ package entity;
 
 public class Contorno {
     private int idFil;
-    private double gLonCont;
-    private double gLatCont;
+    private float gLonCont;
+    private float gLatCont;
     
-    public Contorno(int idFil, double gLonCont, double gLatCont) {
+    public Contorno(int idFil, float gLonCont, float gLatCont) {
         this.idFil = idFil;
         this.gLonCont = gLonCont;
         this.gLatCont = gLatCont;
+    }
+    
+    @Override
+    public String toString() {
+        return "idFil: " + idFil + "lo: " + gLonCont + "la: " + gLatCont;
     }
 
     public int getIdFil() {
@@ -19,19 +24,19 @@ public class Contorno {
         this.idFil = idFil;
     }
 
-    public double getgLonCont() {
+    public float getgLonCont() {
         return gLonCont;
     }
 
-    public void setgLonCont(double gLonCont) {
+    public void setgLonCont(float gLonCont) {
         this.gLonCont = gLonCont;
     }
 
-    public double getgLatCont() {
+    public float getgLatCont() {
         return gLatCont;
     }
 
-    public void setgLatCont(double gLatCont) {
+    public void setgLatCont(float gLatCont) {
         this.gLatCont = gLatCont;
     }
 

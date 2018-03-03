@@ -1,7 +1,11 @@
 package entity;
 
+import bean.BeanInformazioniFilamento;
 import bean.BeanSatellite;
+import dao.ContornoDao;
+import dao.FilamentoDao;
 import dao.SatelliteDao;
+import dao.SegmentoDao;
 import dao.StrumentoDao;
 import java.sql.Connection;
 import util.DBAccess;
@@ -9,17 +13,29 @@ import util.DBAccess;
 public class Filamento {
     private int idFil;
     private String name;
-    private double totalFlux;
-    private double meanDens;
-    private double meanTemp;
-    private double ellipticity;
-    private double contrast;
+    private float totalFlux;
+    private float meanDens;
+    private float meanTemp;
+    private float ellipticity;
+    private float contrast;
     private String satellite;
     private String instrument;
     
-    public Filamento(int idFil, String name, double totalFlux, 
-            double meanDens, double meanTemp, double ellipticity, 
-            double contrast, String satellite, String instrument) {
+    public String toString() {
+        return "Filamento id: " + this.idFil + "\n\tnome: " + this.name;
+    }
+    
+    /**
+     * si puo anche togliere
+     * @param idFil 
+     */
+    public Filamento(int idFil) {
+        this.idFil = idFil;
+    }
+    
+    public Filamento(int idFil, String name, float totalFlux, 
+            float meanDens, float meanTemp, float ellipticity, 
+            float contrast, String satellite, String instrument) {
         this.idFil = idFil;
         this.name = name;
         this.totalFlux = totalFlux;
@@ -75,43 +91,43 @@ public class Filamento {
         this.name = name;
     }
 
-    public double getTotalFlux() {
+    public float getTotalFlux() {
         return totalFlux;
     }
 
-    public void setTotalFlux(double totalFlux) {
+    public void setTotalFlux(float totalFlux) {
         this.totalFlux = totalFlux;
     }
 
-    public double getMeanDens() {
+    public float getMeanDens() {
         return meanDens;
     }
 
-    public void setMeanDens(double meanDens) {
+    public void setMeanDens(float meanDens) {
         this.meanDens = meanDens;
     }
 
-    public double getMeanTemp() {
+    public float getMeanTemp() {
         return meanTemp;
     }
 
-    public void setMeanTemp(double meanTemp) {
+    public void setMeanTemp(float meanTemp) {
         this.meanTemp = meanTemp;
     }
 
-    public double getEllipticity() {
+    public float getEllipticity() {
         return ellipticity;
     }
 
-    public void setEllipticity(double ellipticity) {
+    public void setEllipticity(float ellipticity) {
         this.ellipticity = ellipticity;
     }
 
-    public double getContrast() {
+    public float getContrast() {
         return contrast;
     }
 
-    public void setContrast(double contrast) {
+    public void setContrast(float contrast) {
         this.contrast = contrast;
     }
 

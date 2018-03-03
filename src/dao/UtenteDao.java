@@ -9,25 +9,33 @@ import java.sql.*;
 public class UtenteDao {
     private static UtenteDao instance;
     
-    private static final String PASS = DBAccess.DBPASSW;
-    private static final String USER = DBAccess.DBOWNER;
-    private static final String DB_URL = DBAccess.DB_URL;
-    
     public static synchronized UtenteDao getInstance() {
         if(instance == null)
             instance = new UtenteDao();
         return instance;
-    } 
+    }
     
-    public Utente findUtente(String userId, String password) {
+    public boolean queryEsistenzaUtente(Connection conn, BeanUtente beanUtente) {
+        boolean res = false;
+        String sql = "select * from utente where userid = '" 
+                + beanUtente.getUserId() + "'";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next())
+                res = true;
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
+    public Utente findUtente(Connection conn, String userId, String password) {
         Statement stmt = null;
-        Connection conn = null;
         Utente utente = null;
         try {
-            Class.forName("org.postgresql.Driver");
-
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
             stmt = conn.createStatement();
             String sql = "SELECT  nome, cognome, userid, password, email, tipo FROM utente where userid = '"
                     + userId + "' AND password = '" + password + "' ;";
@@ -45,7 +53,7 @@ public class UtenteDao {
             String email = rs.getString("email");
             String tipo = rs.getString("tipo");
             if (rs.next()) {
-                System.out.println("Exception"); //si deve lanciare un eccezzione perchè non possono esserci due con lo stesso username e password
+                System.out.println("Exception"); //si deve lanciare un eccezione perchè non possono esserci due con lo stesso username e password
             }
 
             if (tipo.equals("Registrato")) {
@@ -55,42 +63,23 @@ public class UtenteDao {
                 utente = new UtenteAmministratore(nome, cognome, user, 
                         pword, email);
             }
-
             rs.close();
             stmt.close();
-            conn.close();
         } catch (SQLException se) {
-            // Errore durante l'apertura della connessione
-
             se.printStackTrace();
-        } catch (Exception e) {
-            // Errore nel loading del driver
-
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException se2) {
-            }
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
         }
-
         return utente;
     }
     
-    public boolean inserisciUtente(BeanUtente utente) { 
+    /**
+     * controllare inserimento dello stesso utente
+     * @param conn
+     * @param utente
+     * @return 
+     */
+    public boolean inserisciUtente(Connection conn, BeanUtente utente) { 
         Statement stmt = null;
-        Connection conn = null;
         try {
-            Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
             stmt = conn.createStatement();
            
             String sql = "insert into utente(nome, cognome, userid, " + 
@@ -102,29 +91,10 @@ public class UtenteDao {
                     "', '" + utente.getTipo() + "')";
             
             stmt.executeUpdate(sql);
-
             stmt.close();
-            conn.close();
         } catch (SQLException se) {
             se.printStackTrace();
-        } catch (Exception e) {
-            // Errore nel loading del driver
-
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException se2) {
-            }
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
         }
-
         return true;
     }
 }

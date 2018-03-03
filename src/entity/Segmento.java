@@ -4,10 +4,10 @@ public class Segmento {
     private int idFil;
     private int idBranch;
     private String type;
-    private double gLonBr;
-    private double gLatBr;
+    private float gLonBr;
+    private float gLatBr;
     private int n;
-    private double flux;
+    private float flux;
     
     public Segmento() {
         
@@ -18,8 +18,12 @@ public class Segmento {
                 this.idBranch + "idLon: " + this.gLonBr + "idLat: " + this.gLatBr;
     }
     
-    public Segmento(int idFil, int idBranch, String type, double gLonBr, 
-            double gLatBr, int n, double flux) {
+    public Segmento(int idFil) {
+        this.idFil = idFil;
+    }
+    
+    public Segmento(int idFil, int idBranch, String type, float gLonBr, 
+            float gLatBr, int n, float flux) {
         this.idFil = idFil;
         this.idBranch = idBranch;
         this.type = type;
@@ -28,7 +32,7 @@ public class Segmento {
         this.n = n;
         this.flux = flux;
     }
-
+    
     public int getIdFil() {
         return idFil;
     }
@@ -53,19 +57,19 @@ public class Segmento {
         this.type = type;
     }
 
-    public double getgLonBr() {
+    public float getgLonBr() {
         return gLonBr;
     }
 
-    public void setgLonBr(double gLonBr) {
+    public void setgLonBr(float gLonBr) {
         this.gLonBr = gLonBr;
     }
 
-    public double getgLatBr() {
+    public float getgLatBr() {
         return gLatBr;
     }
 
-    public void setgLatBr(double gLatBr) {
+    public void setgLatBr(float gLatBr) {
         this.gLatBr = gLatBr;
     }
 
@@ -77,11 +81,11 @@ public class Segmento {
         this.n = n;
     }
 
-    public double getFlux() {
+    public float getFlux() {
         return flux;
     }
 
-    public void setFlux(double flux) {
+    public void setFlux(float flux) {
         this.flux = flux;
     }
     

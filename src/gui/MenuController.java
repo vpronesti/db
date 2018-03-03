@@ -50,6 +50,41 @@ public class MenuController {
     }
     
     @FXML
+    protected void recuperoInformazioniFilamento(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RECUPEROINFORMAZIONIFILAMENTO);
+    }
+    
+    @FXML
+    protected void ricercaContrastoElliticita(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCACONTRASTOELLITTICITA);
+    }
+    
+    @FXML
+    protected void ricercaFilamentoNumeroSegmenti(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCANUMEROSEGMENTI);
+    }
+    
+    @FXML
+    protected void ricercaFilamentiRegione(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCAFILAMENTIREGIONE);
+    }
+    
+    @FXML
+    protected void ricercaStelleFilamento(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCASTELLEFILAMENTO);
+    }
+    
+    @FXML
+    protected void ricercaStelleRegione(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCASTELLEREGIONE);
+    }
+    
+    @FXML
+    protected void distanzaSegmentoContorno(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCADISTANZASEGMENTOCONTORNO);
+    }
+    
+    @FXML
     protected void logOut(ActionEvent event) throws Exception {
         LogInController.interfacciaUtenteLogin.logOut();
         ViewSwap.getInstance().swap(event, ViewSwap.LOGIN);

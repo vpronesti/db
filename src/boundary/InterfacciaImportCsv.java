@@ -4,6 +4,10 @@ import bean.BeanRichiestaImport;
 import control.GestoreImportCsv;
 import exception.FormatoFileNonSupportatoException;
 
+/**
+ * REQ-FN-3
+ * REQ-FN-4
+ */
 public class InterfacciaImportCsv {
     private GestoreImportCsv controllerImportCsv;
     private String userId;

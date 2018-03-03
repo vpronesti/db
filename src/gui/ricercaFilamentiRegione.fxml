@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RicercaFilamentiRegioneController">
+   <children>
+      <Text layoutX="25.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longitudine del centroide della regione" />
+      <Text layoutX="25.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dimensione raggio o lato" />
+      <Text layoutX="29.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Regione" />
+      <TextField fx:id="longitudineCentroideText" layoutX="339.0" layoutY="21.0" />
+      <TextField fx:id="latitudineCentroideText" layoutX="339.0" layoutY="52.0" />
+      <Text fx:id="text" layoutX="29.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <ComboBox fx:id="tipoFiguraComboBox" layoutX="339.0" layoutY="114.0" prefWidth="150.0" />
+      <Button layoutX="524.0" layoutY="360.0" mnemonicParsing="false" onAction="#cerca" text="Cerca" />
+      <Button layoutX="441.0" layoutY="360.0" mnemonicParsing="false" onAction="#indietro" text="Indietro" />
+      <Text layoutX="25.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitudine centroide della regione" />
+      <TextField fx:id="dimensioneText" layoutX="339.0" layoutY="83.0" />
+   </children>
+</AnchorPane>

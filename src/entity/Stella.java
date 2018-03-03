@@ -1,15 +1,19 @@
 package entity;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.atan;
+import java.util.List;
+
 public class Stella {
     private int idStar;
     private String name;
-    private double gLonSt;
-    private double gLatSt;
-    private double fluxSt;
-    private String type;
+    private float gLonSt;
+    private float gLatSt;
+    private float fluxSt;
+    private TipoStella type;
     
-    public Stella(int idStar, String name, double gLonSt, double gLatSt, 
-            double fluxSt, String type) {
+    public Stella(int idStar, String name, float gLonSt, float gLatSt, 
+            float fluxSt, TipoStella type) {
         this.idStar = idStar;
         this.name = name;
         this.gLonSt = gLonSt;
@@ -17,6 +21,26 @@ public class Stella {
         this.fluxSt = fluxSt;
         this.type = type;
         
+    }
+    
+    public boolean internoFilamento(List<Contorno> listaPunti) {
+        float sum = 0;
+            float STL = this.getgLonSt();
+            float STB = this.getgLatSt();
+        for (int i = 0; i < listaPunti.size() - 1; i++) {
+            float CLi = listaPunti.get(i).getgLonCont();
+            float CBip1 = listaPunti.get(i + 1).getgLatCont();
+            float CBi = listaPunti.get(i).getgLatCont();
+            float CLip1 = listaPunti.get(i + 1).getgLonCont();
+                    
+            float numeratore =  
+                    (CLi - STL) * (CBip1 - STB) - (CBi - STB) * (CLip1 - STL);
+            float denominatore = 
+                    (CLi - STL) * (CLip1 - STL) + (CBi - STB) * (CBip1 - STB);
+            float addendo = (float) atan(numeratore / denominatore);
+            sum += addendo;
+        }
+        return abs(sum) >= 0.01;
     }
 
     public int getIdStar() {
@@ -35,35 +59,35 @@ public class Stella {
         this.name = name;
     }
 
-    public double getgLonSt() {
+    public float getgLonSt() {
         return gLonSt;
     }
 
-    public void setgLonSt(double gLonSt) {
+    public void setgLonSt(float gLonSt) {
         this.gLonSt = gLonSt;
     }
 
-    public double getgLatSt() {
+    public float getgLatSt() {
         return gLatSt;
     }
 
-    public void setgLatSt(double gLatSt) {
+    public void setgLatSt(float gLatSt) {
         this.gLatSt = gLatSt;
     }
 
-    public double getFluxSt() {
+    public float getFluxSt() {
         return fluxSt;
     }
 
-    public void setFluxSt(double fluxSt) {
+    public void setFluxSt(float fluxSt) {
         this.fluxSt = fluxSt;
     }
 
-    public String getType() {
+    public TipoStella getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TipoStella type) {
         this.type = type;
     }
 }

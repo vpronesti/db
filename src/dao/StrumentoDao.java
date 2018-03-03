@@ -10,9 +10,6 @@ import util.DBAccess;
 
 public class StrumentoDao {
     private static StrumentoDao instance;
-    private final static String PASS = DBAccess.DBPASSW;
-    private final static String USER = DBAccess.DBOWNER;
-    private final static String DB_URL = DBAccess.DB_URL;
 
     public static synchronized StrumentoDao getInstance() {
         if(instance == null)
@@ -40,6 +37,7 @@ public class StrumentoDao {
             if (rs.next()){
                 res = true;
             }
+            rs.close();
             stmt.close();
 //            conn.close();
         } catch (SQLException e) {
@@ -82,6 +80,8 @@ public class StrumentoDao {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next())
                 listaStrumenti.add(rs.getString("nome"));
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,6 +104,8 @@ public class StrumentoDao {
             Statement stmt2 = conn.createStatement();
             stmt1.executeUpdate(sql1);
             stmt2.executeUpdate(sql2);
+            stmt1.close();
+            stmt2.close();
             conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();

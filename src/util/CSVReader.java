@@ -4,6 +4,7 @@ import entity.Contorno;
 import entity.Filamento;
 import entity.Segmento;
 import entity.Stella;
+import entity.TipoStella;
 import exception.FormatoFileNonSupportatoException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +16,9 @@ import java.util.List;
 
 public class CSVReader {
     
-    public List<Filamento> leggiCatalogoFilamenti(File file) throws FormatoFileNonSupportatoException {
+    public List<Filamento> leggiCatalogoFilamenti(File file, 
+            int maxRighe, int posInizio, int totaleRighe) 
+            throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -38,22 +41,33 @@ public class CSVReader {
                     !header[8].equals("INSTRUMENT")) {
                 throw new FormatoFileNonSupportatoException("Errore nell'header del file");
             }
-            while ((line = br.readLine()) != null) {
+            
+            int i = 0;
+            // in caso di file con piu di maxRighe si 
+            // saltano quelle gia lette alla chiamata precedente
+            String l = null;
+            while (i < posInizio && (l = br.readLine()) != null) {
+                i++;
+            }
+
+            int numRigheLette = 0;
+            while ((line = br.readLine()) != null && numRigheLette < maxRighe && (numRigheLette + posInizio) < totaleRighe) {
 
                 String[] values = line.split(cvsSplitBy);
                 int idFil = Integer.parseInt(values[0]);
                 String name = values[1];
-                double totalFlux = Double.parseDouble(values[2]);
-                double meanDens = Double.parseDouble(values[3]);
-                double meanTemp = Double.parseDouble(values[4]);
-                double ellipticity = Double.parseDouble(values[5]);
-                double contrast = Double.parseDouble(values[6]);
+                float totalFlux = Float.parseFloat(values[2]);
+                float meanDens = Float.parseFloat(values[3]);
+                float meanTemp = Float.parseFloat(values[4]);
+                float ellipticity = Float.parseFloat(values[5]);
+                float contrast = Float.parseFloat(values[6]);
                 String satellite = values[7];
                 String instrument = values[8];
                 Filamento fil = new Filamento(idFil, name, totalFlux, 
                         meanDens, meanTemp, ellipticity, contrast, satellite, 
                         instrument);
                 listaFilamenti.add(fil);
+                numRigheLette++;
             }
 
         } catch (FileNotFoundException e) {
@@ -74,7 +88,9 @@ public class CSVReader {
         return listaFilamenti;
     }
     
-    public List<Contorno> leggiContornoFilamenti(File file) throws FormatoFileNonSupportatoException {
+    public List<Contorno> leggiContornoFilamenti(File file, 
+            int maxRighe, int posInizio, int totaleRighe) 
+            throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -91,15 +107,23 @@ public class CSVReader {
                     !header[2].equals("GLAT_CONT")) {
                 throw new FormatoFileNonSupportatoException("Errore nell'header del file");
             }
-            while ((line = br.readLine()) != null) {
+            int i = 0;
+            String l = null;
+            while (i < posInizio && (l = br.readLine()) != null) {
+                    i++;
+            }
+            int numRigheLette = 0;
+            while ((line = br.readLine()) != null && numRigheLette < maxRighe && (numRigheLette + posInizio) < totaleRighe) {
 
                 String[] values = line.split(cvsSplitBy);
                 int idFil = Integer.parseInt(values[0]);
-                double glon_cont = Double.parseDouble(values[1]);
-                double glat_cont = Double.parseDouble(values[2]);
+                float glon_cont = Float.parseFloat(values[1]);
+                float glat_cont = Float.parseFloat(values[2]);
                 
                 Contorno con = new Contorno(idFil, glon_cont, glat_cont);
+//System.out.println(con);
                 listaContorni.add(con);
+                numRigheLette++;
             }
 
         } catch (FileNotFoundException e) {
@@ -120,7 +144,9 @@ public class CSVReader {
         return listaContorni;
     }
     
-    public List<Segmento> leggiPosizioniSegmenti(File file) throws FormatoFileNonSupportatoException {
+    public List<Segmento> leggiPosizioniSegmenti(File file, 
+            int maxRighe, int posInizio, int totaleRighe) 
+            throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -143,22 +169,33 @@ public class CSVReader {
                     !header[6].equals("FLUX")) {
                 throw new FormatoFileNonSupportatoException("Errore nell'header del file");
             }
-            while ((line = br.readLine()) != null) {
+            
+            int i = 0;
+            // in caso di file con piu di maxRighe si 
+            // saltano quelle gia lette alla chiamata precedente
+            String l = null;
+            while (i < posInizio && (l = br.readLine()) != null) {
+                i++;
+            }
+
+            int numRigheLette = 0;
+            while ((line = br.readLine()) != null && numRigheLette < maxRighe && (numRigheLette + posInizio) < totaleRighe) {
 
                 String[] values = line.split(cvsSplitBy);
                 int idFil = Integer.parseInt(values[0]);
                 int idBranch = Integer.parseInt(values[1]);
                 String type = values[2];
-                double glon_br = Double.parseDouble(values[3]);
-                double glat_br = Double.parseDouble(values[4]);
+                float glon_br = Float.parseFloat(values[3]);
+                float glat_br = Float.parseFloat(values[4]);
                 int n = Integer.parseInt(values[5]);
-                double flux = Double.parseDouble(values[6]);
+                float flux = Float.parseFloat(values[6]);
                 
                 seg = new Segmento(idFil, idBranch, type, 
                         glon_br, glat_br, n, flux);
 //               Segmento seg = new Segmento(idFil, idBranch, type, 
 //                        glon_br, glat_br, n, flux);
                 listaSegmenti.add(seg);
+                numRigheLette++;
             }
 
         } catch (FileNotFoundException e) {
@@ -180,7 +217,9 @@ public class CSVReader {
         return listaSegmenti;
     }
 
-    public List<Stella> leggiPosizioniStelle(File file) throws FormatoFileNonSupportatoException {
+    public List<Stella> leggiPosizioniStelle(File file, 
+            int maxRighe, int posInizio, int totaleRighe) 
+            throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -200,19 +239,30 @@ public class CSVReader {
                     !header[5].equals("TYPE_ST")) {
                 throw new FormatoFileNonSupportatoException("Errore nell'header del file");
             }
-            while ((line = br.readLine()) != null) {
+            int i = 0;
+            // in caso di file con piu di maxRighe si 
+            // saltano quelle gia lette alla chiamata precedente
+            String l = null;
+            while (i < posInizio && (l = br.readLine()) != null) {
+                i++;
+            }
+
+            int numRigheLette = 0;
+            while ((line = br.readLine()) != null && numRigheLette < maxRighe && (numRigheLette + posInizio) < totaleRighe) {
 
                 String[] values = line.split(cvsSplitBy);
                 int idStar = Integer.parseInt(values[0]);
                 String nameStar = values[1];
-                double glon_st = Double.parseDouble(values[2]);
-                double glat_st = Double.parseDouble(values[3]);
-                double flux_st = Double.parseDouble(values[4]);
-                String type_st = values[5];
+                float glon_st = Float.parseFloat(values[2]);
+                float glat_st = Float.parseFloat(values[3]);
+                float flux_st = Float.parseFloat(values[4]);
+                TipoStella type_st = TipoStella.valueOf(values[5]);
                 
                 Stella st = new Stella(idStar, nameStar, glon_st, 
                         glat_st, flux_st, type_st);
                 listaStelle.add(st);
+                
+                numRigheLette++;
             }
 
         } catch (FileNotFoundException e) {
@@ -233,12 +283,25 @@ public class CSVReader {
         return listaStelle;
     }
 
+    public int numeroRighe(File file) {
+        int lines = 0;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file.toString()));
+            while (reader.readLine() != null) lines++;
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines - 1; // si toglie la linea di intestazione
+    }
     
-//    public static void main(String[] args) throws URISyntaxException {
+//    public static void main(String[] args) throws URISyntaxException, FormatoFileNonSupportatoException {
 //        CSVReader csvr = new CSVReader();
 //
 //        csvr.leggiCatalogoFilamenti("filamenti_Spitzer.csv");
-//        csvr.leggiContornoFilamenti("contorni_filamenti_Herschel.csv");
+//        csvr.leggiContornoFilamenti(new File("contorni_filamenti_Herschel.csv"), 20, 0, 10);
 //        csvr.leggiPosizioniSegmenti("scheletro_filamenti_Herschel.csv");
 //        csvr.leggiPosizioniStelle("stelle_Herschel.csv");
 //    }
