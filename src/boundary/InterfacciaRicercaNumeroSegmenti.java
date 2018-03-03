@@ -23,7 +23,7 @@ public class InterfacciaRicercaNumeroSegmenti {
             res = false;
         if (fine < inizio)
             res = false;
-        if (fine - inizio > 2)
+        if (fine - inizio <= 2)
             res = false;
         return res;
     } 

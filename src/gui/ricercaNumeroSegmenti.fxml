@@ -5,15 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RicercaNumeroSegmentiController">
    <children>
       <Text layoutX="27.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inizio intervallo" />
       <Text layoutX="27.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fine intervallo" />
-      <Text layoutX="27.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <TextField layoutX="190.0" layoutY="26.0" />
-      <TextField layoutX="190.0" layoutY="61.0" />
-      <Button layoutX="512.0" layoutY="349.0" mnemonicParsing="false" text="Cerca" />
-      <Button layoutX="433.0" layoutY="349.0" mnemonicParsing="false" text="Indietro" />
+      <Text fx:id="text" layoutX="27.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <TextField fx:id="inizioIntervalloText" layoutX="190.0" layoutY="26.0" />
+      <TextField fx:id="fineIntervalloText" layoutX="190.0" layoutY="61.0" />
+      <Button layoutX="512.0" layoutY="349.0" mnemonicParsing="false" onAction="#cerca" text="Cerca" />
+      <Button layoutX="433.0" layoutY="349.0" mnemonicParsing="false" onAction="#indietro" text="Indietro" />
    </children>
 </AnchorPane>

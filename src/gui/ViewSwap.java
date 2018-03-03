@@ -22,6 +22,7 @@ public class ViewSwap {
     protected static String RICERCACONTRASTOELLITTICITA = "ricercaContrastoEllitticita.fxml";
     protected static String RISULTATIRICERCACONTRASTOELLITTICITA = "risultatiRicercaContrastoEllitticita.fxml";
     protected static String RICERCANUMEROSEGMENTI = "ricercaNumeroSegmenti.fxml";
+    protected static String RISULTATIRICERCANUMEROSEGMENTI = "risultatiRicercaNumeroSegmenti.fxml";
     protected static String RICERCAFILAMENTIREGIONE = "ricercaFilamentiRegione.fxml";
     protected static String RICERCASTELLEFILAMENTO = "ricercaStelleFilamento.fxml";
     protected static String RICERCASTELLEREGIONE = "ricercaStelleRegione.fxml";

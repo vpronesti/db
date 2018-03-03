@@ -77,11 +77,9 @@ public class RicercaContrastoEllitticitaController {
             InterfacciaRicercaContrastoEllitticita boundaryContrastoEllitticita = 
                     new  InterfacciaRicercaContrastoEllitticita(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaContrastoEllitticita beanRisposta = boundaryContrastoEllitticita.ricercaContrastoEllitticita(beanRichiesta);
-            // effettuare controlli sulla risposta e passare bean al secondo controller
             if (beanRisposta == null) {
                 text.setText("Le percentuali non possono essere minori di zero ed i valori di ellitticita' devono essere compresi tra 1 e 10 esclusi");
             } else {
-//                BeanRispostaContrastoEllitticitaG beanRispostaG = new BeanRispostaContrastoEllitticitaG(beanRisposta);
                 RisultatiRicercaContrastoEllitticitaController risultatiController = 
                         new RisultatiRicercaContrastoEllitticitaController(beanRisposta); 
                 ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCACONTRASTOELLITTICITA, risultatiController);

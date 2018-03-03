@@ -28,7 +28,7 @@ public class FilamentoDao {
      * @return 
      */
     public Filamento queryCampiFilamento(Connection conn, int idFil) {
-        String sql = "select name, total_flux, mean_dens, mean_temp, ellipticity, contrast, satellite, instrument" + 
+        String sql = "select name, total_flux, mean_dens, mean_temp, ellipticity, contrast, satellite, instrument " + 
                 "from filamento " + 
                 "where idFil = " + idFil;
         Filamento fil = null;

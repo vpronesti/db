@@ -55,10 +55,12 @@ public class RicercaNumeroSegmentiController {
             InterfacciaRicercaNumeroSegmenti boundaryNumeroSegmenti = 
                     new  InterfacciaRicercaNumeroSegmenti(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
-            // effettuare controlli sulla risposta e passare bean al secondo controller
-//            RisultatiRicercaContrastoEllitticitaController risultatiController = 
-//                    new RisultatiRicercaContrastoEllitticitaController(); 
-//            ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCACONTRASTOELLITTICITA, risultatiController);
+            if (beanRisposta != null) {
+                RisultatiRicercaNumeroSegmentiController risultatiController = new RisultatiRicercaNumeroSegmentiController(beanRisposta);
+                ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCANUMEROSEGMENTI, risultatiController);
+            } else {
+                text.setText("La dimensione minima dell'intervallo deve essere strettamente maggiore di 2");
+            }
         }
     }
     

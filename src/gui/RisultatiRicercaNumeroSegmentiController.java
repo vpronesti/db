@@ -1,6 +1,6 @@
 package gui;
 
-import bean.BeanRispostaContrastoEllitticita;
+import bean.BeanRispostaFilamenti;
 import entity.Filamento;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,28 +12,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 
-public class RisultatiRicercaContrastoEllitticitaController implements Initializable {
+public class RisultatiRicercaNumeroSegmentiController implements Initializable {
     @FXML
     Text titoloText;
     @FXML
-    Text frazioneFilamentiTrovatiText;
+    Text numeroTotaleFilamentiTrovatiText;
     @FXML
     Pagination risultatiPagination;
     
     private final int rowsPerPage = 20;
     private final int itemsPerPage = 1;
-    private BeanRispostaContrastoEllitticita beanRisposta;
+    private BeanRispostaFilamenti beanRisposta;
     private List<Filamento> listaFilamenti;
-    private float percentuale;
     
     private final ObservableList<FilamentoGr> data;
     
@@ -122,10 +119,9 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
         return box;
     }
     
-    public RisultatiRicercaContrastoEllitticitaController(BeanRispostaContrastoEllitticita beanRisposta) {
+    public RisultatiRicercaNumeroSegmentiController(BeanRispostaFilamenti beanRisposta) {
         this.beanRisposta = beanRisposta;
-        this.listaFilamenti = beanRisposta.getListaFilamenti();
-        this.percentuale = beanRisposta.getPercentuale();
+        this.listaFilamenti = beanRisposta.getFilamenti();
         this.data = getData();
     }
     
@@ -141,8 +137,8 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
     
     @Override
     public void initialize() {
-        frazioneFilamentiTrovatiText.setText("I filamenti che rispettano le proprieta' richieste sono il " + this.percentuale + "%");
-        risultatiPagination.setPageCount(beanRisposta.getListaFilamenti().size() / rowsPerPage);
+        numeroTotaleFilamentiTrovatiText.setText("Numero totale di filamenti trovati: " + this.beanRisposta.getFilamenti().size());
+        risultatiPagination.setPageCount(beanRisposta.getFilamenti().size() / rowsPerPage);
         risultatiPagination.setPageFactory(this::createPage);        
     }
     
@@ -243,7 +239,5 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
         public void setInstrument(SimpleStringProperty instrument) {
             this.instrument = instrument;
         }
-
-
     }
 }
