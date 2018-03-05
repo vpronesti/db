@@ -16,11 +16,7 @@ public class InterfacciaRicercaStelleRegione {
     }
     
     public BeanRispostaStelleRegione ricercaStelleRegione(BeanRichiestaStelleRegione beanRichiesta) {
-            controllerFilamento = new GestoreRicercaStelleRegione(this);
-            return controllerFilamento.ricercaStelleRegione(beanRichiesta);
-//        } else {
-//            System.out.println("Input non valido"); // aggiungere eccezione
-//            return null;
-//        }
+        controllerFilamento = new GestoreRicercaStelleRegione(this);
+        return controllerFilamento.ricercaStelleRegione(beanRichiesta);
     }    
 }

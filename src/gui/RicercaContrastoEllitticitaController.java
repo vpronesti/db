@@ -2,7 +2,6 @@ package gui;
 
 import bean.BeanRichiestaContrastoEllitticita;
 import bean.BeanRispostaContrastoEllitticita;
-import bean.BeanRispostaContrastoEllitticitaG;
 import boundary.InterfacciaRicercaContrastoEllitticita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -84,6 +84,14 @@ public class GestoreRicercaStelleRegione {
         int totaleStEPrestellar = 0;
         int totaleStEProtostellar = 0;
         int totaleStelleRegione = listaStelleRegione.size();
+        
+        List<Stella> listaStelleEsterne = new ArrayList<>();
+        Iterator<Stella> iS = listaStelleRegione.iterator();
+        while (iS.hasNext()) {
+            Stella s = iS.next();
+            listaStelleEsterne.add(s);
+        }
+        List<Stella> listaStelleInterne = new ArrayList<>();
 
         while (i.hasNext()) {
             Filamento f = i.next();
@@ -91,36 +99,56 @@ public class GestoreRicercaStelleRegione {
             Iterator<Stella> j = listaStelleRegione.iterator();
             while (j.hasNext()) {
                 Stella s = j.next();
+                if (listaStelleInterne.contains(s))
+                    continue;
                 if (s.internoFilamento(listaPunti)) {
-                    totaleStelleInterne++;
-                    if (s.getType() == TipoStella.UNBOUND)
-                        totaleStIUnbound++;
-                    if (s.getType() == TipoStella.PRESTELLAR)
-                        totaleStIPrestellar++;
-                    if (s.getType() == TipoStella.PROTOSTELLAR)
-                        totaleStIProtostellar++;
-                } else {
-                    totaleStelleEsterne++;
-                    if (s.getType() == TipoStella.UNBOUND)
-                        totaleStEUnbound++;
-                    if (s.getType() == TipoStella.PRESTELLAR)
-                        totaleStEPrestellar++;
-                    if (s.getType() == TipoStella.PROTOSTELLAR)
-                        totaleStEProtostellar++;
+                    listaStelleInterne.add(s);
+                    listaStelleEsterne.remove(s);
                 }
             }
         }
+        totaleStelleInterne = listaStelleInterne.size();
+        totaleStelleEsterne = listaStelleEsterne.size();
+        iS = listaStelleInterne.iterator();
+        while (iS.hasNext()) {
+            Stella s = iS.next();
+            if (s.getType() == TipoStella.UNBOUND)
+                totaleStIUnbound++;
+            if (s.getType() == TipoStella.PRESTELLAR)
+                totaleStIPrestellar++;
+            if (s.getType() == TipoStella.PROTOSTELLAR)
+                totaleStIProtostellar++;
+        }
+        iS = listaStelleEsterne.iterator();
+        while (iS.hasNext()) {
+            Stella s = iS.next();
+            if (s.getType() == TipoStella.UNBOUND)
+                totaleStEUnbound++;
+            if (s.getType() == TipoStella.PRESTELLAR)
+                totaleStEPrestellar++;
+            if (s.getType() == TipoStella.PROTOSTELLAR)
+                totaleStEProtostellar++;
+        }
         
-        percentualeStelleInterne = ((totaleStelleRegione != 0) ? totaleStelleInterne * 100 /totaleStelleRegione : 0); 
-        percentualeStelleEsterne = ((totaleStelleRegione != 0) ? totaleStelleEsterne * 100 /totaleStelleRegione : 0); 
+//System.out.println("stelle totali: " + totaleStelleRegione);
+//System.out.println("totaleStI: " + totaleStelleInterne + "\ntotaleStE: " + totaleStelleEsterne);
+//System.out.println("stiU:" + totaleStIUnbound);
+//System.out.println("stipre:" + totaleStIPrestellar);
+//System.out.println("stiproto:" + totaleStIProtostellar);
+//System.out.println("steU:" + totaleStEUnbound);
+//System.out.println("stepre:" + totaleStEPrestellar);
+//System.out.println("steproto:" + totaleStEProtostellar);
+
+        percentualeStelleInterne = ((totaleStelleRegione != 0) ? (float) totaleStelleInterne * 100 /totaleStelleRegione : 0); 
+        percentualeStelleEsterne = ((totaleStelleRegione != 0) ? (float) totaleStelleEsterne * 100 /totaleStelleRegione : 0); 
         
-        percentualeStIUnbound = ((totaleStelleInterne != 0) ? totaleStIUnbound * 100 /totaleStelleInterne : 0); 
-        percentualeStIPrestellar = ((totaleStelleInterne != 0) ? totaleStIPrestellar * 100 /totaleStelleInterne : 0); 
-        percentualeStIProtostellar = ((totaleStelleInterne != 0) ? totaleStIProtostellar * 100 /totaleStelleInterne : 0); 
+        percentualeStIUnbound = ((totaleStelleInterne != 0) ? (float) totaleStIUnbound * 100 /totaleStelleInterne : 0); 
+        percentualeStIPrestellar = ((totaleStelleInterne != 0) ? (float) totaleStIPrestellar * 100 /totaleStelleInterne : 0); 
+        percentualeStIProtostellar = ((totaleStelleInterne != 0) ? (float) totaleStIProtostellar * 100 /totaleStelleInterne : 0); 
         
-        percentualeStEUnbound = ((totaleStelleEsterne != 0) ? totaleStEUnbound * 100 /totaleStelleEsterne : 0); 
-        percentualeStEPrestellar = ((totaleStelleEsterne != 0) ? totaleStEPrestellar * 100 /totaleStelleEsterne : 0); 
-        percentualeStEProtostellar = ((totaleStelleEsterne != 0) ? totaleStEProtostellar * 100 /totaleStelleEsterne : 0); 
+        percentualeStEUnbound = ((totaleStelleEsterne != 0) ? (float) totaleStEUnbound * 100 /totaleStelleEsterne : 0); 
+        percentualeStEPrestellar = ((totaleStelleEsterne != 0) ? (float) totaleStEPrestellar * 100 /totaleStelleEsterne : 0); 
+        percentualeStEProtostellar = ((totaleStelleEsterne != 0) ? (float) totaleStEProtostellar * 100 /totaleStelleEsterne : 0); 
 
         BeanRispostaStelleRegione beanRisposta = 
                 new BeanRispostaStelleRegione(percentualeStelleInterne, 
@@ -129,7 +157,6 @@ public class GestoreRicercaStelleRegione {
                         percentualeStEUnbound, percentualeStEPrestellar, 
                         percentualeStEProtostellar);
 
-//        BeanRispostaStelleFilamento beanRisposta = new BeanRispostaStelleFilamento(false);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }            

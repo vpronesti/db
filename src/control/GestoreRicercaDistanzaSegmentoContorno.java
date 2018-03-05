@@ -25,7 +25,7 @@ public class GestoreRicercaDistanzaSegmentoContorno {
         Connection conn = DBAccess.getInstance().getConnection();
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
         boolean segmentoEsiste = segmentoDao.queryEsistenzaSegmento(conn, beanRichiesta.getIdFil(), beanRichiesta.getIdSeg());
-        if (segmentoEsiste) {
+        if (segmentoEsiste) { // controlla implicitamente l'esistenza del filamento
             Segmento verticeMax = segmentoDao.queryMaxSegmento(conn, beanRichiesta);
             Segmento verticeMin = segmentoDao.queryMinSegmento(conn, beanRichiesta);
             ContornoDao contornoDao = ContornoDao.getInstance();

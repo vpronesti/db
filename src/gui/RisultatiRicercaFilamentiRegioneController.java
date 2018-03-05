@@ -19,11 +19,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class RisultatiRicercaNumeroSegmentiController implements Initializable {
+public class RisultatiRicercaFilamentiRegioneController implements Initializable {
     @FXML
     Text titoloText;
-    @FXML
-    Text numeroTotaleFilamentiTrovatiText;
     @FXML
     Pagination risultatiPagination;
     
@@ -119,7 +117,7 @@ public class RisultatiRicercaNumeroSegmentiController implements Initializable {
         return box;
     }
     
-    public RisultatiRicercaNumeroSegmentiController(BeanRispostaFilamenti beanRisposta) {
+    public RisultatiRicercaFilamentiRegioneController(BeanRispostaFilamenti beanRisposta) {
         this.beanRisposta = beanRisposta;
         this.listaFilamenti = beanRisposta.getFilamenti();
         this.data = getData();
@@ -127,7 +125,7 @@ public class RisultatiRicercaNumeroSegmentiController implements Initializable {
     
     @FXML
     protected void indietro(ActionEvent event) throws Exception {
-        ViewSwap.getInstance().swap(event, ViewSwap.RICERCANUMEROSEGMENTI);
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCAFILAMENTIREGIONE);
     }
     
     @FXML
@@ -137,7 +135,6 @@ public class RisultatiRicercaNumeroSegmentiController implements Initializable {
     
     @Override
     public void initialize() {
-        numeroTotaleFilamentiTrovatiText.setText("Numero totale di filamenti trovati: " + this.beanRisposta.getFilamenti().size());
         risultatiPagination.setPageCount(beanRisposta.getFilamenti().size() / rowsPerPage);
         risultatiPagination.setPageFactory(this::createPage);        
     }

@@ -24,9 +24,12 @@ public class ViewSwap {
     protected static String RICERCANUMEROSEGMENTI = "ricercaNumeroSegmenti.fxml";
     protected static String RISULTATIRICERCANUMEROSEGMENTI = "risultatiRicercaNumeroSegmenti.fxml";
     protected static String RICERCAFILAMENTIREGIONE = "ricercaFilamentiRegione.fxml";
+    protected static String RISULTATIRICERCAFILAMENTIREGIONE = "risultatiRicercaFilamentiRegione.fxml";
     protected static String RICERCASTELLEFILAMENTO = "ricercaStelleFilamento.fxml";
     protected static String RICERCASTELLEREGIONE = "ricercaStelleRegione.fxml";
     protected static String RICERCADISTANZASEGMENTOCONTORNO = "ricercaDistanzaSegmentoContorno.fxml";
+    protected static String RICERCADISTANZASTELLAFILAMENTO = "ricercaDistanzaStellaFilamento.fxml";
+    protected static String RISULTATIRICERCADISTANZASTELLAFILAMENTO = "risultatiRicercaDistanzaStellaFilamento.fxml";
     
     protected static ViewSwap viewSwap;
 

@@ -22,6 +22,7 @@ public class GestoreRicercaStelleFilamento {
     
     public BeanRispostaStelleFilamento ricercaStelleFilamento(int idFil) {
         Connection conn = DBAccess.getInstance().getConnection();
+        BeanRispostaStelleFilamento beanRisposta;
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         if (filamentoDao.queryEsistenzaFilamento(conn, idFil)) {
             ContornoDao contornoDao = ContornoDao.getInstance();
@@ -36,7 +37,6 @@ public class GestoreRicercaStelleFilamento {
         //        ResultSet rs = stellaDao.queryStelle(conn);
                 List<Stella> listaStelle = stellaDao.queryStelleFilamento(conn, puntiContorno);
                 numeroTotaleStelle = listaStelle.size();
-
                 Iterator<Stella> i = listaStelle.iterator();
 
                 while (i.hasNext()) {
@@ -55,14 +55,15 @@ public class GestoreRicercaStelleFilamento {
                 float percentualePrestellar = ((numeroTotaleStelle != 0) ? numeroStellePrestellar * 100 / numeroTotaleStelle : 0);
                 float percentualeProtostellar = ((numeroTotaleStelle != 0) ? numeroStelleProtostellar * 100 / numeroTotaleStelle : 0);
 
-                BeanRispostaStelleFilamento beanRisposta = 
-                        new BeanRispostaStelleFilamento(numeroTotaleStelle, 
+                beanRisposta = new BeanRispostaStelleFilamento(numeroTotaleStelle, 
                                 percentualeUnbound, percentualePrestellar, 
                                 percentualeProtostellar, true);
+            } else {
+                beanRisposta = new BeanRispostaStelleFilamento(false); // non ci sono punti di contorno
             }
+        } else {
+            beanRisposta = new BeanRispostaStelleFilamento(false); // filamento non esiste
         }
-        
-        BeanRispostaStelleFilamento beanRisposta = new BeanRispostaStelleFilamento(false);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }        

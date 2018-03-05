@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import util.DBAccess;
 
 public class SegmentoDao {
     private static SegmentoDao istance;
@@ -23,6 +22,35 @@ public class SegmentoDao {
     }
     
     /**
+     * utilizzato per la distanza delle stelle interne ad un filamento
+     * @param conn
+     * @param idFil
+     * @return 
+     */
+    public List<Segmento> queryPuntiSegmentoPrincipaleFilamento(Connection conn, int idFil) {
+        String sql = "select idbranch, glon_br, glat_br, n, flux " + 
+                "from segmento " + 
+                "where idfil = " + idFil + " and type = 'S'";
+        List<Segmento> listaSegmenti = new ArrayList<>();
+        try {
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            int idBranch = rs.getInt("idbranch");
+            float gLonBr = rs.getFloat("glon_br");
+            float gLatBr = rs.getFloat("glat_br");
+            int n = rs.getInt("n");
+            float flux = rs.getFloat("flux");
+            Segmento s = new Segmento(idFil, idBranch, "S", gLonBr, gLatBr, n, flux);
+            listaSegmenti.add(s);
+        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaSegmenti;
+    }
+    
+    /**
      * utilizzato per la distanza tra segmento e contorno 
      * @param conn
      * @param idFil
@@ -31,7 +59,7 @@ public class SegmentoDao {
      */
     public boolean queryEsistenzaSegmento(Connection conn, int idFil, int idSeg) {
         String sql = "select *  from segmento where idfil = " + 
-                idFil + " and idseg = " + idSeg;
+                idFil + " and idbranch = " + idSeg;
         boolean res = false;
         try {
             Statement stmt = conn.createStatement();
@@ -53,12 +81,12 @@ public class SegmentoDao {
      * @return 
      */
     public Segmento queryMaxSegmento(Connection conn, BeanRichiestaSegmentoContorno beanRichiesta) {
-        String sql = "select type, glon_br, glat_br, n, flux" + 
+        String sql = "select type, glon_br, glat_br, n, flux " + 
                 "from segmento " + 
                 "where idfil = " + beanRichiesta.getIdFil() + 
-                " and idseg = " + beanRichiesta.getIdSeg() + 
+                " and idbranch = " + beanRichiesta.getIdSeg() + 
                 " and n = (select max(n) from segmento where idfil = " + beanRichiesta.getIdFil() + 
-                " and idseg = " + beanRichiesta.getIdSeg() + ")";
+                " and idbranch = " + beanRichiesta.getIdSeg() + ")";
         Segmento s = null;
         try {
             Statement stmt = conn.createStatement();
@@ -88,12 +116,12 @@ public class SegmentoDao {
      * @return 
      */
     public Segmento queryMinSegmento(Connection conn, BeanRichiestaSegmentoContorno beanRichiesta) {
-        String sql = "select type, glon_br, glat_br, n, flux" + 
+        String sql = "select type, glon_br, glat_br, n, flux " + 
                 "from segmento " + 
                 "where idfil = " + beanRichiesta.getIdFil() + 
-                " and idseg = " + beanRichiesta.getIdSeg() + 
+                " and idbranch = " + beanRichiesta.getIdSeg() + 
                 " and n = (select min(n) from segmento where idfil = " + beanRichiesta.getIdFil() + 
-                " and idseg = " + beanRichiesta.getIdSeg() + ")";
+                " and idbranch = " + beanRichiesta.getIdSeg() + ")";
         Segmento s = null;
         try {
             Statement stmt = conn.createStatement();

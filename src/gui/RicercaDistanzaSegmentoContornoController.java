@@ -53,13 +53,18 @@ public class RicercaDistanzaSegmentoContornoController {
     protected void cerca(ActionEvent event) throws Exception {
         BeanRichiestaSegmentoContorno beanRichiesta = this.wrapInput();
         if (beanRichiesta != null) {
+            String res = "";
             InterfacciaRicercaDistanzaSegmentoContorno boundarySegmentoContorno = 
                     new  InterfacciaRicercaDistanzaSegmentoContorno(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaSegmentoContorno beanRisposta = boundarySegmentoContorno.ricercaDistanzaSegmentoContorno(beanRichiesta);
-            float verticeVicino = min(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
-            float verticeLontano = max(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
-            String res = "Il vertice piu' vicino e' distante " + verticeVicino + " dal contorno\n" + 
-                    "Il vertice piu' lontano e' distante " + verticeLontano + " dal contorno";
+            if (beanRisposta.isSegmentoEsiste()) {
+                float verticeVicino = min(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
+                float verticeLontano = max(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
+                res = "Il vertice piu' vicino e' distante " + verticeVicino + " dal contorno\n" + 
+                        "Il vertice piu' lontano e' distante " + verticeLontano + " dal contorno";
+            } else {
+                res = "Il filamento o il segmento inserito non esiste";
+            }
             text.setText(res);
         }
     }

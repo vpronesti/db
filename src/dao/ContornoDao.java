@@ -49,6 +49,7 @@ public class ContornoDao {
      * utilizzato per la ricerca delle stelle all'interno di un filamento
      * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
      * utilizzato per la distanza tra segmento e contorno 
+     * utilizzato per la distanza delle stelle interne ad un filamento
      * @param conn
      * @param idFil
      * @return 

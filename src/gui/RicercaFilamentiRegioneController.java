@@ -81,10 +81,12 @@ public class RicercaFilamentiRegioneController {
             InterfacciaRicercaFilamentiRegione boundaryFilamentiRegione = 
                     new  InterfacciaRicercaFilamentiRegione(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
-//            // effettuare controlli sulla risposta e passare bean al secondo controller
-//            RisultatiRicercaContrastoEllitticitaController risultatiController = 
-//                    new RisultatiRicercaContrastoEllitticitaController(); 
-//            ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCACONTRASTOELLITTICITA, risultatiController);
+            if (beanRisposta != null) {
+                RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
+                ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
+            } else {
+                text.setText("Impossibile effettuare la ricerca");
+            }
         }
     }
     
@@ -93,7 +95,7 @@ public class RicercaFilamentiRegioneController {
         ViewSwap.getInstance().swap(event, ViewSwap.MENU);
     }
     
-        @FXML
+    @FXML
     void initialize() {
         tipoFiguraComboBox.setItems(FXCollections.observableArrayList(TipoFigura.values()));
     }

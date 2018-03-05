@@ -85,6 +85,11 @@ public class MenuController {
     }
     
     @FXML
+    protected void distanzaStellaFilamento(ActionEvent event) throws Exception {
+        ViewSwap.getInstance().swap(event, ViewSwap.RICERCADISTANZASTELLAFILAMENTO);
+    }
+    
+    @FXML
     protected void logOut(ActionEvent event) throws Exception {
         LogInController.interfacciaUtenteLogin.logOut();
         ViewSwap.getInstance().swap(event, ViewSwap.LOGIN);

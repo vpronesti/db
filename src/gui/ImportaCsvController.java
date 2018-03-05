@@ -74,7 +74,7 @@ public class ImportaCsvController {
         ViewSwap.getInstance().swap(event, ViewSwap.MENU);
     }
     
-        @FXML
+    @FXML
     void initialize() {
         tipoFileComboBox.setItems(FXCollections.observableArrayList(TipoFileCsv.values()));
 //        ObservableList<String> items = FXCollections.observableArrayList();

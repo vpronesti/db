@@ -20,5 +20,6 @@
       <Button layoutX="27.0" layoutY="200.0" mnemonicParsing="false" onAction="#ricercaStelleFilamento" text="Ricerca informazioni stelle in un filamento" />
       <Button layoutX="27.0" layoutY="237.0" mnemonicParsing="false" onAction="#ricercaStelleRegione" text="Ricerca stelle dentro una regione" />
       <Button layoutX="27.0" layoutY="271.0" mnemonicParsing="false" onAction="#distanzaSegmentoContorno" text="Distanza di un segmento dal contorno" />
+      <Button layoutX="27.0" layoutY="305.0" mnemonicParsing="false" onAction="#distanzaStellaFilamento" text="Ricerca distanza minima stella-spina dorsale di un filamento" />
    </children>
 </AnchorPane>

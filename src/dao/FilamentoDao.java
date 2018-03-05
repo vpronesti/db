@@ -123,6 +123,7 @@ public class FilamentoDao {
      * utilizzato nell'import dei contorni per controllare il reference
      * utilizzato nell'import dei segmenti per controllare il reference
      * utilizzato per recupero informazioni su filamento
+     * utilizzato per la distanza delle stelle interne ad un filamento
      * @param conn
      * @param idFil
      * @return 
