@@ -50,7 +50,7 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
             Stella s = i.next();
             StellaGr p = new StellaGr(s.getIdStar(), s.getName(), 
                     s.getgLonSt(), s.getgLatSt(), s.getFluxSt(), 
-                    s.getType().name(), listaDistanze.get(j++));
+                    s.getType(), listaDistanze.get(j++));
             lp.add(p);
         }
         if (ordinamentoDistanza) {

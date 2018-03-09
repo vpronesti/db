@@ -31,13 +31,13 @@ public class InterfacciaRicercaContrastoEllitticita {
     } 
     
     public BeanRispostaContrastoEllitticita ricercaContrastoEllitticita(BeanRichiestaContrastoEllitticita beanRichiesta) {
+        BeanRispostaContrastoEllitticita beanRisposta;
         if (this.controllaBean(beanRichiesta)) {
             controllerFilamento = new GestoreRicercaContrastoEllitticita(this);
-            BeanRispostaContrastoEllitticita beanRisposta = controllerFilamento.ricercaContrastoEllitticita(beanRichiesta);
-            return beanRisposta;
+            beanRisposta = controllerFilamento.ricercaContrastoEllitticita(beanRichiesta);
         } else {
-            System.out.println("Input non valido"); // aggiungere eccezione
-            return null;
+            beanRisposta = new BeanRispostaContrastoEllitticita(false);
         }
+        return beanRisposta;
     }
 }

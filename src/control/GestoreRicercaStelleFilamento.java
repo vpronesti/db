@@ -7,10 +7,12 @@ import dao.FilamentoDao;
 import dao.StellaDao;
 import entity.Contorno;
 import entity.Stella;
-import entity.TipoStella;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import util.DBAccess;
 
 public class GestoreRicercaStelleFilamento {
@@ -29,35 +31,34 @@ public class GestoreRicercaStelleFilamento {
             StellaDao stellaDao = StellaDao.getInstance();
             List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
             if (puntiContorno.size() != 0) {
-                int numeroTotaleStelle = 0;
+                Map<String, Integer> tipoStellaNumero = new HashMap<>();
+                
+                
                 int numeroStelleUnbound = 0;
                 int numeroStellePrestellar = 0;
                 int numeroStelleProtostellar = 0;
 
-        //        ResultSet rs = stellaDao.queryStelle(conn);
                 List<Stella> listaStelle = stellaDao.queryStelleFilamento(conn, puntiContorno);
-                numeroTotaleStelle = listaStelle.size();
+                int numeroTotaleStelle = listaStelle.size();
                 Iterator<Stella> i = listaStelle.iterator();
 
                 while (i.hasNext()) {
                     Stella s = i.next();
-        //            if (s.internoFilamento(puntiContorno)) {
-        //                numeroTotaleStelle++;
-                        if (s.getType() == TipoStella.UNBOUND)
-                            numeroStelleUnbound++;
-                        if (s.getType() == TipoStella.PRESTELLAR)
-                            numeroStellePrestellar++;
-                        if (s.getType() == TipoStella.PROTOSTELLAR)
-                            numeroStelleProtostellar++;
-        //            }
+                    if (tipoStellaNumero.containsKey(s.getType()))
+                        tipoStellaNumero.put(s.getType(), tipoStellaNumero.get(s.getType()) + 1);
+                    else
+                        tipoStellaNumero.put(s.getType(), 1);
                 }
-                float percentualeUnbound = ((numeroTotaleStelle != 0) ? numeroStelleUnbound * 100 / numeroTotaleStelle : 0);
-                float percentualePrestellar = ((numeroTotaleStelle != 0) ? numeroStellePrestellar * 100 / numeroTotaleStelle : 0);
-                float percentualeProtostellar = ((numeroTotaleStelle != 0) ? numeroStelleProtostellar * 100 / numeroTotaleStelle : 0);
-
+                Set<String> tipiStella = tipoStellaNumero.keySet();
+                Map<String, Float> tipiStellaPercentuale = new HashMap<>();
+                for (String s : tipiStella) {
+                    int numStelleTipo = tipoStellaNumero.get(s);
+                    float percentualeTipo = ((numeroTotaleStelle != 0) ? (float) numStelleTipo * 100 / numeroTotaleStelle : 0);
+                    tipiStellaPercentuale.put(s, percentualeTipo);
+                }
+                
                 beanRisposta = new BeanRispostaStelleFilamento(numeroTotaleStelle, 
-                                percentualeUnbound, percentualePrestellar, 
-                                percentualeProtostellar, true);
+                        tipiStellaPercentuale, true);
             } else {
                 beanRisposta = new BeanRispostaStelleFilamento(false); // non ci sono punti di contorno
             }

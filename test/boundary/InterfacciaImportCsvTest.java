@@ -11,6 +11,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+/**
+ * test per il requisito funzionale n 3.1 e 4
+ */
 @RunWith(value = Parameterized.class)
 public class InterfacciaImportCsvTest {
     private final boolean expected;

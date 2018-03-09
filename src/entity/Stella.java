@@ -10,10 +10,10 @@ public class Stella {
     private float gLonSt;
     private float gLatSt;
     private float fluxSt;
-    private TipoStella type;
+    private String type;
     
     public Stella(int idStar, String name, float gLonSt, float gLatSt, 
-            float fluxSt, TipoStella type) {
+            float fluxSt, String type) {
         this.idStar = idStar;
         this.name = name;
         this.gLonSt = gLonSt;
@@ -25,8 +25,8 @@ public class Stella {
     
     public boolean internoFilamento(List<Contorno> listaPunti) {
         float sum = 0;
-            float STL = this.getgLonSt();
-            float STB = this.getgLatSt();
+        float STL = this.getgLonSt();
+        float STB = this.getgLatSt();
         for (int i = 0; i < listaPunti.size() - 1; i++) {
             float CLi = listaPunti.get(i).getgLonCont();
             float CBip1 = listaPunti.get(i + 1).getgLatCont();
@@ -83,11 +83,11 @@ public class Stella {
         this.fluxSt = fluxSt;
     }
 
-    public TipoStella getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(TipoStella type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

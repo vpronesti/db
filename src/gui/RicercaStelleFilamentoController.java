@@ -2,6 +2,8 @@ package gui;
 
 import bean.BeanRispostaStelleFilamento;
 import boundary.InterfacciaRicercaStelleFilamento;
+import java.util.Map;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -32,10 +34,15 @@ public class RicercaStelleFilamentoController {
         BeanRispostaStelleFilamento beanRisposta = boundaryStelleFilamento.ricercaStelleFilamento(idFilamento);
         String risp;
         if (beanRisposta.isContornoFilamento()) {
-            risp = "Numero totale stelle trovate: " + beanRisposta.getTotaleStelleTrovate() + "\n" + 
-                    "Percentuale stelle di tipo unbound: " + beanRisposta.getPercentualeUnbound() + "%\n" +
-                    "Percentuale stelle di tipo prestellar: " + beanRisposta.getPercentualePrestellar() + "%\n" +
-                    "Percentuale stelle di tipo protostellar: " + beanRisposta.getPercentualeProtostellar() + "%\n";
+            risp = "Numero totale stelle trovate: " + beanRisposta.getTotaleStelleTrovate() + "\n";
+            Map<String, Float> tipiStellaPercentuale = beanRisposta.getTipiStellaPercentuale();
+            Set<String> tipiStella = tipiStellaPercentuale.keySet();
+            for (String s : tipiStella) {
+                risp += "Percentuale stelle di tipo " + s + ": " + tipiStellaPercentuale.get(s) + "%\n";
+            }
+//                    "Percentuale stelle di tipo unbound: " + beanRisposta.getPercentualeUnbound() + "%\n" +
+//                    "Percentuale stelle di tipo prestellar: " + beanRisposta.getPercentualePrestellar() + "%\n" +
+//                    "Percentuale stelle di tipo protostellar: " + beanRisposta.getPercentualeProtostellar() + "%\n";
         } else {
             risp = "Nel db non sono definiti i punti di confine per l'id specificato oppure non esiste l'id";
         }

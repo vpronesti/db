@@ -4,7 +4,6 @@ import entity.Contorno;
 import entity.Filamento;
 import entity.Segmento;
 import entity.Stella;
-import entity.TipoStella;
 import exception.FormatoFileNonSupportatoException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -256,7 +255,7 @@ public class CSVReader {
                 float glon_st = Float.parseFloat(values[2]);
                 float glat_st = Float.parseFloat(values[3]);
                 float flux_st = Float.parseFloat(values[4]);
-                TipoStella type_st = TipoStella.valueOf(values[5]);
+                String type_st = values[5];
                 
                 Stella st = new Stella(idStar, nameStar, glon_st, 
                         glat_st, flux_st, type_st);

@@ -16,12 +16,26 @@ public class InterfacciaRicercaFilamentiRegione {
         this.userId = userId;
     }
     
-    public BeanRispostaFilamenti ricercaFilamentiRegione(BeanRichiestaFilamentiRegione beanRichiesta) {
-        controllerFilamento = new GestoreRicercaFilamentiRegione(this);
-        if (beanRichiesta.getTipoFigura() == TipoFigura.CERCHIO) {
-            return controllerFilamento.ricercaFilamentiCerchio(beanRichiesta);
+    private boolean controllaBean(BeanRichiestaFilamentiRegione beanRichiesta) {
+        boolean res;
+        if (beanRichiesta.getDimensione() > 0) {
+            res = true;
         } else {
-            return controllerFilamento.ricercaFilamentiQuadrato(beanRichiesta);
+            res = false;
+        }
+        return res;
+    }
+    
+    public BeanRispostaFilamenti ricercaFilamentiRegione(BeanRichiestaFilamentiRegione beanRichiesta) {
+        if (this.controllaBean(beanRichiesta)) {
+            controllerFilamento = new GestoreRicercaFilamentiRegione(this);
+            if (beanRichiesta.getTipoFigura() == TipoFigura.CERCHIO) {
+                return controllerFilamento.ricercaFilamentiCerchio(beanRichiesta);
+            } else {
+                return controllerFilamento.ricercaFilamentiQuadrato(beanRichiesta);
+            }            
+        } else {
+            return new BeanRispostaFilamenti(false);
         }
     }    
 }

@@ -3,6 +3,7 @@ package gui;
 import bean.BeanRichiestaStelleRegione;
 import bean.BeanRispostaStelleRegione;
 import boundary.InterfacciaRicercaStelleRegione;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -82,14 +83,16 @@ public class RicercaStelleRegioneController {
             InterfacciaRicercaStelleRegione boundaryStelleRegione = 
                     new  InterfacciaRicercaStelleRegione(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaStelleRegione beanRisposta = boundaryStelleRegione.ricercaStelleRegione(beanRichiesta);
-            String res = "Percentuale stelle interne ai filamenti: " + beanRisposta.getPercentualeStelleInterne() + "%\n" + 
-                    "\tPercentuale stelle unbound: " + beanRisposta.getPercentualeStIUnbound() + "%\n" + 
-                    "\tPercentuale stelle prestellar: " + beanRisposta.getPercentualeStIPrestellar() + "%\n" + 
-                    "\tPercentuale stelle protostellar: " + beanRisposta.getPercentualeStIProtostellar() + "%\n" + 
-                    "Percentuale stelle esterne ai filamenti: " + beanRisposta.getPercentualeStelleEsterne() + "%\n" + 
-                    "\tPercentuale stelle unbound: " + beanRisposta.getPercentualeStEUnbound() + "%\n" + 
-                    "\tPercentuale stelle prestellar: " + beanRisposta.getPercentualeStEPrestellar() + "%\n" + 
-                    "\tPercentuale stelle protostellar: " + beanRisposta.getPercentualeStEProtostellar() + "%\n";
+            String res = "Percentuale stelle interne ai filamenti: " + beanRisposta.getPercentualeStelleInterne() + "%\n";
+            Set<String> tipiStelleInterne = beanRisposta.getTipiStellePercentualeInterne().keySet();
+            for (String s : tipiStelleInterne) {
+                res += "\tPercentuale stelle " + s + ": " + beanRisposta.getTipiStellePercentualeInterne().get(s) + "%\n";
+            }                            
+            res += "Percentuale stelle esterne ai filamenti: " + beanRisposta.getPercentualeStelleEsterne() + "%\n";
+            Set<String> tipiStelleEsterne = beanRisposta.getTipiStellePercentualeEsterne().keySet();
+            for (String s : tipiStelleEsterne) {
+                res += "\tPercentuale stelle " + s + ": " + beanRisposta.getTipiStellePercentualeEsterne().get(s) + "%\n";
+            }
             text.setText(res);
         }
     }

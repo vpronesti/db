@@ -9,13 +9,18 @@ import dao.StellaDao;
 import entity.Contorno;
 import entity.Filamento;
 import entity.Stella;
-import entity.TipoStella;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import util.DBAccess;
 
+/**
+ * REQ-10
+ */
 public class GestoreRicercaStelleRegione {
     private InterfacciaRicercaStelleRegione amministratore;
     
@@ -66,23 +71,15 @@ public class GestoreRicercaStelleRegione {
         List<Filamento> listaFilamentiRegione = this.ricercaFilamentiRegione(conn, beanRichiesta);
         Iterator<Filamento> i = listaFilamentiRegione.iterator();
         
-        float percentualeStelleInterne;
-        float percentualeStelleEsterne;
-        float percentualeStIUnbound;
-        float percentualeStIPrestellar;
-        float percentualeStIProtostellar;
-        float percentualeStEUnbound;
-        float percentualeStEPrestellar;
-        float percentualeStEProtostellar;
         
-        int totaleStelleInterne = 0;
-        int totaleStelleEsterne = 0;
-        int totaleStIUnbound = 0;
-        int totaleStIPrestellar = 0;
-        int totaleStIProtostellar = 0;
-        int totaleStEUnbound = 0;
-        int totaleStEPrestellar = 0;
-        int totaleStEProtostellar = 0;
+        Map<String, Integer> tipiStelleNumeroInterne = new HashMap<>();
+        Map<String, Integer> tipiStelleNumeroEsterne = new HashMap<>();
+            int totaleStIUnbound = 0;
+            int totaleStIPrestellar = 0;
+            int totaleStIProtostellar = 0;
+            int totaleStEUnbound = 0;
+            int totaleStEPrestellar = 0;
+            int totaleStEProtostellar = 0;
         int totaleStelleRegione = listaStelleRegione.size();
         
         List<Stella> listaStelleEsterne = new ArrayList<>();
@@ -107,55 +104,47 @@ public class GestoreRicercaStelleRegione {
                 }
             }
         }
-        totaleStelleInterne = listaStelleInterne.size();
-        totaleStelleEsterne = listaStelleEsterne.size();
+        int totaleStelleInterne = listaStelleInterne.size();
+        int totaleStelleEsterne = listaStelleEsterne.size();
         iS = listaStelleInterne.iterator();
         while (iS.hasNext()) {
             Stella s = iS.next();
-            if (s.getType() == TipoStella.UNBOUND)
-                totaleStIUnbound++;
-            if (s.getType() == TipoStella.PRESTELLAR)
-                totaleStIPrestellar++;
-            if (s.getType() == TipoStella.PROTOSTELLAR)
-                totaleStIProtostellar++;
+            if (tipiStelleNumeroInterne.containsKey(s.getType()))
+                tipiStelleNumeroInterne.put(s.getType(), tipiStelleNumeroInterne.get(s.getType()) + 1);
+            else
+                tipiStelleNumeroInterne.put(s.getType(), 1);
         }
         iS = listaStelleEsterne.iterator();
         while (iS.hasNext()) {
             Stella s = iS.next();
-            if (s.getType() == TipoStella.UNBOUND)
-                totaleStEUnbound++;
-            if (s.getType() == TipoStella.PRESTELLAR)
-                totaleStEPrestellar++;
-            if (s.getType() == TipoStella.PROTOSTELLAR)
-                totaleStEProtostellar++;
+            if (tipiStelleNumeroEsterne.containsKey(s.getType()))
+                tipiStelleNumeroEsterne.put(s.getType(), tipiStelleNumeroEsterne.get(s.getType()) + 1);
+            else
+                tipiStelleNumeroEsterne.put(s.getType(), 1);
+        }
+
+        float percentualeStelleInterne = ((totaleStelleRegione != 0) ? (float) totaleStelleInterne * 100 /totaleStelleRegione : 0); 
+        Map<String, Float> tipiStellePercentualeInterne = new HashMap<>();
+        Set<String> tipiStelleInterne = tipiStelleNumeroInterne.keySet();
+        for (String s : tipiStelleInterne) {
+            int numTipoStella = tipiStelleNumeroInterne.get(s);
+            float percentualeTipoStella = ((totaleStelleInterne != 0) ? (float) numTipoStella * 100 /totaleStelleInterne : 0); 
+            tipiStellePercentualeInterne.put(s, percentualeTipoStella);
+        }
+           
+        float percentualeStelleEsterne = ((totaleStelleRegione != 0) ? (float) totaleStelleEsterne * 100 /totaleStelleRegione : 0); 
+        Map<String, Float> tipiStellePercentualeEsterne = new HashMap<>();
+        Set<String> tipiStelleEsterne = tipiStelleNumeroEsterne.keySet();
+        for (String s : tipiStelleEsterne) {
+            int numTipoStella = tipiStelleNumeroEsterne.get(s);
+            float percentualeTipoStella = ((totaleStelleEsterne != 0) ? (float) numTipoStella * 100 /totaleStelleEsterne : 0); 
+            tipiStellePercentualeEsterne.put(s, percentualeTipoStella);
         }
         
-//System.out.println("stelle totali: " + totaleStelleRegione);
-//System.out.println("totaleStI: " + totaleStelleInterne + "\ntotaleStE: " + totaleStelleEsterne);
-//System.out.println("stiU:" + totaleStIUnbound);
-//System.out.println("stipre:" + totaleStIPrestellar);
-//System.out.println("stiproto:" + totaleStIProtostellar);
-//System.out.println("steU:" + totaleStEUnbound);
-//System.out.println("stepre:" + totaleStEPrestellar);
-//System.out.println("steproto:" + totaleStEProtostellar);
-
-        percentualeStelleInterne = ((totaleStelleRegione != 0) ? (float) totaleStelleInterne * 100 /totaleStelleRegione : 0); 
-        percentualeStelleEsterne = ((totaleStelleRegione != 0) ? (float) totaleStelleEsterne * 100 /totaleStelleRegione : 0); 
-        
-        percentualeStIUnbound = ((totaleStelleInterne != 0) ? (float) totaleStIUnbound * 100 /totaleStelleInterne : 0); 
-        percentualeStIPrestellar = ((totaleStelleInterne != 0) ? (float) totaleStIPrestellar * 100 /totaleStelleInterne : 0); 
-        percentualeStIProtostellar = ((totaleStelleInterne != 0) ? (float) totaleStIProtostellar * 100 /totaleStelleInterne : 0); 
-        
-        percentualeStEUnbound = ((totaleStelleEsterne != 0) ? (float) totaleStEUnbound * 100 /totaleStelleEsterne : 0); 
-        percentualeStEPrestellar = ((totaleStelleEsterne != 0) ? (float) totaleStEPrestellar * 100 /totaleStelleEsterne : 0); 
-        percentualeStEProtostellar = ((totaleStelleEsterne != 0) ? (float) totaleStEProtostellar * 100 /totaleStelleEsterne : 0); 
-
         BeanRispostaStelleRegione beanRisposta = 
                 new BeanRispostaStelleRegione(percentualeStelleInterne, 
-                        percentualeStelleEsterne, percentualeStIUnbound, 
-                        percentualeStIPrestellar, percentualeStIProtostellar, 
-                        percentualeStEUnbound, percentualeStEPrestellar, 
-                        percentualeStEProtostellar);
+                        percentualeStelleEsterne, tipiStellePercentualeInterne, 
+                        tipiStellePercentualeEsterne);
 
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;

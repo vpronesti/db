@@ -55,7 +55,7 @@ public class RicercaNumeroSegmentiController {
             InterfacciaRicercaNumeroSegmenti boundaryNumeroSegmenti = 
                     new  InterfacciaRicercaNumeroSegmenti(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
-            if (beanRisposta != null) {
+            if (beanRisposta.isInputValido()) {
                 RisultatiRicercaNumeroSegmentiController risultatiController = new RisultatiRicercaNumeroSegmentiController(beanRisposta);
                 ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCANUMEROSEGMENTI, risultatiController);
             } else {

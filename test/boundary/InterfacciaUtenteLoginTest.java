@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+/**
+ * test per il requisito funzionale n. 1
+ */
 @RunWith(value = Parameterized.class)
 public class InterfacciaUtenteLoginTest {
     private final boolean expected;
@@ -38,6 +41,6 @@ public class InterfacciaUtenteLoginTest {
         InterfacciaUtenteLogin interfacciaUtenteLogin = 
                 new InterfacciaUtenteLogin(userId, password);
         boolean res = interfacciaUtenteLogin.logIn();
-        assertEquals("errore nella definizione", res, expected);
+        assertEquals("errore", res, expected);
     }
 }

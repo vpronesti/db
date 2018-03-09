@@ -13,7 +13,7 @@ public class BeanRichiestaFilamentiRegione {
             float latiCentroide, float dimensione, TipoFigura tipoFigura) {
         this.longCentroide = longCentroide;
         this.latiCentroide = latiCentroide;
-        this.dimensione = abs(dimensione);
+        this.dimensione = dimensione;
         this.tipoFigura = tipoFigura;
     }
 
@@ -38,7 +38,7 @@ public class BeanRichiestaFilamentiRegione {
     }
 
     public void setDimensione(float dimensione) {
-        this.dimensione = abs(dimensione);
+        this.dimensione = dimensione;
     }
 
     public TipoFigura getTipoFigura() {

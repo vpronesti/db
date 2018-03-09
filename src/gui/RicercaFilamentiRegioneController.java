@@ -81,11 +81,11 @@ public class RicercaFilamentiRegioneController {
             InterfacciaRicercaFilamentiRegione boundaryFilamentiRegione = 
                     new  InterfacciaRicercaFilamentiRegione(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
-            if (beanRisposta != null) {
+            if (beanRisposta.isInputValido()) {
                 RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
                 ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
             } else {
-                text.setText("Impossibile effettuare la ricerca");
+                text.setText("La dimensione deve essere positiva");
             }
         }
     }

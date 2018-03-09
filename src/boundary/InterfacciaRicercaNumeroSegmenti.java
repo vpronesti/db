@@ -19,6 +19,8 @@ public class InterfacciaRicercaNumeroSegmenti {
         boolean res = true;
         int inizio = beanRichiesta.getInizioIntervallo();
         int fine = beanRichiesta.getFineIntervallo();
+        if (inizio < 0 || fine < 0)
+            res = false;
         if (inizio > fine)
             res = false;
         if (fine < inizio)
@@ -29,12 +31,13 @@ public class InterfacciaRicercaNumeroSegmenti {
     } 
     
     public BeanRispostaFilamenti ricercaNumeroSegmenti(BeanRichiestaNumeroSegmenti beanRichiesta) {
+        BeanRispostaFilamenti beanRisposta;
         if (this.controllaBean(beanRichiesta)) {
             controllerFilamento = new GestoreRicercaNumeroSegmenti(this);
-            return controllerFilamento.ricercaNumeroSegmenti(beanRichiesta);
+            beanRisposta = controllerFilamento.ricercaNumeroSegmenti(beanRichiesta);
         } else {
-            System.out.println("Input non valido"); // aggiungere eccezione
-            return null;
+            beanRisposta = new BeanRispostaFilamenti(false);
         }
+        return beanRisposta;
     }
 }

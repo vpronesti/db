@@ -20,6 +20,18 @@ public class InterfacciaRegistrazioneUtente {
         if (beanUtente.getPassword().length() < LUNGHEZZAMINIMA){
             res = false;
         }
+        if (beanUtente.getNome().equals("")) {
+            res = false;
+        }
+        if (beanUtente.getCognome().equals("")) {
+            res = false;
+        }
+        if (beanUtente.getEmail().equals("")) {
+            res = false;
+        }
+        if (!beanUtente.getTipo().equals("Amministratore") && !beanUtente.getTipo().equals("Registrato")) {
+            res = false;
+        }
         return res;
     }
     

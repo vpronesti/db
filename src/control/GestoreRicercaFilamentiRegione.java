@@ -52,7 +52,7 @@ public class GestoreRicercaFilamentiRegione {
             listaFilamenti.add(f);
         }
         
-        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti); //listaIdInterni);
+        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true); //listaIdInterni);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }
@@ -91,7 +91,7 @@ public class GestoreRicercaFilamentiRegione {
             listaFilamenti.add(f);
         }
         
-        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti);
+        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }

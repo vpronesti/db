@@ -3,7 +3,6 @@ package dao;
 import bean.BeanRichiestaStelleRegione;
 import entity.Contorno;
 import entity.Stella;
-import entity.TipoStella;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import util.DBAccess;
 
 public class StellaDao {
     private static StellaDao instance;
@@ -48,7 +46,7 @@ public class StellaDao {
                 float gLonSt = rs.getFloat("glon_st");
                 float gLatSt = rs.getFloat("glat_st");
                 float fluxSt = rs.getFloat("flux_st");
-                TipoStella typeSt = TipoStella.valueOf(rs.getString("type_st"));
+                String typeSt = rs.getString("type_st");
                 Stella s = new Stella(idStar, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
                 listaStelle.add(s);
             }
@@ -78,7 +76,7 @@ public class StellaDao {
                 float gLonSt = rs.getFloat("glon_st");
                 float gLatSt = rs.getFloat("glat_st");
                 float fluxSt = rs.getFloat("flux_st");
-                TipoStella typeSt = TipoStella.valueOf(rs.getString("type_st"));
+                String typeSt = rs.getString("type_st");
                 Stella s = new Stella(idStar, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
                 if (s.internoFilamento(listaPunti))
                     listaStelle.add(s);
