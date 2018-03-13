@@ -1,5 +1,6 @@
 package boundary;
 
+import bean.BeanIdFilamento;
 import bean.BeanRichiestaNumeroSegmenti;
 import bean.BeanRispostaFilamenti;
 import dao.SegmentoDao;
@@ -18,7 +19,7 @@ import util.DBAccess;
  * test per il requisito funzionale n. 7
  */
 @RunWith(value = Parameterized.class)
-public class InterfacciaRicercaNumeroSegmentiTestOutput {
+public class InterfacciaRicercaNumeroSegmentiOutputTest {
     private final boolean expected;
     private int inizioIntervallo;
     private int fineIntervallo;
@@ -30,7 +31,7 @@ public class InterfacciaRicercaNumeroSegmentiTestOutput {
         });
     }
     
-    public InterfacciaRicercaNumeroSegmentiTestOutput(boolean expected, 
+    public InterfacciaRicercaNumeroSegmentiOutputTest(boolean expected, 
                 int inizioIntervallo, int fineIntervallo) {
         this.expected = expected;
         this.inizioIntervallo = inizioIntervallo;
@@ -43,7 +44,8 @@ public class InterfacciaRicercaNumeroSegmentiTestOutput {
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
         Iterator<Filamento> i = beanRisposta.getFilamenti().iterator();
         while (i.hasNext()) {
-            int idFil = i.next().getIdFil();
+            Filamento f = i.next();
+            BeanIdFilamento idFil = new BeanIdFilamento(f.getIdFil(), f.getSatellite());
             int numSegm = segmentoDao.queryNumeroSegmentiFilamento(conn, idFil);
             if (numSegm < inizioIntervallo) {
                 res = false;

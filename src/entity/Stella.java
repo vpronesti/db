@@ -22,6 +22,13 @@ public class Stella {
         this.type = type;
         
     }
+
+    public Stella(int idStar, float gLonSt, float gLatSt) {
+        this.idStar = idStar;
+        this.gLonSt = gLonSt;
+        this.gLatSt = gLatSt;
+    }
+
     
     public boolean internoFilamento(List<Contorno> listaPunti) {
         float sum = 0;

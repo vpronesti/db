@@ -1,12 +1,16 @@
 package entity;
 
+import bean.BeanIdFilamento;
+
 public class Contorno {
     private int idFil;
     private float gLonCont;
     private float gLatCont;
+    private String satellite;
     
-    public Contorno(int idFil, float gLonCont, float gLatCont) {
+    public Contorno(int idFil, String satellite, float gLonCont, float gLatCont) {
         this.idFil = idFil;
+        this.satellite = satellite;
         this.gLonCont = gLonCont;
         this.gLatCont = gLatCont;
     }
@@ -40,4 +44,27 @@ public class Contorno {
         this.gLatCont = gLatCont;
     }
 
+    public String getSatellite() {
+        return satellite;
+    }
+
+    public void setSatellite(String satellite) {
+        this.satellite = satellite;
+    }
+    
+    @Override
+    public boolean equals(Object v) {
+        boolean retVal = false;
+
+        if (v instanceof Contorno){
+            Contorno ptr = (Contorno) v;
+            retVal = ptr.getIdFil() == this.idFil && 
+                    ptr.getSatellite().equals(this.satellite) && 
+                    ptr.getgLonCont() == this.gLonCont && 
+                    ptr.getgLatCont() == this.gLatCont;
+        }
+
+        return retVal;
+    }
+    
 }

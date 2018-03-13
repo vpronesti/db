@@ -164,7 +164,8 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
         items.add("Flusso");
         items.add("Distanza");
         this.ordinamentoComboBox.setItems(items);
-        risultatiPagination.setPageCount(beanRisposta.getListaStelle().size() / rowsPerPage);
+        int lastPage = ((beanRisposta.getListaStelle().size() % rowsPerPage > 0) ? 1 : 0);
+        risultatiPagination.setPageCount(beanRisposta.getListaStelle().size() / rowsPerPage + lastPage);
         risultatiPagination.setPageFactory(this::createPage);        
     }
     

@@ -142,7 +142,8 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
     @Override
     public void initialize() {
         frazioneFilamentiTrovatiText.setText("I filamenti che rispettano le proprieta' richieste sono il " + this.percentuale + "%");
-        risultatiPagination.setPageCount(beanRisposta.getListaFilamenti().size() / rowsPerPage);
+        int lastPage = ((beanRisposta.getListaFilamenti().size() % rowsPerPage > 0) ? 1 : 0);
+        risultatiPagination.setPageCount(beanRisposta.getListaFilamenti().size() / rowsPerPage + lastPage);
         risultatiPagination.setPageFactory(this::createPage);        
     }
     

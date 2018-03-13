@@ -27,10 +27,16 @@ public class InserisciBandaStrumentoController {
             text.setText("Scegliere uno strumento");
             return null;
         }
-        String banda = this.bandaStrumentoText.getText();
-        if (banda.isEmpty()) {
+        String bandaString = this.bandaStrumentoText.getText();
+        if (bandaString.isEmpty()) {
             text.setText("Inserire una banda"); 
             return null;
+        }
+        float banda;
+        try {  
+            banda = Float.parseFloat(bandaString);  
+        } catch (NumberFormatException nfe) {  
+            return null;  
         }
         BeanStrumento beanStrumento = new BeanStrumento(nomeStrumento, banda);
         return beanStrumento;
@@ -55,8 +61,9 @@ public class InserisciBandaStrumentoController {
     protected void indietro(ActionEvent event) throws Exception {
         ViewSwap.getInstance().swap(event, ViewSwap.INSERISCISTRUMENTO);
     }
-        
-    public void initialize(){
+    
+    @FXML
+    void initialize(){
         Connection conn = DBAccess.getInstance().getConnection();
         StrumentoDao strumentoDao = StrumentoDao.getInstance();
         List<String> strumenti = strumentoDao.queryStrumenti(conn);

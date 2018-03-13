@@ -1,12 +1,15 @@
 package boundary;
 
 import bean.BeanUtente;
+import dao.UtenteDao;
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import util.DBAccess;
 
 /**
  * test per il requisito funzionale n. 2 e 3.2
@@ -56,6 +59,16 @@ public class InterfacciaRegistrazioneUtenteTest {
                 new InterfacciaRegistrazioneUtente("a");
         BeanUtente beanUtente = new BeanUtente(nome, cognome, userId, password, email, tipo);
         boolean res = interfacciaRegistrazioneUtente.definizioneUtente(beanUtente);
+//        if (res) {
+//            this.rimuoviModifica();
+//        }
         assertEquals("errore", res, expected);
     }
+    
+//    private void rimuoviModifica() {
+//        Connection conn = DBAccess.getInstance().getConnection();
+//        UtenteDao.getInstance().rimuoviUtente(conn, 
+//                new BeanUtente(nome, cognome, userId, password, email, tipo));
+//        DBAccess.getInstance().closeConnection(conn);
+//    }
 }

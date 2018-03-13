@@ -55,18 +55,25 @@ public class ImportaCsvController {
     protected void importa(ActionEvent event) throws Exception {
         BeanRichiestaImport beanRichiestaImport = this.wrapRichiesta();
         if (beanRichiestaImport != null) {
-            InterfacciaImportCsv boundaryImportCsv = new
-                    InterfacciaImportCsv(LogInController.interfacciaUtenteLogin.getUserId());
-            try {
-                if (boundaryImportCsv.importaCsv(beanRichiestaImport)) {
-                    text.setText("Import effettuato correttamente");
-                } else {
-                    text.setText("Impossibilile importare il file");
+            if (beanRichiestaImport.getTipo() == TipoFileCsv.STELLA || 
+                    beanRichiestaImport.getTipo() == TipoFileCsv.FILAMENTO) {
+                InterfacciaImportCsv boundaryImportCsv = new
+                        InterfacciaImportCsv(LogInController.interfacciaUtenteLogin.getUserId());
+                try {
+                    if (boundaryImportCsv.importaCsv(beanRichiestaImport)) {
+                        text.setText("Import effettuato correttamente");
+                    } else {
+                        text.setText("Impossibilile importare il file");
+                    }
+                } catch (FormatoFileNonSupportatoException e) {
+                    text.setText("Il formato del file scelto non e' supportato");
                 }
-            } catch (FormatoFileNonSupportatoException e) {
-                text.setText("Il formato del file scelto non e' supportato");
+            } else {
+            SatelliteImportaCsvController satelliteController = 
+                        new SatelliteImportaCsvController(beanRichiestaImport); 
+                ViewSwap.getInstance().swap(event, ViewSwap.SATELLITEIMPORTACSV, satelliteController);
             }
-        }
+        } 
     }
     
     @FXML

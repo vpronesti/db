@@ -1,5 +1,6 @@
 package control;
 
+import bean.BeanIdFilamento;
 import bean.BeanRichiestaStelleRegione;
 import bean.BeanRispostaStelleRegione;
 import boundary.InterfacciaRicercaStelleRegione;
@@ -30,11 +31,11 @@ public class GestoreRicercaStelleRegione {
     
     private List<Filamento> ricercaFilamentiRegione(Connection conn, BeanRichiestaStelleRegione beanRichiesta) {
         ContornoDao contornoDao = ContornoDao.getInstance();
-        List<Integer> listaIdInterni = new ArrayList<>();
-        List<Integer> listaIdEsistenti = contornoDao.queryIdFilamentiContorno(conn);
-        Iterator<Integer> i = listaIdEsistenti.iterator();
+        List<BeanIdFilamento> listaIdInterni = new ArrayList<>();
+        List<BeanIdFilamento> listaIdEsistenti = contornoDao.queryIdFilamentiContorno(conn);
+        Iterator<BeanIdFilamento> i = listaIdEsistenti.iterator();
         while (i.hasNext()) {
-            int id = i.next();
+            BeanIdFilamento id = i.next();
             List<Contorno> listaPunti = contornoDao.queryPuntiContornoFilamento(conn, id);
             Iterator<Contorno> j = listaPunti.iterator();
             boolean puntoInterno = true;
@@ -55,7 +56,7 @@ public class GestoreRicercaStelleRegione {
         
         List<Filamento> listaFilamenti = new ArrayList<>();
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
-        Iterator<Integer> it = listaIdInterni.iterator();
+        Iterator<BeanIdFilamento> it = listaIdInterni.iterator();
         while (it.hasNext()) {
             Filamento f = filamentoDao.queryCampiFilamento(conn, it.next());
             listaFilamenti.add(f);
@@ -74,12 +75,7 @@ public class GestoreRicercaStelleRegione {
         
         Map<String, Integer> tipiStelleNumeroInterne = new HashMap<>();
         Map<String, Integer> tipiStelleNumeroEsterne = new HashMap<>();
-            int totaleStIUnbound = 0;
-            int totaleStIPrestellar = 0;
-            int totaleStIProtostellar = 0;
-            int totaleStEUnbound = 0;
-            int totaleStEPrestellar = 0;
-            int totaleStEProtostellar = 0;
+
         int totaleStelleRegione = listaStelleRegione.size();
         
         List<Stella> listaStelleEsterne = new ArrayList<>();
@@ -92,7 +88,8 @@ public class GestoreRicercaStelleRegione {
 
         while (i.hasNext()) {
             Filamento f = i.next();
-            List<Contorno> listaPunti = contornoDao.queryPuntiContornoFilamento(conn, f.getIdFil());
+            BeanIdFilamento id = new BeanIdFilamento(f.getIdFil(), f.getSatellite());
+            List<Contorno> listaPunti = contornoDao.queryPuntiContornoFilamento(conn, id);
             Iterator<Stella> j = listaStelleRegione.iterator();
             while (j.hasNext()) {
                 Stella s = j.next();

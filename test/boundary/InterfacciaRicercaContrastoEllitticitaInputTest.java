@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized;
  * test per il requisito funzionale n. 6
  */
 @RunWith(value = Parameterized.class)
-public class InterfacciaRicercaContrastoEllitticitaTestInput {
+public class InterfacciaRicercaContrastoEllitticitaInputTest {
     private final boolean expected;
     private float brillanza;
     private float inizioIntervalloEllitticita;
@@ -32,7 +32,7 @@ public class InterfacciaRicercaContrastoEllitticitaTestInput {
         });
     }
     
-    public InterfacciaRicercaContrastoEllitticitaTestInput(boolean expected, 
+    public InterfacciaRicercaContrastoEllitticitaInputTest(boolean expected, 
             float brillanza, float inizioIntervalloEllitticita, 
             float fineIntervalloEllitticita) {
         this.expected = expected;

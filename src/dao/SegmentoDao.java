@@ -1,7 +1,9 @@
 package dao;
 
+import bean.BeanIdFilamento;
 import bean.BeanRichiestaNumeroSegmenti;
 import bean.BeanRichiestaSegmentoContorno;
+import entity.Filamento;
 import entity.Segmento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,10 +29,11 @@ public class SegmentoDao {
      * @param idFil
      * @return 
      */
-    public List<Segmento> queryPuntiSegmentoPrincipaleFilamento(Connection conn, int idFil) {
+    public List<Segmento> queryPuntiSegmentoPrincipaleFilamento(Connection conn, BeanIdFilamento idFil) {
         String sql = "select idbranch, glon_br, glat_br, n, flux " + 
                 "from segmento " + 
-                "where idfil = " + idFil + " and type = 'S'";
+                "where idfil = " + idFil.getIdFil() + "and satellite = '" + idFil.getSatellite() + 
+                "' and type = 'S'";
         List<Segmento> listaSegmenti = new ArrayList<>();
         try {
         Statement stmt = conn.createStatement();
@@ -41,7 +44,8 @@ public class SegmentoDao {
             float gLatBr = rs.getFloat("glat_br");
             int n = rs.getInt("n");
             float flux = rs.getFloat("flux");
-            Segmento s = new Segmento(idFil, idBranch, "S", gLonBr, gLatBr, n, flux);
+            Segmento s = new Segmento(idFil.getIdFil(), idFil.getSatellite(),
+                    idBranch, "S", gLonBr, gLatBr, n, flux);
             listaSegmenti.add(s);
         }
         } catch (SQLException e) {
@@ -57,9 +61,10 @@ public class SegmentoDao {
      * @param idSeg
      * @return 
      */
-    public boolean queryEsistenzaSegmento(Connection conn, int idFil, int idSeg) {
+    public boolean queryEsistenzaSegmento(Connection conn, 
+            int idFil, String satellite, int idSeg) {
         String sql = "select *  from segmento where idfil = " + 
-                idFil + " and idbranch = " + idSeg;
+                idFil + " and satellite = '" + satellite + "' and idbranch = " + idSeg;
         boolean res = false;
         try {
             Statement stmt = conn.createStatement();
@@ -84,8 +89,10 @@ public class SegmentoDao {
         String sql = "select type, glon_br, glat_br, n, flux " + 
                 "from segmento " + 
                 "where idfil = " + beanRichiesta.getIdFil() + 
+                " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
                 " and idbranch = " + beanRichiesta.getIdSeg() + 
                 " and n = (select max(n) from segmento where idfil = " + beanRichiesta.getIdFil() + 
+                " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
                 " and idbranch = " + beanRichiesta.getIdSeg() + ")";
         Segmento s = null;
         try {
@@ -97,7 +104,7 @@ public class SegmentoDao {
                 float gLatBr = rs.getFloat("glat_br");
                 int n = rs.getInt("n");
                 float flux = rs.getFloat("flux");
-                s = new Segmento(beanRichiesta.getIdFil(), 
+                s = new Segmento(beanRichiesta.getIdFil(), beanRichiesta.getSatellite(), 
                         beanRichiesta.getIdSeg(), type, gLonBr, gLatBr, n, flux);
             }
             rs.close();
@@ -119,8 +126,10 @@ public class SegmentoDao {
         String sql = "select type, glon_br, glat_br, n, flux " + 
                 "from segmento " + 
                 "where idfil = " + beanRichiesta.getIdFil() + 
+                " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
                 " and idbranch = " + beanRichiesta.getIdSeg() + 
                 " and n = (select min(n) from segmento where idfil = " + beanRichiesta.getIdFil() + 
+                " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
                 " and idbranch = " + beanRichiesta.getIdSeg() + ")";
         Segmento s = null;
         try {
@@ -132,7 +141,7 @@ public class SegmentoDao {
                 float gLatBr = rs.getFloat("glat_br");
                 int n = rs.getInt("n");
                 float flux = rs.getFloat("flux");
-                s = new Segmento(beanRichiesta.getIdFil(), 
+                s = new Segmento(beanRichiesta.getIdFil(), beanRichiesta.getSatellite(), 
                         beanRichiesta.getIdSeg(), type, gLonBr, gLatBr, n, flux);
             }
             rs.close();
@@ -144,22 +153,25 @@ public class SegmentoDao {
     }
     
     /**
-     * utilizzato per la ricerca dei filamenti in base al numero di segmenti
+     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
      * @param conn
      * @param beanRichiesta 
      */
-    public List<Integer> queryIdFilamentiConNSegmenti(Connection conn, BeanRichiestaNumeroSegmenti beanRichiesta) {
-        String sql = "select idfil " + 
+    public List<BeanIdFilamento> queryIdFilamentiConNSegmenti(Connection conn, BeanRichiestaNumeroSegmenti beanRichiesta) {
+        String sql = "select idfil, satellite " + 
                 "from filamento_numero_segmenti " + 
                 "where numsegmenti >= " + beanRichiesta.getInizioIntervallo() + 
                 " and numsegmenti <= " + beanRichiesta.getFineIntervallo();
-        List<Integer> idFilamenti = new ArrayList<>();
+        List<BeanIdFilamento> idFilamenti = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                idFilamenti.add(rs.getInt("idfil"));   
+                int id = rs.getInt("idfil");
+                String satellite = rs.getString("satellite");
+                BeanIdFilamento idFil = new BeanIdFilamento(id, satellite);
+                idFilamenti.add(idFil);   
             }
             rs.close();
             stmt.close();
@@ -170,15 +182,53 @@ public class SegmentoDao {
     }
     
     /**
-     * utilizzato per il recupero di informazioni derivate di un filamento		
+     * utilizzato per la ricerca dei filamenti in base al numero di segmenti
+     * @param conn
+     * @param beanRichiesta 
+     */
+    public List<Filamento> queryFilamentiConNSegmenti(Connection conn, BeanRichiestaNumeroSegmenti beanRichiesta) {
+        String sql = "select filamento.idfil, filamento.satellite, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, instrument " + 
+                "from filamento_numero_segmenti join filamento on (filamento.idfil = filamento_numero_segmenti.idfil and filamento.satellite = filamento_numero_segmenti.satellite) " + 
+                "where numsegmenti >= " + beanRichiesta.getInizioIntervallo() + 
+                " and numsegmenti <= " + beanRichiesta.getFineIntervallo();
+        List<Filamento> filamenti = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                int idFil = rs.getInt("idfil");
+                String name = rs.getString("name");
+                float total_flux = rs.getFloat("total_flux");
+                float mean_dens = rs.getFloat("mean_dens");
+                float mean_temp = rs.getFloat("mean_temp");
+                float ellipticity = rs.getFloat("ellipticity");
+                float contrast = rs.getFloat("contrast");
+                String satellite = rs.getString("satellite");
+                String instrument = rs.getString("instrument");
+                Filamento f = new Filamento(idFil, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, satellite, instrument);
+                filamenti.add(f);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filamenti;
+    }
+    
+    /**
+     * utilizzato per il recupero di informazioni derivate di un filamento	
+     * si potrebbe modificare e utilizzare la vista
      * @param conn
      * @param idFil
      * @return 
      */
-    public int queryNumeroSegmentiFilamento(Connection conn, int idFil) {
+    public int queryNumeroSegmentiFilamento(Connection conn, BeanIdFilamento idFil) {
         String sql = "select count(distinct idBranch) " + 
                 "from segmento " + 
-                "where idFil = " + idFil;
+                "where idFil = " + idFil.getIdFil() + " and satellite = '" + 
+                idFil.getSatellite() + "'";
         Integer res = null;
         try {
             Statement stmt = conn.createStatement();
@@ -195,16 +245,17 @@ public class SegmentoDao {
     
     public void inserisciSegmento(Connection conn, Segmento seg) {
         Statement stmt = null;
-        String sql = "insert into segmento(idfil, idbranch, type, " + 
+        String sql = "insert into segmento(idfil, satellite, idbranch, type, " + 
                 "glon_br, glat_br, n, flux) values (" + 
                 seg.getIdFil() + ", " + 
+                "'" + seg.getSatellite() + "', " + 
                 seg.getIdBranch() + ", " + 
                 "'" + seg.getType() + "', " + 
                 seg.getgLonBr() + ", " +
                 seg.getgLatBr() + ", " + 
                 seg.getN() + ", " + 
                 seg.getFlux() + 
-                ") on conflict (idfil, idbranch, glon_br, glat_br) do update set " + 
+                ") on conflict (idfil, satellite, idbranch, glon_br, glat_br) do update set " + 
                 "type = excluded.type, " + 
                 "n = excluded.n, " + 
                 "flux = excluded.flux";
@@ -218,9 +269,9 @@ public class SegmentoDao {
     }
     
     public void inserisciSegmentoBatch(Connection conn, List<Segmento> ls) {
-        String sql = "insert into segmento(idfil, idbranch, type, " + 
-                "glon_br, glat_br, n, flux) values (?, ?, ?, ?, ?, ?, ?) " + 
-                "on conflict (idfil, idbranch, glon_br, glat_br) do update set " + 
+        String sql = "insert into segmento(idfil, satellite, idbranch, type, " + 
+                "glon_br, glat_br, n, flux) values (?, ?, ?, ?, ?, ?, ?, ?) " + 
+                "on conflict (idfil, satellite, idbranch, glon_br, glat_br) do update set " + 
                 "type = excluded.type, " + 
                 "n = excluded.n, " + 
                 "flux = excluded.flux";
@@ -231,12 +282,13 @@ public class SegmentoDao {
             while (i.hasNext()) {
                 Segmento s = i.next();
                 ps.setInt(1, s.getIdFil());
-                ps.setInt(2, s.getIdBranch());
-                ps.setString(3, s.getType());
-                ps.setFloat(4, s.getgLonBr());
-                ps.setFloat(5, s.getgLatBr());
-                ps.setInt(6, s.getN());
-                ps.setFloat(7, s.getFlux());
+                ps.setString(2, s.getSatellite());
+                ps.setInt(3, s.getIdBranch());
+                ps.setString(4, s.getType());
+                ps.setFloat(5, s.getgLonBr());
+                ps.setFloat(6, s.getgLatBr());
+                ps.setInt(7, s.getN());
+                ps.setFloat(8, s.getFlux());
                 ps.addBatch();
             }
             ps.executeBatch();

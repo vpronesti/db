@@ -11,8 +11,27 @@ public class InterfacciaInserimentoSatellite {
         this.userId = userId;
     }
     
+    private boolean controllaBean(BeanSatellite beanSatellite) {
+        boolean res = true;
+        if (beanSatellite.getNome() == null || beanSatellite.getNome().isEmpty())
+            res = false;
+        if (beanSatellite.getPrimaOsservazione() == null)
+            res = false;
+        if (beanSatellite.getTermineOperazione() != null) {
+            if (beanSatellite.getPrimaOsservazione().isAfter(beanSatellite.getTermineOperazione()))
+                res = false;
+        }
+        if (beanSatellite.getAgenzia() == null || beanSatellite.getAgenzia().isEmpty())
+            res = false;
+        return res;
+    }
+    
     public boolean inserisciSatellite(BeanSatellite satellite) {
-        controllerInserimento = new GestoreInserimentoSatellite(this);
-        return controllerInserimento.inserisciSatellite(satellite);
+        if (this.controllaBean(satellite)) {
+            controllerInserimento = new GestoreInserimentoSatellite(this);
+            return controllerInserimento.inserisciSatellite(satellite);
+        } else {
+            return false;
+        }
     }
 }

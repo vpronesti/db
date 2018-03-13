@@ -2,9 +2,9 @@ package bean;
 
 public class BeanStrumento {
     private String nome;
-    private String banda;
+    private float banda;
     
-    public BeanStrumento(String nome, String banda) {
+    public BeanStrumento(String nome, float banda) {
         this.nome = nome;
         this.banda = banda;
     }
@@ -17,11 +17,11 @@ public class BeanStrumento {
         this.nome = nome;
     }
 
-    public String getBanda() {
+    public float getBanda() {
         return banda;
     }
 
-    public void setBanda(String banda) {
+    public void setBanda(float banda) {
         this.banda = banda;
     }
 

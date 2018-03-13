@@ -3,6 +3,9 @@ package gui;
 import bean.BeanRichiestaNumeroSegmenti;
 import bean.BeanRispostaFilamenti;
 import boundary.InterfacciaRicercaNumeroSegmenti;
+import entity.Filamento;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -56,8 +59,12 @@ public class RicercaNumeroSegmentiController {
                     new  InterfacciaRicercaNumeroSegmenti(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
             if (beanRisposta.isInputValido()) {
-                RisultatiRicercaNumeroSegmentiController risultatiController = new RisultatiRicercaNumeroSegmentiController(beanRisposta);
-                ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCANUMEROSEGMENTI, risultatiController);
+                if (beanRisposta.getFilamenti().size() > 0) {
+                    RisultatiRicercaNumeroSegmentiController risultatiController = new RisultatiRicercaNumeroSegmentiController(beanRisposta);
+                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCANUMEROSEGMENTI, risultatiController);
+                } else {
+                    text.setText("Non ci sono filamenti con numero di segmenti nell'intervallo specificato");
+                }
             } else {
                 text.setText("La dimensione minima dell'intervallo deve essere strettamente maggiore di 2");
             }

@@ -13,8 +13,20 @@ public class InterfacciaRecuperoInformazioniDerivateFilamento {
     public InterfacciaRecuperoInformazioniDerivateFilamento(String userId) {
         this.userId = userId;
     }
+    
+    private boolean controllaBean(BeanInformazioniFilamento beanFil) {
+        boolean res = true;
+        if (beanFil.getSatellite() == null || beanFil.getSatellite().isEmpty())
+            res = false;
+        return res;
+    }
+    
     public boolean recuperaInfoFilamento(BeanInformazioniFilamento beanFil) {
-        controllerFilamento = new GestoreRecuperoInformazioniFilamento(this);
-        return controllerFilamento.recuperaInfoFilamento(beanFil);
+        if (this.controllaBean(beanFil)) {
+            controllerFilamento = new GestoreRecuperoInformazioniFilamento(this);
+            return controllerFilamento.recuperaInfoFilamento(beanFil);
+        } else {
+            return false;
+        }
     }
 }

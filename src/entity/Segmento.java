@@ -8,6 +8,7 @@ public class Segmento {
     private float gLatBr;
     private int n;
     private float flux;
+    private String satellite;
     
     public Segmento() {
         
@@ -18,13 +19,10 @@ public class Segmento {
                 this.idBranch + "idLon: " + this.gLonBr + "idLat: " + this.gLatBr;
     }
     
-    public Segmento(int idFil) {
-        this.idFil = idFil;
-    }
-    
-    public Segmento(int idFil, int idBranch, String type, float gLonBr, 
+    public Segmento(int idFil, String satellite, int idBranch, String type, float gLonBr, 
             float gLatBr, int n, float flux) {
         this.idFil = idFil;
+        this.satellite = satellite;
         this.idBranch = idBranch;
         this.type = type;
         this.gLonBr = gLonBr;
@@ -87,6 +85,14 @@ public class Segmento {
 
     public void setFlux(float flux) {
         this.flux = flux;
+    }
+
+    public String getSatellite() {
+        return satellite;
+    }
+
+    public void setSatellite(String satellite) {
+        this.satellite = satellite;
     }
     
 }

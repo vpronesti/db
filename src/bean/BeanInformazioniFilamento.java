@@ -2,6 +2,7 @@ package bean;
 
 public class BeanInformazioniFilamento {
     private int idFil;
+    private String satellite;
     private float gLonCentroide;
     private float gLatCentroide;
     private float maxGLonContorno;
@@ -10,15 +11,17 @@ public class BeanInformazioniFilamento {
     private float minGLatContorno;
     private int numSegmenti;
     
-    public BeanInformazioniFilamento(int idFil) {
+    public BeanInformazioniFilamento(int idFil, String satellite) {
         this.idFil = idFil;
+        this.satellite = satellite;
     }
     
-    public BeanInformazioniFilamento(int idFil, float gLonCentroide, 
-            float gLatCentroide, float maxGLonContorno, 
+    public BeanInformazioniFilamento(int idFil, String satellite, 
+            float gLonCentroide, float gLatCentroide, float maxGLonContorno, 
             float minGLonContorno, float maxGLatContorno, 
             float minGLatContorno, int numSegmenti) {
         this.idFil = idFil;
+        this.satellite = satellite;
         this.gLonCentroide = gLonCentroide;
         this.gLatCentroide = gLatCentroide;
         this.maxGLonContorno = maxGLonContorno;
@@ -90,6 +93,14 @@ public class BeanInformazioniFilamento {
 
     public void setNumSegmenti(int numSegmenti) {
         this.numSegmenti = numSegmenti;
+    }
+
+    public String getSatellite() {
+        return satellite;
+    }
+
+    public void setSatellite(String satellite) {
+        this.satellite = satellite;
     }
 
 

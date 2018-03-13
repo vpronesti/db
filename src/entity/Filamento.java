@@ -29,8 +29,9 @@ public class Filamento {
      * si puo anche togliere
      * @param idFil 
      */
-    public Filamento(int idFil) {
+    public Filamento(int idFil, String satellite) {
         this.idFil = idFil;
+        this.satellite = satellite;
     }
     
     public Filamento(int idFil, String name, float totalFlux, 
@@ -46,16 +47,6 @@ public class Filamento {
         
         this.satellite = satellite;
         this.instrument = instrument;
-//        if (this.controllaSatellite(satellite)) {
-//            this.satellite = satellite;
-//        } else {
-//            
-//        }
-//        if (this.controllaStrumento(instrument)) {
-//            this.instrument = instrument;
-//        } else {
-//            
-//        }
     }
 
     private boolean controllaSatellite(String satellite) {

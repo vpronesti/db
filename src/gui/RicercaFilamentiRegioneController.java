@@ -82,8 +82,12 @@ public class RicercaFilamentiRegioneController {
                     new  InterfacciaRicercaFilamentiRegione(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
             if (beanRisposta.isInputValido()) {
+                if (beanRisposta.getFilamenti().size() > 0) {
                 RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
                 ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
+                } else {
+                    text.setText("Non ci sono filamenti nella regione specificata");
+                }
             } else {
                 text.setText("La dimensione deve essere positiva");
             }

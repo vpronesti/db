@@ -1,5 +1,6 @@
 package boundary;
 
+import bean.BeanIdFilamento;
 import bean.BeanRispostaStelleFilamento;
 import control.GestoreRicercaStelleFilamento;
 
@@ -14,8 +15,19 @@ public class InterfacciaRicercaStelleFilamento {
         this.userId = userId;
     }
     
-    public BeanRispostaStelleFilamento ricercaStelleFilamento(int idFil) {
-        controllerFilamento = new GestoreRicercaStelleFilamento(this);
-        return controllerFilamento.ricercaStelleFilamento(idFil);
+    private boolean controllaBean(BeanIdFilamento idFil) {
+        boolean res = true;
+        if (idFil.getSatellite() == null || idFil.getSatellite().isEmpty())
+            res = false;
+        return res;
+    }
+    
+    public BeanRispostaStelleFilamento ricercaStelleFilamento(BeanIdFilamento idFil) {
+        if (this.controllaBean(idFil)) {
+            controllerFilamento = new GestoreRicercaStelleFilamento(this);
+            return controllerFilamento.ricercaStelleFilamento(idFil);
+        } else {
+            return new BeanRispostaStelleFilamento(false);
+        }
     }    
 }

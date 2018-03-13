@@ -2,9 +2,9 @@ package control;
 
 import bean.BeanStrumento;
 import boundary.InterfacciaInserimentoBandaStrumento;
-import entity.Strumento;
-import java.util.ArrayList;
-import java.util.List;
+import dao.StrumentoDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 public class GestoreInserimentoBandaStrumento {
     private InterfacciaInserimentoBandaStrumento amministratore;
@@ -14,17 +14,23 @@ public class GestoreInserimentoBandaStrumento {
     }
     
     public boolean inserisciBandaStrumento(BeanStrumento beanStrumento) {
-        double banda;
-        try {  
-            banda = Double.parseDouble(beanStrumento.getBanda());  
-        } catch (NumberFormatException nfe) {  
-            return false;  
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean res;
+        StrumentoDao strumentoDao = StrumentoDao.getInstance();
+        if (strumentoDao.queryEsistenzaStrumento(conn, beanStrumento.getNome())) {
+            if (!strumentoDao.queryEsistenzaBanda(conn, beanStrumento.getBanda())) {
+                strumentoDao.inserisciBanda(conn, beanStrumento.getBanda());
+            }
+            if (!strumentoDao.queryEsistenzaStrumentoBanda(conn, beanStrumento)) {
+                strumentoDao.inserisciStrumentoBanda(conn, beanStrumento.getNome(), beanStrumento.getBanda());
+                res = true;
+            } else {
+                res = false;
+            }
+        } else {
+            res = false;
         }
-        // forse serve la lista per il recupero di uno strumento con piu 
-        // bande ma all'inserimento e' inutile
-        List<Double> bande = new ArrayList<>();
-        bande.add(banda);
-        Strumento strumento = new Strumento(beanStrumento.getNome(), bande);
-        return strumento.inserisciBandaStrumento();
+        DBAccess.getInstance().closeConnection(conn);
+        return res;
     }
 }

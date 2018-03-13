@@ -1,5 +1,6 @@
 package control;
 
+import bean.BeanIdFilamento;
 import bean.BeanRichiestaSegmentoContorno;
 import bean.BeanRispostaSegmentoContorno;
 import boundary.InterfacciaRicercaDistanzaSegmentoContorno;
@@ -24,12 +25,13 @@ public class GestoreRicercaDistanzaSegmentoContorno {
         BeanRispostaSegmentoContorno beanRisposta;
         Connection conn = DBAccess.getInstance().getConnection();
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
-        boolean segmentoEsiste = segmentoDao.queryEsistenzaSegmento(conn, beanRichiesta.getIdFil(), beanRichiesta.getIdSeg());
+        boolean segmentoEsiste = segmentoDao.queryEsistenzaSegmento(conn, beanRichiesta.getIdFil(), beanRichiesta.getSatellite(), beanRichiesta.getIdSeg());
         if (segmentoEsiste) { // controlla implicitamente l'esistenza del filamento
             Segmento verticeMax = segmentoDao.queryMaxSegmento(conn, beanRichiesta);
             Segmento verticeMin = segmentoDao.queryMinSegmento(conn, beanRichiesta);
             ContornoDao contornoDao = ContornoDao.getInstance();
-            List<Contorno> listaContorno = contornoDao.queryPuntiContornoFilamento(conn, beanRichiesta.getIdFil());
+            BeanIdFilamento idFil = new BeanIdFilamento(beanRichiesta.getIdFil(), beanRichiesta.getSatellite());
+            List<Contorno> listaContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
             Iterator<Contorno> i = listaContorno.iterator();
             float distanzaVerticeMax = Float.POSITIVE_INFINITY;
             float distanzaVerticeMin = Float.POSITIVE_INFINITY;

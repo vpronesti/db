@@ -20,34 +20,36 @@ public class InterfacciaImportCsvTest {
     private final String userId;
     private File fileSelezionato;
     private TipoFileCsv tipo;
+    private String satellite;
 
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
 //            ok ma mancano dei filamenti controllare che non ci siano duplicati
-//            {true, "a", new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO},
-//            {true, "a", new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO},
-            
-//            {true, "a", new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO},
-            {true, "a", new File("contorni_filamenti_Spitzer.csv"), TipoFileCsv.CONTORNO},
+//            {true, "a", new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
+//            {true, "a", new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO, null},
+//            
+//            {true, "a", new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
+//            {true, "a", new File("contorni_filamenti_Spitzer.csv"), TipoFileCsv.CONTORNO, "Spitzer"},
             
 //            Ok pg non fa vedere la tab
-//            {true, "a", new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO},
-//            {true, "a", new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO},
+//            {true, "a", new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel"},
+//            {true, "a", new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
             
 //            ok
-//            {true, "a", new File("stelle_Herschel.csv"), TipoFileCsv.STELLA},
-//            {false, "a", new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA} // gestire meglio il caso di file non esistente
+            {true, "a", new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, null},
+//            {false, "a", new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA, null} // gestire meglio il caso di file non esistente
         });
     }
     
     public InterfacciaImportCsvTest(boolean expected, 
-            String userId, File fileSelezionato, TipoFileCsv tipo) {
+            String userId, File fileSelezionato, TipoFileCsv tipo, String satellite) {
         this.expected = expected; 
         this.userId = userId;
         this.fileSelezionato = fileSelezionato;
         this.tipo = tipo;
+        this.satellite = satellite;
     }
     
     @Test
@@ -55,7 +57,7 @@ public class InterfacciaImportCsvTest {
         InterfacciaImportCsv interfacciaImportCsv = 
                 new InterfacciaImportCsv("a");
         BeanRichiestaImport beanRichiesta = 
-                new BeanRichiestaImport(this.fileSelezionato, this.tipo);
+                new BeanRichiestaImport(this.fileSelezionato, this.tipo, this.satellite);
         boolean res = true;
         try {
             res = interfacciaImportCsv.importaCsv(beanRichiesta);

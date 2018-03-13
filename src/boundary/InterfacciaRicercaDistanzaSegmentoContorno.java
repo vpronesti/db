@@ -15,8 +15,19 @@ public class InterfacciaRicercaDistanzaSegmentoContorno {
         this.userId = userId;
     }
     
+    private boolean controllaBean(BeanRichiestaSegmentoContorno beanRichiesta) {
+        boolean res = true;
+        if (beanRichiesta.getSatellite() == null || beanRichiesta.getSatellite().isEmpty())
+            res = false;
+        return res;
+    }
+    
     public BeanRispostaSegmentoContorno ricercaDistanzaSegmentoContorno(BeanRichiestaSegmentoContorno beanRichiesta) {
-        controllerFilamento = new GestoreRicercaDistanzaSegmentoContorno(this);
-        return controllerFilamento.ricercaDistanzaSegmentoContorno(beanRichiesta);
+        if (this.controllaBean(beanRichiesta)) {
+            controllerFilamento = new GestoreRicercaDistanzaSegmentoContorno(this);
+            return controllerFilamento.ricercaDistanzaSegmentoContorno(beanRichiesta);
+        } else {
+            return new BeanRispostaSegmentoContorno(false);
+        }
     }      
 }

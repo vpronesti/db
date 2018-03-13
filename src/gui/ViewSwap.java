@@ -14,6 +14,7 @@ public class ViewSwap {
     protected static String MENU = "menu.fxml";
     protected static String REGISTRAUTENTE = "registraUtente.fxml";
     protected static String IMPORTACSV = "importaCsv.fxml";
+    protected static String SATELLITEIMPORTACSV = "satelliteImportaCsv.fxml";
     protected static String INSERISCISATELLITE = "inserisciDatiSatellite.fxml";
     protected static String INSERISCISTRUMENTO = "inserisciDatiStrumento.fxml";
     protected static String INSERISCINOMESTRUMENTO = "inserisciNomeStrumento.fxml";

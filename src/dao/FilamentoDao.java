@@ -1,5 +1,6 @@
 package dao;
 
+import bean.BeanIdFilamento;
 import bean.BeanRichiestaContrastoEllitticita;
 import entity.Filamento;
 import java.sql.Connection;
@@ -10,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import util.DBAccess;
 
 public class FilamentoDao {
     private static FilamentoDao instance;
@@ -22,15 +22,16 @@ public class FilamentoDao {
     }
     
     /**
-     * utilizzato per la ricerca dei filamenti in base al numero di segmenti
+     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
+     * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
      * @param conn
      * @param idFil
      * @return 
      */
-    public Filamento queryCampiFilamento(Connection conn, int idFil) {
+    public Filamento queryCampiFilamento(Connection conn, BeanIdFilamento idFil) {
         String sql = "select name, total_flux, mean_dens, mean_temp, ellipticity, contrast, satellite, instrument " + 
                 "from filamento " + 
-                "where idFil = " + idFil;
+                "where idFil = " + idFil.getIdFil() + " and satellite = '" + idFil.getSatellite() + "'";
         Filamento fil = null;
         
         try {
@@ -45,7 +46,7 @@ public class FilamentoDao {
                 float contrast = rs.getFloat("contrast");
                 String satellite = rs.getString("satellite");
                 String instrument = rs.getString("instrument");
-                fil = new Filamento(idFil, name, totalFlux, 
+                fil = new Filamento(idFil.getIdFil(), name, totalFlux, 
                         meanDens, meanTemp, ellipticity, contrast, satellite, 
                         instrument);
             }
@@ -128,10 +129,13 @@ public class FilamentoDao {
      * @param idFil
      * @return 
      */
-    public boolean queryEsistenzaFilamento(Connection conn, int idFil) {
+    public boolean queryEsistenzaFilamento(Connection conn, BeanIdFilamento idFil) {
+        int id = idFil.getIdFil();
+        String satellite = idFil.getSatellite();
         Statement stmt = null;
         boolean res = false;
-        String sql = "select * from filamento where idfil = " + idFil;
+        String sql = "select * from filamento where idfil = " + 
+                id + " and satellite = '" + satellite + "'";
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -164,14 +168,13 @@ public class FilamentoDao {
                 "" + fil.getContrast() + ", " + 
                 "'" + fil.getSatellite() + "', " + 
                 "'" + fil.getInstrument() + "'" + 
-                ") on conflict (idfil) do update set " + 
+                ") on conflict (idfil, satellite) do update set " + 
                 "name = excluded.name, " + 
                 "total_flux = excluded.total_flux, " + 
                 "mean_dens = excluded.mean_dens, " + 
                 "mean_temp = excluded.mean_temp, " + 
                 "ellipticity = excluded.ellipticity, " + 
-                "contrast = excluded.contrast, " + 
-                "satellite = excluded.satellite, " + 
+                "contrast = excluded.contrast, " +
                 "instrument = excluded.instrument;";
         try {
             stmt = conn.createStatement();
@@ -192,14 +195,13 @@ public class FilamentoDao {
         String sql = "insert into filamento(idfil, name, total_flux, " + 
                 "mean_dens, mean_temp, ellipticity, contrast, satellite, " + 
                 "instrument) values (?, ?, ?, ?, ?, ?, ?, ?, ?) " + 
-                "on conflict (idfil) do update set " + 
+                "on conflict (idfil, satellite) do update set " + 
                 "name = excluded.name, " + 
                 "total_flux = excluded.total_flux, " + 
                 "mean_dens = excluded.mean_dens, " + 
                 "mean_temp = excluded.mean_temp, " + 
                 "ellipticity = excluded.ellipticity, " + 
-                "contrast = excluded.contrast, " + 
-                "satellite = excluded.satellite, " + 
+                "contrast = excluded.contrast, " +
                 "instrument = excluded.instrument;";
         try {
             conn.setAutoCommit(false);

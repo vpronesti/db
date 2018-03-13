@@ -135,7 +135,8 @@ public class RisultatiRicercaFilamentiRegioneController implements Initializable
     
     @Override
     public void initialize() {
-        risultatiPagination.setPageCount(beanRisposta.getFilamenti().size() / rowsPerPage);
+        int lastPage = ((beanRisposta.getFilamenti().size() % rowsPerPage > 0) ? 1 : 0);
+        risultatiPagination.setPageCount(beanRisposta.getFilamenti().size() / rowsPerPage + lastPage);
         risultatiPagination.setPageFactory(this::createPage);        
     }
     

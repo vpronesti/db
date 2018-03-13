@@ -1,5 +1,6 @@
 package control;
 
+import bean.BeanIdFilamento;
 import bean.BeanRispostaStellaFilamento;
 import boundary.InterfacciaRicercaDistanzaStellaFilamento;
 import dao.ContornoDao;
@@ -23,7 +24,7 @@ public class GestoreRicercaDistanzaStellaFilamento {
         this.amministratore = amministratore;
     }
     
-    public BeanRispostaStellaFilamento ricercaDistanzaStellaFilamento(int idFil) {
+    public BeanRispostaStellaFilamento ricercaDistanzaStellaFilamento(BeanIdFilamento idFil) {
         BeanRispostaStellaFilamento beanRisposta;
         Connection conn = DBAccess.getInstance().getConnection();
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
@@ -36,7 +37,7 @@ public class GestoreRicercaDistanzaStellaFilamento {
             List<Contorno> listaPunti = contornoDao.queryPuntiContornoFilamento(conn, idFil);
               
             StellaDao stellaDao = StellaDao.getInstance();
-            List<Stella> listaStelleInterne = stellaDao.queryStelleFilamento(conn, listaPunti);
+            List<Stella> listaStelleInterne = stellaDao.queryStelleContornoFilamento(conn, listaPunti);
             Iterator<Stella> iSt = listaStelleInterne.iterator();
               
             List<Float> listaDistanze = new ArrayList<>();

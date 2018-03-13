@@ -1,14 +1,12 @@
 package bean;
 
-public class BeanRichiestaSegmentoContorno {
+public class BeanIdFilamento {
     private int idFil;
     private String satellite;
-    private int idSeg;
-    
-    public BeanRichiestaSegmentoContorno(int idFil, String satellite, int idSeg) {
+
+    public BeanIdFilamento(int idFil, String satellite) {
         this.idFil = idFil;
         this.satellite = satellite;
-        this.idSeg = idSeg;
     }
 
     public int getIdFil() {
@@ -19,14 +17,6 @@ public class BeanRichiestaSegmentoContorno {
         this.idFil = idFil;
     }
 
-    public int getIdSeg() {
-        return idSeg;
-    }
-
-    public void setIdSeg(int idSeg) {
-        this.idSeg = idSeg;
-    }
-
     public String getSatellite() {
         return satellite;
     }
@@ -34,4 +24,17 @@ public class BeanRichiestaSegmentoContorno {
     public void setSatellite(String satellite) {
         this.satellite = satellite;
     }
+    
+    @Override
+    public boolean equals(Object v) {
+        boolean retVal = false;
+
+        if (v instanceof BeanIdFilamento){
+            BeanIdFilamento ptr = (BeanIdFilamento) v;
+            retVal = ptr.getIdFil() == this.idFil && ptr.getSatellite().equals(this.satellite);
+        }
+
+        return retVal;
+    }
+    
 }

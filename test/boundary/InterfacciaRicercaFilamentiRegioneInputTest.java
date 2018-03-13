@@ -15,7 +15,7 @@ import org.junit.runners.Parameterized;
  * controllare errore
  */
 @RunWith(value = Parameterized.class)
-public class InterfacciaRicercaFilamentiRegioneTestInput {
+public class InterfacciaRicercaFilamentiRegioneInputTest {
     private final boolean expected;
     private float longCentroide;
     private float latiCentroide;
@@ -25,13 +25,17 @@ public class InterfacciaRicercaFilamentiRegioneTestInput {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, 5.0004370, 0.084881000, 0.5, TipoFigura.CERCHIO},
+            {true, new Float(5.0004370), new Float(0.084881000), new Float(0.5), TipoFigura.CERCHIO},
             // la dimensione non puo' essere negativa
-            {false, 5.0004370, 0.084881000, -0.5, TipoFigura.CERCHIO}
+            {false, new Float(5.0004370), new Float(0.084881000), new Float(-0.5), TipoFigura.CERCHIO},
+            
+            {true, new Float(5.0004370), new Float(0.084881000), new Float(0.5), TipoFigura.QUADRATO},
+            // la dimensione non puo' essere negativa
+            {false, new Float(5.0004370), new Float(0.084881000), new Float(-0.5), TipoFigura.QUADRATO}
         });
     }
     
-    public InterfacciaRicercaFilamentiRegioneTestInput(boolean expected, 
+    public InterfacciaRicercaFilamentiRegioneInputTest(boolean expected, 
                 float longCentroide, float latiCentroide, float dimensione, 
                 TipoFigura tipoFigura) {
         this.expected = expected;

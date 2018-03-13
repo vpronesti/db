@@ -21,13 +21,14 @@ public class GestoreRicercaNumeroSegmenti {
     public BeanRispostaFilamenti ricercaNumeroSegmenti(BeanRichiestaNumeroSegmenti beanRichiesta) {
         Connection conn = DBAccess.getInstance().getConnection();
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
-        List<Integer> listaIdFil = segmentoDao.queryIdFilamentiConNSegmenti(conn, beanRichiesta);
-        FilamentoDao filamentoDao = FilamentoDao.getInstance();
-        List<Filamento> listaFilamenti = new ArrayList<>();
-        for (int i = 0; i < listaIdFil.size(); i++) {
-            Filamento f = filamentoDao.queryCampiFilamento(conn, listaIdFil.get(i));
-            listaFilamenti.add(f);
-        }
+        List<Filamento> listaFilamenti = segmentoDao.queryFilamentiConNSegmenti(conn, beanRichiesta);
+//        List<Integer> listaIdFil = segmentoDao.queryIdFilamentiConNSegmenti(conn, beanRichiesta);
+//        FilamentoDao filamentoDao = FilamentoDao.getInstance();
+//        List<Filamento> listaFilamenti = new ArrayList<>();
+//        for (int i = 0; i < listaIdFil.size(); i++) {
+//            Filamento f = filamentoDao.queryCampiFilamento(conn, listaIdFil.get(i));
+//            listaFilamenti.add(f);
+//        }
         BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;

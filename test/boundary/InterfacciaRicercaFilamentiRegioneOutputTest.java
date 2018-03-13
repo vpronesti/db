@@ -1,5 +1,6 @@
 package boundary;
 
+import bean.BeanIdFilamento;
 import bean.BeanRichiestaFilamentiRegione;
 import bean.BeanRispostaFilamenti;
 import dao.ContornoDao;
@@ -22,8 +23,8 @@ import static util.DistanzaEuclidea.distanza;
  * test per il requisito funzionale n. 8
  */
 @RunWith(value = Parameterized.class)
-public class InterfacciaRicercaFilamentiRegioneTestOutput {
-    private final boolean expected;
+public class InterfacciaRicercaFilamentiRegioneOutputTest {
+    private boolean expected;
     private float longCentroide;
     private float latiCentroide;
     private float dimensione;
@@ -32,11 +33,11 @@ public class InterfacciaRicercaFilamentiRegioneTestOutput {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, 5.0004370, 0.084881000, 0.5, TipoFigura.CERCHIO}
+            {true, new Float(5.0004370), new Float(0.084881000), new Float(0.5), TipoFigura.CERCHIO}
         });
     }
     
-    public InterfacciaRicercaFilamentiRegioneTestOutput(boolean expected, 
+    public InterfacciaRicercaFilamentiRegioneOutputTest(boolean expected, 
                 float longCentroide, float latiCentroide, float dimensione, 
                 TipoFigura tipoFigura) {
         this.expected = expected;
@@ -73,7 +74,8 @@ public class InterfacciaRicercaFilamentiRegioneTestOutput {
         Iterator<Filamento> i = beanRisposta.getFilamenti().iterator();
         while (i.hasNext() && res) {
             Filamento f = i.next();
-            List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, f.getIdFil());
+            BeanIdFilamento id = new BeanIdFilamento(f.getIdFil(), f.getSatellite());
+            List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, id);
             Iterator<Contorno> iC = puntiContorno.iterator();
             while (iC.hasNext()) {
                 Contorno c = iC.next();

@@ -88,7 +88,7 @@ public class CSVReader {
     }
     
     public List<Contorno> leggiContornoFilamenti(File file, 
-            int maxRighe, int posInizio, int totaleRighe) 
+            int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
         String line = "";
@@ -119,8 +119,8 @@ public class CSVReader {
                 float glon_cont = Float.parseFloat(values[1]);
                 float glat_cont = Float.parseFloat(values[2]);
                 
-                Contorno con = new Contorno(idFil, glon_cont, glat_cont);
-//System.out.println(con);
+                Contorno con = new Contorno(idFil, satellite, 
+                        glon_cont, glat_cont);
                 listaContorni.add(con);
                 numRigheLette++;
             }
@@ -144,7 +144,7 @@ public class CSVReader {
     }
     
     public List<Segmento> leggiPosizioniSegmenti(File file, 
-            int maxRighe, int posInizio, int totaleRighe) 
+            int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
         String line = "";
@@ -189,7 +189,7 @@ public class CSVReader {
                 int n = Integer.parseInt(values[5]);
                 float flux = Float.parseFloat(values[6]);
                 
-                seg = new Segmento(idFil, idBranch, type, 
+                seg = new Segmento(idFil, satellite, idBranch, type, 
                         glon_br, glat_br, n, flux);
 //               Segmento seg = new Segmento(idFil, idBranch, type, 
 //                        glon_br, glat_br, n, flux);

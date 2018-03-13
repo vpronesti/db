@@ -1,5 +1,6 @@
 package boundary;
 
+import bean.BeanIdFilamento;
 import bean.BeanRispostaStellaFilamento;
 import control.GestoreRicercaDistanzaStellaFilamento;
 
@@ -14,8 +15,19 @@ public class InterfacciaRicercaDistanzaStellaFilamento {
         this.userId = userId;
     }
     
-    public BeanRispostaStellaFilamento ricercaDistanzaStellaFilamento(int idFil) {
-        controllerFilamento = new GestoreRicercaDistanzaStellaFilamento(this);
-        return controllerFilamento.ricercaDistanzaStellaFilamento(idFil);
+    private boolean controllaBean(BeanIdFilamento idFil) {
+        boolean res = true;
+        if (idFil.getSatellite() == null || idFil.getSatellite().isEmpty())
+            res = false;
+        return res;
+    }
+    
+    public BeanRispostaStellaFilamento ricercaDistanzaStellaFilamento(BeanIdFilamento idFil) {
+        if (this.controllaBean(idFil)) {
+            controllerFilamento = new GestoreRicercaDistanzaStellaFilamento(this);
+            return controllerFilamento.ricercaDistanzaStellaFilamento(idFil);
+        } else {
+            return new BeanRispostaStellaFilamento(false);
+        }
     }
 }

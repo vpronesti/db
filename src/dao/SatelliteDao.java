@@ -2,11 +2,11 @@ package dao;
 
 import bean.BeanSatellite;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import util.DBAccess;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SatelliteDao {
     private static SatelliteDao instance;
@@ -17,6 +17,35 @@ public class SatelliteDao {
         return instance;
     }
     
+    public void rimuoviSatellite(Connection conn, BeanSatellite beanS) {
+        String sql = "delete from satellite where nome = '" + 
+                beanS.getNome() + "'";
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<String> querySatelliti(Connection conn) {
+        String sql = "select nome from satellite";
+        List<String> listaSatelliti = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String sat = rs.getString("nome");
+                listaSatelliti.add(sat);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaSatelliti;
+    }
     
     /**
      * utilizzato per l'inserimento di un sattelite nel db 

@@ -1,22 +1,28 @@
 package gui;
 
+import bean.BeanIdFilamento;
 import bean.BeanRispostaStellaFilamento;
 import boundary.InterfacciaRicercaDistanzaStellaFilamento;
+import dao.SatelliteDao;
+import java.sql.Connection;
+import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import util.DBAccess;
 
 public class RicercaDistanzaStellaFilamentoController {
     @FXML
     TextField idFilamentoText;
     @FXML
+    ComboBox<String> satelliteComboBox;
+    @FXML
     Text text;
     
-    private Integer readInput() {
+    private BeanIdFilamento readInput() {
         String idFilamentoString = this.idFilamentoText.getText();
         if (idFilamentoString.isEmpty()) {
             text.setText("Inserire l'id del filamento"); 
@@ -29,12 +35,17 @@ public class RicercaDistanzaStellaFilamentoController {
             text.setText("L'id filamento inserito non e' un numero");
             return null;
         }
-        return idFil;
+        String satellite = satelliteComboBox.getValue();
+        if (satellite == null) {
+            text.setText("Scegliere un satellite");
+            return null;
+        }
+        return new BeanIdFilamento(idFil, satellite);
     }
     
     @FXML
     protected void cerca(ActionEvent event) throws Exception {        
-        Integer idFil = this.readInput();
+        BeanIdFilamento idFil = this.readInput();
         if (idFil != null) {
             String res = "";
             InterfacciaRicercaDistanzaStellaFilamento boundaryStellaFilamento = 
@@ -53,5 +64,14 @@ public class RicercaDistanzaStellaFilamentoController {
     @FXML
     protected void indietro(ActionEvent event) throws Exception {
         ViewSwap.getInstance().swap(event, ViewSwap.MENU);
+    }
+    
+    @FXML
+    void initialize() {
+        Connection conn = DBAccess.getInstance().getConnection();
+        SatelliteDao satelliteDao = SatelliteDao.getInstance();
+        List<String> satelliti = satelliteDao.querySatelliti(conn);
+        satelliteComboBox.setItems(FXCollections.observableArrayList(satelliti));
+        DBAccess.getInstance().closeConnection(conn);
     }
 }

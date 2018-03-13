@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized;
  * test per il requisito funzionale n. 7
  */
 @RunWith(value = Parameterized.class)
-public class InterfacciaRicercaNumeroSegmentiTestInput {
+public class InterfacciaRicercaNumeroSegmentiInputTest {
     private final boolean expected;
     private int inizioIntervallo;
     private int fineIntervallo;
@@ -33,7 +33,7 @@ public class InterfacciaRicercaNumeroSegmentiTestInput {
         });
     }
     
-    public InterfacciaRicercaNumeroSegmentiTestInput(boolean expected, 
+    public InterfacciaRicercaNumeroSegmentiInputTest(boolean expected, 
                 int inizioIntervallo, int fineIntervallo) {
         this.expected = expected;
         this.inizioIntervallo = inizioIntervallo;
