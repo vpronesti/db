@@ -4,40 +4,40 @@ import entity.TipoFigura;
 import static java.lang.Math.abs;
 
 public class BeanRichiestaFilamentiRegione {
-    private float longCentroide;
-    private float latiCentroide;
-    private float dimensione;
+    private double longCentroide;
+    private double latiCentroide;
+    private double dimensione;
     private TipoFigura tipoFigura;
     
-    public BeanRichiestaFilamentiRegione(float longCentroide, 
-            float latiCentroide, float dimensione, TipoFigura tipoFigura) {
+    public BeanRichiestaFilamentiRegione(double longCentroide, 
+            double latiCentroide, double dimensione, TipoFigura tipoFigura) {
         this.longCentroide = longCentroide;
         this.latiCentroide = latiCentroide;
         this.dimensione = dimensione;
         this.tipoFigura = tipoFigura;
     }
 
-    public float getLongCentroide() {
+    public double getLongCentroide() {
         return longCentroide;
     }
 
-    public void setLongCentroide(float longCentroide) {
+    public void setLongCentroide(double longCentroide) {
         this.longCentroide = longCentroide;
     }
 
-    public float getLatiCentroide() {
+    public double getLatiCentroide() {
         return latiCentroide;
     }
 
-    public void setLatiCentroide(float latiCentroide) {
+    public void setLatiCentroide(double latiCentroide) {
         this.latiCentroide = latiCentroide;
     }
 
-    public float getDimensione() {
+    public double getDimensione() {
         return dimensione;
     }
 
-    public void setDimensione(float dimensione) {
+    public void setDimensione(double dimensione) {
         this.dimensione = dimensione;
     }
 

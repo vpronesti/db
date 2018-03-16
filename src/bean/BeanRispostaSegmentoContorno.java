@@ -1,11 +1,12 @@
 package bean;
 
 public class BeanRispostaSegmentoContorno {
-    private float distanzaA;
-    private float distanzaB;
+    private double distanzaA;
+    private double distanzaB;
     private boolean segmentoEsiste;
     
-    public BeanRispostaSegmentoContorno(float distanzaA, float distanzaB, boolean segmentoEsiste) {
+    public BeanRispostaSegmentoContorno(double distanzaA, double distanzaB, 
+            boolean segmentoEsiste) {
         this.distanzaA = distanzaA;
         this.distanzaB = distanzaB;
         this.segmentoEsiste = segmentoEsiste;
@@ -15,19 +16,19 @@ public class BeanRispostaSegmentoContorno {
         this.segmentoEsiste = segmentoEsiste;
     }
 
-    public float getDistanzaA() {
+    public double getDistanzaA() {
         return distanzaA;
     }
 
-    public void setDistanzaA(float distanzaA) {
+    public void setDistanzaA(double distanzaA) {
         this.distanzaA = distanzaA;
     }
 
-    public float getDistanzaB() {
+    public double getDistanzaB() {
         return distanzaB;
     }
 
-    public void setDistanzaB(float distanzaB) {
+    public void setDistanzaB(double distanzaB) {
         this.distanzaB = distanzaB;
     }
 

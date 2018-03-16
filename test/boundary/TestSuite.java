@@ -21,10 +21,10 @@ import org.junit.runners.Suite.SuiteClasses;
     InterfacciaRicercaNumeroSegmentiOutputTest.class, // REQ-7
     InterfacciaRicercaFilamentiRegioneInputTest.class, // REQ-8
     InterfacciaRicercaFilamentiRegioneOutputTest.class, // REQ-8
-    
-//    InterfacciaTest.class, // REQ-
-//    InterfacciaTest.class, // REQ-
-//    InterfacciaTest.class // REQ-
+    InterfacciaRicercaStelleFilamentoTest.class, // REQ-9
+    InterfacciaRicercaStelleRegioneTest.class, // REQ-10
+    InterfacciaRicercaDistanzaSegmentoContornoTest.class, // REQ-11
+    InterfacciaRicercaDistanzaStellaFilamentoTest.class // REQ-12
 })
 public class TestSuite {
     

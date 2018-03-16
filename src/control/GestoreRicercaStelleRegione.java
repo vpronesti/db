@@ -120,21 +120,21 @@ public class GestoreRicercaStelleRegione {
                 tipiStelleNumeroEsterne.put(s.getType(), 1);
         }
 
-        float percentualeStelleInterne = ((totaleStelleRegione != 0) ? (float) totaleStelleInterne * 100 /totaleStelleRegione : 0); 
-        Map<String, Float> tipiStellePercentualeInterne = new HashMap<>();
+        double percentualeStelleInterne = ((totaleStelleRegione != 0) ? (double) totaleStelleInterne * 100 /totaleStelleRegione : 0); 
+        Map<String, Double> tipiStellePercentualeInterne = new HashMap<>();
         Set<String> tipiStelleInterne = tipiStelleNumeroInterne.keySet();
         for (String s : tipiStelleInterne) {
             int numTipoStella = tipiStelleNumeroInterne.get(s);
-            float percentualeTipoStella = ((totaleStelleInterne != 0) ? (float) numTipoStella * 100 /totaleStelleInterne : 0); 
+            double percentualeTipoStella = ((totaleStelleInterne != 0) ? (double) numTipoStella * 100 /totaleStelleInterne : 0); 
             tipiStellePercentualeInterne.put(s, percentualeTipoStella);
         }
            
-        float percentualeStelleEsterne = ((totaleStelleRegione != 0) ? (float) totaleStelleEsterne * 100 /totaleStelleRegione : 0); 
-        Map<String, Float> tipiStellePercentualeEsterne = new HashMap<>();
+        double percentualeStelleEsterne = ((totaleStelleRegione != 0) ? (double) totaleStelleEsterne * 100 /totaleStelleRegione : 0); 
+        Map<String, Double> tipiStellePercentualeEsterne = new HashMap<>();
         Set<String> tipiStelleEsterne = tipiStelleNumeroEsterne.keySet();
         for (String s : tipiStelleEsterne) {
             int numTipoStella = tipiStelleNumeroEsterne.get(s);
-            float percentualeTipoStella = ((totaleStelleEsterne != 0) ? (float) numTipoStella * 100 /totaleStelleEsterne : 0); 
+            double percentualeTipoStella = ((totaleStelleEsterne != 0) ? (double) numTipoStella * 100 /totaleStelleEsterne : 0); 
             tipiStellePercentualeEsterne.put(s, percentualeTipoStella);
         }
         

@@ -55,11 +55,11 @@ public class CSVReader {
                 String[] values = line.split(cvsSplitBy);
                 int idFil = Integer.parseInt(values[0]);
                 String name = values[1];
-                float totalFlux = Float.parseFloat(values[2]);
-                float meanDens = Float.parseFloat(values[3]);
-                float meanTemp = Float.parseFloat(values[4]);
-                float ellipticity = Float.parseFloat(values[5]);
-                float contrast = Float.parseFloat(values[6]);
+                double totalFlux = Double.parseDouble(values[2]);
+                double meanDens = Double.parseDouble(values[3]);
+                double meanTemp = Double.parseDouble(values[4]);
+                double ellipticity = Double.parseDouble(values[5]);
+                double contrast = Double.parseDouble(values[6]);
                 String satellite = values[7];
                 String instrument = values[8];
                 Filamento fil = new Filamento(idFil, name, totalFlux, 
@@ -116,8 +116,8 @@ public class CSVReader {
 
                 String[] values = line.split(cvsSplitBy);
                 int idFil = Integer.parseInt(values[0]);
-                float glon_cont = Float.parseFloat(values[1]);
-                float glat_cont = Float.parseFloat(values[2]);
+                double glon_cont = Double.parseDouble(values[1]);
+                double glat_cont = Double.parseDouble(values[2]);
                 
                 Contorno con = new Contorno(idFil, satellite, 
                         glon_cont, glat_cont);
@@ -184,10 +184,10 @@ public class CSVReader {
                 int idFil = Integer.parseInt(values[0]);
                 int idBranch = Integer.parseInt(values[1]);
                 String type = values[2];
-                float glon_br = Float.parseFloat(values[3]);
-                float glat_br = Float.parseFloat(values[4]);
+                double glon_br = Double.parseDouble(values[3]);
+                double glat_br = Double.parseDouble(values[4]);
                 int n = Integer.parseInt(values[5]);
-                float flux = Float.parseFloat(values[6]);
+                double flux = Double.parseDouble(values[6]);
                 
                 seg = new Segmento(idFil, satellite, idBranch, type, 
                         glon_br, glat_br, n, flux);
@@ -252,9 +252,9 @@ public class CSVReader {
                 String[] values = line.split(cvsSplitBy);
                 int idStar = Integer.parseInt(values[0]);
                 String nameStar = values[1];
-                float glon_st = Float.parseFloat(values[2]);
-                float glat_st = Float.parseFloat(values[3]);
-                float flux_st = Float.parseFloat(values[4]);
+                double glon_st = Double.parseDouble(values[2]);
+                double glat_st = Double.parseDouble(values[3]);
+                double flux_st = Double.parseDouble(values[4]);
                 String type_st = values[5];
                 
                 Stella st = new Stella(idStar, nameStar, glon_st, 

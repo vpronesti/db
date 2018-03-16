@@ -69,9 +69,6 @@ public class UtenteDao {
             String pword = rs.getString("password");
             String email = rs.getString("email");
             String tipo = rs.getString("tipo");
-            if (rs.next()) {
-                System.out.println("Exception"); //si deve lanciare un eccezione perchè non possono esserci due con lo stesso username e password
-            }
 
             if (tipo.equals("Registrato")) {
                 utente = new UtenteRegistrato(nome, cognome, user, 

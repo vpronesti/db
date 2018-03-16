@@ -4,10 +4,10 @@ public class Segmento {
     private int idFil;
     private int idBranch;
     private String type;
-    private float gLonBr;
-    private float gLatBr;
+    private double gLonBr;
+    private double gLatBr;
     private int n;
-    private float flux;
+    private double flux;
     private String satellite;
     
     public Segmento() {
@@ -19,8 +19,8 @@ public class Segmento {
                 this.idBranch + "idLon: " + this.gLonBr + "idLat: " + this.gLatBr;
     }
     
-    public Segmento(int idFil, String satellite, int idBranch, String type, float gLonBr, 
-            float gLatBr, int n, float flux) {
+    public Segmento(int idFil, String satellite, int idBranch, String type, double gLonBr, 
+            double gLatBr, int n, double flux) {
         this.idFil = idFil;
         this.satellite = satellite;
         this.idBranch = idBranch;
@@ -55,19 +55,19 @@ public class Segmento {
         this.type = type;
     }
 
-    public float getgLonBr() {
+    public double getgLonBr() {
         return gLonBr;
     }
 
-    public void setgLonBr(float gLonBr) {
+    public void setgLonBr(double gLonBr) {
         this.gLonBr = gLonBr;
     }
 
-    public float getgLatBr() {
+    public double getgLatBr() {
         return gLatBr;
     }
 
-    public void setgLatBr(float gLatBr) {
+    public void setgLatBr(double gLatBr) {
         this.gLatBr = gLatBr;
     }
 
@@ -79,11 +79,11 @@ public class Segmento {
         this.n = n;
     }
 
-    public float getFlux() {
+    public double getFlux() {
         return flux;
     }
 
-    public void setFlux(float flux) {
+    public void setFlux(double flux) {
         this.flux = flux;
     }
 

@@ -7,13 +7,13 @@ import java.util.List;
 public class Stella {
     private int idStar;
     private String name;
-    private float gLonSt;
-    private float gLatSt;
-    private float fluxSt;
+    private double gLonSt;
+    private double gLatSt;
+    private double fluxSt;
     private String type;
     
-    public Stella(int idStar, String name, float gLonSt, float gLatSt, 
-            float fluxSt, String type) {
+    public Stella(int idStar, String name, double gLonSt, double gLatSt, 
+            double fluxSt, String type) {
         this.idStar = idStar;
         this.name = name;
         this.gLonSt = gLonSt;
@@ -23,7 +23,7 @@ public class Stella {
         
     }
 
-    public Stella(int idStar, float gLonSt, float gLatSt) {
+    public Stella(int idStar, double gLonSt, double gLatSt) {
         this.idStar = idStar;
         this.gLonSt = gLonSt;
         this.gLatSt = gLatSt;
@@ -31,20 +31,20 @@ public class Stella {
 
     
     public boolean internoFilamento(List<Contorno> listaPunti) {
-        float sum = 0;
-        float STL = this.getgLonSt();
-        float STB = this.getgLatSt();
+        double sum = 0;
+        double STL = this.getgLonSt();
+        double STB = this.getgLatSt();
         for (int i = 0; i < listaPunti.size() - 1; i++) {
-            float CLi = listaPunti.get(i).getgLonCont();
-            float CBip1 = listaPunti.get(i + 1).getgLatCont();
-            float CBi = listaPunti.get(i).getgLatCont();
-            float CLip1 = listaPunti.get(i + 1).getgLonCont();
+            double CLi = listaPunti.get(i).getgLonCont();
+            double CBip1 = listaPunti.get(i + 1).getgLatCont();
+            double CBi = listaPunti.get(i).getgLatCont();
+            double CLip1 = listaPunti.get(i + 1).getgLonCont();
                     
-            float numeratore =  
+            double numeratore =  
                     (CLi - STL) * (CBip1 - STB) - (CBi - STB) * (CLip1 - STL);
-            float denominatore = 
+            double denominatore = 
                     (CLi - STL) * (CLip1 - STL) + (CBi - STB) * (CBip1 - STB);
-            float addendo = (float) atan(numeratore / denominatore);
+            double addendo = atan(numeratore / denominatore);
             sum += addendo;
         }
         return abs(sum) >= 0.01;
@@ -66,27 +66,27 @@ public class Stella {
         this.name = name;
     }
 
-    public float getgLonSt() {
+    public double getgLonSt() {
         return gLonSt;
     }
 
-    public void setgLonSt(float gLonSt) {
+    public void setgLonSt(double gLonSt) {
         this.gLonSt = gLonSt;
     }
 
-    public float getgLatSt() {
+    public double getgLatSt() {
         return gLatSt;
     }
 
-    public void setgLatSt(float gLatSt) {
+    public void setgLatSt(double gLatSt) {
         this.gLatSt = gLatSt;
     }
 
-    public float getFluxSt() {
+    public double getFluxSt() {
         return fluxSt;
     }
 
-    public void setFluxSt(float fluxSt) {
+    public void setFluxSt(double fluxSt) {
         this.fluxSt = fluxSt;
     }
 

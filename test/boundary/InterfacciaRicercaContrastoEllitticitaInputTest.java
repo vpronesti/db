@@ -15,9 +15,9 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaContrastoEllitticitaInputTest {
     private final boolean expected;
-    private float brillanza;
-    private float inizioIntervalloEllitticita;
-    private float fineIntervalloEllitticita;
+    private double brillanza;
+    private double inizioIntervalloEllitticita;
+    private double fineIntervalloEllitticita;
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
@@ -33,8 +33,8 @@ public class InterfacciaRicercaContrastoEllitticitaInputTest {
     }
     
     public InterfacciaRicercaContrastoEllitticitaInputTest(boolean expected, 
-            float brillanza, float inizioIntervalloEllitticita, 
-            float fineIntervalloEllitticita) {
+            double brillanza, double inizioIntervalloEllitticita, 
+            double fineIntervalloEllitticita) {
         this.expected = expected;
         this.brillanza = brillanza;
         this.inizioIntervalloEllitticita = inizioIntervalloEllitticita;

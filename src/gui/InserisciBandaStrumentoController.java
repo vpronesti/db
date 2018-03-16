@@ -32,9 +32,9 @@ public class InserisciBandaStrumentoController {
             text.setText("Inserire una banda"); 
             return null;
         }
-        float banda;
+        double banda;
         try {  
-            banda = Float.parseFloat(bandaString);  
+            banda = Double.parseDouble(bandaString);  
         } catch (NumberFormatException nfe) {  
             return null;  
         }

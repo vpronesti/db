@@ -40,12 +40,12 @@ public class GestoreRicercaDistanzaStellaFilamento {
             List<Stella> listaStelleInterne = stellaDao.queryStelleContornoFilamento(conn, listaPunti);
             Iterator<Stella> iSt = listaStelleInterne.iterator();
               
-            List<Float> listaDistanze = new ArrayList<>();
+            List<Double> listaDistanze = new ArrayList<>();
              
             while (iSt.hasNext()) {
                 Stella st = iSt.next();
                 Iterator<Segmento> iSe = listaSegmentiPrincipali.iterator();
-                float distanzaMin = Float.POSITIVE_INFINITY;
+                double distanzaMin = Double.POSITIVE_INFINITY;
                 while (iSe.hasNext()) {
                     Segmento se = iSe.next();
                     if (distanza(st.getgLonSt(), st.getgLatSt(), se.getgLonBr(), se.getgLatBr()) < distanzaMin)

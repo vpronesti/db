@@ -17,26 +17,26 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaFilamentiRegioneInputTest {
     private final boolean expected;
-    private float longCentroide;
-    private float latiCentroide;
-    private float dimensione;
+    private double longCentroide;
+    private double latiCentroide;
+    private double dimensione;
     private TipoFigura tipoFigura;
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, new Float(5.0004370), new Float(0.084881000), new Float(0.5), TipoFigura.CERCHIO},
+            {true, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.CERCHIO},
             // la dimensione non puo' essere negativa
-            {false, new Float(5.0004370), new Float(0.084881000), new Float(-0.5), TipoFigura.CERCHIO},
+            {false, new Double(5.0004370), new Double(0.084881000), new Double(-0.5), TipoFigura.CERCHIO},
             
-            {true, new Float(5.0004370), new Float(0.084881000), new Float(0.5), TipoFigura.QUADRATO},
+            {true, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.QUADRATO},
             // la dimensione non puo' essere negativa
-            {false, new Float(5.0004370), new Float(0.084881000), new Float(-0.5), TipoFigura.QUADRATO}
+            {false, new Double(5.0004370), new Double(0.084881000), new Double(-0.5), TipoFigura.QUADRATO}
         });
     }
     
     public InterfacciaRicercaFilamentiRegioneInputTest(boolean expected, 
-                float longCentroide, float latiCentroide, float dimensione, 
+                double longCentroide, double latiCentroide, double dimensione, 
                 TipoFigura tipoFigura) {
         this.expected = expected;
         this.longCentroide = longCentroide;

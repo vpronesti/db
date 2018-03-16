@@ -19,10 +19,10 @@ import util.DBAccess;
 public class InterfacciaInserimentoBandaStrumentoTest {
     private final boolean expected;
     private String nome;
-    private float banda;
+    private double banda;
 
     public InterfacciaInserimentoBandaStrumentoTest(boolean expected, 
-            String nome, float banda) {
+            String nome, double banda) {
         this.expected = expected;
         this.nome = nome;
         this.banda = banda;
@@ -32,13 +32,13 @@ public class InterfacciaInserimentoBandaStrumentoTest {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
             // strumento non esistente, banda non esistente
-            {false, "Str", new Float(3.141)},
+            {false, "Str", new Double(3.141)},
             // strumento esistente banda non esistente
-            {true, "MIPS", new Float(3.2)},
+            {true, "MIPS", new Double(3.2)},
             // strumento non esistente banda esistente
-            {false, "Str", new Float(3.6)},
+            {false, "Str", new Double(3.6)},
             // strumento esistente banda esistente
-            {true, "MIPS", new Float(3.6)}
+            {true, "MIPS", new Double(3.6)}
         });
     }
     

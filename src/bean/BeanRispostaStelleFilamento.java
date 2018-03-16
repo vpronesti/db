@@ -4,11 +4,11 @@ import java.util.Map;
 
 public class BeanRispostaStelleFilamento {
     private int totaleStelleTrovate;
-    private Map<String, Float> tipiStellaPercentuale;
+    private Map<String, Double> tipiStellaPercentuale;
     private boolean contornoFilamento;
     
     public BeanRispostaStelleFilamento(int totaleStelleTrovate, 
-            Map<String, Float> tipiStellaPercentuale, boolean contornoFilamento) {
+            Map<String, Double> tipiStellaPercentuale, boolean contornoFilamento) {
         this.totaleStelleTrovate = totaleStelleTrovate;
         this.tipiStellaPercentuale = tipiStellaPercentuale;
         this.contornoFilamento = contornoFilamento;
@@ -34,11 +34,11 @@ public class BeanRispostaStelleFilamento {
         this.contornoFilamento = contornoFilamento;
     }
 
-    public Map<String, Float> getTipiStellaPercentuale() {
+    public Map<String, Double> getTipiStellaPercentuale() {
         return tipiStellaPercentuale;
     }
 
-    public void setTipiStellaPercentuale(Map<String, Float> tipiStellaPercentuale) {
+    public void setTipiStellaPercentuale(Map<String, Double> tipiStellaPercentuale) {
         this.tipiStellaPercentuale = tipiStellaPercentuale;
     }
 }

@@ -1,47 +1,47 @@
 package bean;
 
 public class BeanRichiestaStelleRegione {
-    private float longCentr;
-    private float latiCentr;
-    private float latoA;
-    private float latoB;
+    private double longCentr;
+    private double latiCentr;
+    private double latoA;
+    private double latoB;
     
-    public BeanRichiestaStelleRegione(float longCentr, float latiCentr, float latoA, float latoB) {
+    public BeanRichiestaStelleRegione(double longCentr, double latiCentr, double latoA, double latoB) {
         this.longCentr = longCentr;
         this.latiCentr = latiCentr;
         this.latoA = latoA;
         this.latoB = latoB;
     }
 
-    public float getLongCentr() {
+    public double getLongCentr() {
         return longCentr;
     }
 
-    public void setLongCentr(float longCentr) {
+    public void setLongCentr(double longCentr) {
         this.longCentr = longCentr;
     }
 
-    public float getLatiCentr() {
+    public double getLatiCentr() {
         return latiCentr;
     }
 
-    public void setLatiCentr(float latiCentr) {
+    public void setLatiCentr(double latiCentr) {
         this.latiCentr = latiCentr;
     }
 
-    public float getLatoA() {
+    public double getLatoA() {
         return latoA;
     }
 
-    public void setLatoA(float latoA) {
+    public void setLatoA(double latoA) {
         this.latoA = latoA;
     }
 
-    public float getLatoB() {
+    public double getLatoB() {
         return latoB;
     }
 
-    public void setLatoB(float latoB) {
+    public void setLatoB(double latoB) {
         this.latoB = latoB;
     }
 }

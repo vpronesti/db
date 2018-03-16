@@ -1,6 +1,7 @@
 package entity;
 
 import dao.UtenteDao;
+import java.sql.Connection;
 import util.DBAccess;
 
 public abstract class Utente {
@@ -10,7 +11,6 @@ public abstract class Utente {
     private String password;
     private String email;
     private String tipo;
-    private final int MIN_LENGTH = 6;
     
     public Utente(String nome, String cognome, String userId, 
             String password, String email, String tipo) {

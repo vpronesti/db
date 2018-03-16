@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -37,7 +37,7 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
     private final int itemsPerPage = 1;
     private BeanRispostaStellaFilamento beanRisposta;
     private List<Stella> listaStelle;
-    private List<Float> listaDistanze;
+    private List<Double> listaDistanze;
     private boolean ordinamentoDistanza; // se e' false si ordina per flusso
     
     private final ObservableList<StellaGr> data;
@@ -90,15 +90,15 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
 
             TableColumn gLonCol = new TableColumn("Longitudine");
             gLonCol.setCellValueFactory(
-                    new PropertyValueFactory<StellaGr, Float>("glon_st"));
+                    new PropertyValueFactory<StellaGr, Double>("glon_st"));
             gLonCol.setMinWidth(160);
             TableColumn gLatCol = new TableColumn("Latitudine");
             gLatCol.setCellValueFactory(
-                    new PropertyValueFactory<StellaGr, Float>("glat_st"));
+                    new PropertyValueFactory<StellaGr, Double>("glat_st"));
             gLatCol.setMinWidth(160);
             TableColumn fluxCol = new TableColumn("Flusso");
             fluxCol.setCellValueFactory(
-                    new PropertyValueFactory<StellaGr, Float>("flux_st"));
+                    new PropertyValueFactory<StellaGr, Double>("flux_st"));
             fluxCol.setMinWidth(160);
             TableColumn typeCol = new TableColumn("Tipo");
             typeCol.setCellValueFactory(
@@ -106,7 +106,7 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
             typeCol.setMinWidth(160);
             TableColumn distanzaCol = new TableColumn("Distanza");
             distanzaCol.setCellValueFactory(
-                    new PropertyValueFactory<StellaGr, Float>("distanza"));
+                    new PropertyValueFactory<StellaGr, Double>("distanza"));
             distanzaCol.setMinWidth(160);
 
             table.getColumns().addAll(idStarCol, nameStarCol, gLonCol, 
@@ -173,22 +173,22 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
 
         private SimpleIntegerProperty idStar;
         private SimpleStringProperty nameStar;
-        private SimpleFloatProperty glon_st;
-        private SimpleFloatProperty glat_st;
-        private SimpleFloatProperty flux_st;
+        private SimpleDoubleProperty glon_st;
+        private SimpleDoubleProperty glat_st;
+        private SimpleDoubleProperty flux_st;
         private SimpleStringProperty type_st;
-        private SimpleFloatProperty distanza;
+        private SimpleDoubleProperty distanza;
 
-        private StellaGr(int idStar, String nameStar, float glon_st, 
-                float glat_st, float flux_st, String type_st, 
-                float distanza) {
+        private StellaGr(int idStar, String nameStar, double glon_st, 
+                double glat_st, double flux_st, String type_st, 
+                double distanza) {
             this.idStar = new SimpleIntegerProperty(idStar);
             this.nameStar = new SimpleStringProperty(nameStar);
-            this.glon_st = new SimpleFloatProperty(glon_st);
-            this.glat_st = new SimpleFloatProperty(glat_st);
-            this.flux_st = new SimpleFloatProperty(flux_st);
+            this.glon_st = new SimpleDoubleProperty(glon_st);
+            this.glat_st = new SimpleDoubleProperty(glat_st);
+            this.flux_st = new SimpleDoubleProperty(flux_st);
             this.type_st = new SimpleStringProperty(type_st);
-            this.distanza = new SimpleFloatProperty(distanza);
+            this.distanza = new SimpleDoubleProperty(distanza);
         }
 
         public int getIdStar() {
@@ -207,27 +207,27 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
             this.nameStar = nameStar;
         }
 
-        public float getGlon_st() {
+        public Double getGlon_st() {
             return glon_st.get();
         }
 
-        public void setGlon_st(SimpleFloatProperty glon_st) {
+        public void setGlon_st(SimpleDoubleProperty glon_st) {
             this.glon_st = glon_st;
         }
 
-        public float getGlat_st() {
+        public Double getGlat_st() {
             return glat_st.get();
         }
 
-        public void setGlat_st(SimpleFloatProperty glat_st) {
+        public void setGlat_st(SimpleDoubleProperty glat_st) {
             this.glat_st = glat_st;
         }
 
-        public float getFlux_st() {
+        public Double getFlux_st() {
             return flux_st.get();
         }
 
-        public void setFlux_st(SimpleFloatProperty flux_st) {
+        public void setFlux_st(SimpleDoubleProperty flux_st) {
             this.flux_st = flux_st;
         }
 
@@ -239,11 +239,11 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
             this.type_st = type_st;
         }
 
-        public float getDistanza() {
+        public Double getDistanza() {
             return distanza.get();
         }
 
-        public void setDistanza(SimpleFloatProperty distanza) {
+        public void setDistanza(SimpleDoubleProperty distanza) {
             this.distanza = distanza;
         }
 

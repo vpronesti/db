@@ -17,10 +17,10 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaContrastoEllitticitaOutputTest {
     private final boolean expected;
-    private float brillanza;
-    private float contrasto;
-    private float inizioIntervalloEllitticita;
-    private float fineIntervalloEllitticita;
+    private double brillanza;
+    private double contrasto;
+    private double inizioIntervalloEllitticita;
+    private double fineIntervalloEllitticita;
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
@@ -30,8 +30,8 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
     }
     
     public InterfacciaRicercaContrastoEllitticitaOutputTest(boolean expected, 
-            float brillanza, float inizioIntervalloEllitticita, 
-            float fineIntervalloEllitticita) {
+            double brillanza, double inizioIntervalloEllitticita, 
+            double fineIntervalloEllitticita) {
         this.expected = expected;
         this.brillanza = brillanza;
         this.contrasto = 1 + this.brillanza/100;
@@ -68,7 +68,7 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
         Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
         while (i.hasNext()) {
             Filamento f = i.next();
-            float ellitticita = f.getEllipticity();
+            double ellitticita = f.getEllipticity();
             if (ellitticita < this.inizioIntervalloEllitticita) {
                 res = false;
                 break;

@@ -21,7 +21,7 @@ public class GestoreRicercaContrastoEllitticita {
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         List<Filamento> filamenti = filamentoDao.queryFilamentoContrastoEllitticita(conn, beanRichiesta);
         int totaleFilamenti = filamentoDao.queryNumeroFilamenti(conn);
-        float percentuale = (100 * filamenti.size()) / totaleFilamenti;
+        double percentuale = (100 * filamenti.size()) / totaleFilamenti;
         BeanRispostaContrastoEllitticita beanRisposta = new BeanRispostaContrastoEllitticita(filamenti, percentuale, true);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;

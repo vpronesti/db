@@ -5,10 +5,11 @@ import java.util.List;
 
 public class BeanRispostaStellaFilamento {
     private List<Stella> listaStelle;
-    private List<Float> listaDistanze;
+    private List<Double> listaDistanze;
     private boolean filamentoEsiste;
     
-    public BeanRispostaStellaFilamento(List<Stella> listaStelle, List<Float> listaDistanze, boolean filamentoEsiste) {
+    public BeanRispostaStellaFilamento(List<Stella> listaStelle, 
+            List<Double> listaDistanze, boolean filamentoEsiste) {
         this.listaStelle = listaStelle;
         this.listaDistanze = listaDistanze;
         this.filamentoEsiste = filamentoEsiste;
@@ -34,11 +35,11 @@ public class BeanRispostaStellaFilamento {
         this.listaStelle = listaStelle;
     }
 
-    public List<Float> getListaDistanze() {
+    public List<Double> getListaDistanze() {
         return listaDistanze;
     }
 
-    public void setListaDistanze(List<Float> listaDistanze) {
+    public void setListaDistanze(List<Double> listaDistanze) {
         this.listaDistanze = listaDistanze;
     }
 }

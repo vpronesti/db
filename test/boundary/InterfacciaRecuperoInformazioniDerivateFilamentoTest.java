@@ -47,8 +47,8 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
         boolean res = true;
         Connection conn = DBAccess.getInstance().getConnection();
         ContornoDao contornoDao = ContornoDao.getInstance();
-        float longMedia = 0;
-        float latiMedia = 0;
+        double longMedia = 0;
+        double latiMedia = 0;
         List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, new BeanIdFilamento(beanFil.getIdFil(), beanFil.getSatellite()));
         if (puntiContorno.size() == 0) {
             if (beanFil.getMaxGLatContorno() != 0 || beanFil.getMaxGLonContorno() != 0)
@@ -61,8 +61,8 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
                 longMedia += c.getgLonCont();
                 latiMedia += c.getgLatCont();
             }
-            longMedia /= (float) puntiContorno.size();
-            latiMedia /= (float) puntiContorno.size();
+            longMedia /= (double) puntiContorno.size();
+            latiMedia /= (double) puntiContorno.size();
             if (beanFil.getMaxGLatContorno() != latiMedia || beanFil.getMaxGLonContorno() != longMedia)
                 res = false;
         }

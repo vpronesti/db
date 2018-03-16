@@ -50,10 +50,10 @@ public class GestoreRicercaStelleFilamento {
                     tipoStellaNumero.put(s.getType(), 1);
             }
             Set<String> tipiStella = tipoStellaNumero.keySet();
-            Map<String, Float> tipiStellaPercentuale = new HashMap<>();
+            Map<String, Double> tipiStellaPercentuale = new HashMap<>();
             for (String s : tipiStella) {
                 int numStelleTipo = tipoStellaNumero.get(s);
-                float percentualeTipo = ((numeroTotaleStelle != 0) ? (float) numStelleTipo * 100 / numeroTotaleStelle : 0);
+                double percentualeTipo = ((numeroTotaleStelle != 0) ? (double) numStelleTipo * 100 / numeroTotaleStelle : 0);
                 tipiStellaPercentuale.put(s, percentualeTipo);
             }
 
@@ -79,10 +79,10 @@ public class GestoreRicercaStelleFilamento {
 //                        tipoStellaNumero.put(s.getType(), 1);
 //                }
 //                Set<String> tipiStella = tipoStellaNumero.keySet();
-//                Map<String, Float> tipiStellaPercentuale = new HashMap<>();
+//                Map<String, Double> tipiStellaPercentuale = new HashMap<>();
 //                for (String s : tipiStella) {
 //                    int numStelleTipo = tipoStellaNumero.get(s);
-//                    float percentualeTipo = ((numeroTotaleStelle != 0) ? (float) numStelleTipo * 100 / numeroTotaleStelle : 0);
+//                    double percentualeTipo = ((numeroTotaleStelle != 0) ? (double) numStelleTipo * 100 / numeroTotaleStelle : 0);
 //                    tipiStellaPercentuale.put(s, percentualeTipo);
 //                }
 //                

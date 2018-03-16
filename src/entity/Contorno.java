@@ -4,11 +4,11 @@ import bean.BeanIdFilamento;
 
 public class Contorno {
     private int idFil;
-    private float gLonCont;
-    private float gLatCont;
+    private double gLonCont;
+    private double gLatCont;
     private String satellite;
     
-    public Contorno(int idFil, String satellite, float gLonCont, float gLatCont) {
+    public Contorno(int idFil, String satellite, double gLonCont, double gLatCont) {
         this.idFil = idFil;
         this.satellite = satellite;
         this.gLonCont = gLonCont;
@@ -28,19 +28,19 @@ public class Contorno {
         this.idFil = idFil;
     }
 
-    public float getgLonCont() {
+    public double getgLonCont() {
         return gLonCont;
     }
 
-    public void setgLonCont(float gLonCont) {
+    public void setgLonCont(double gLonCont) {
         this.gLonCont = gLonCont;
     }
 
-    public float getgLatCont() {
+    public double getgLatCont() {
         return gLatCont;
     }
 
-    public void setgLatCont(float gLatCont) {
+    public void setgLatCont(double gLatCont) {
         this.gLatCont = gLatCont;
     }
 

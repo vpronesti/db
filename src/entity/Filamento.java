@@ -13,11 +13,11 @@ import util.DBAccess;
 public class Filamento {
     private int idFil;
     private String name;
-    private float totalFlux;
-    private float meanDens;
-    private float meanTemp;
-    private float ellipticity;
-    private float contrast;
+    private double totalFlux;
+    private double meanDens;
+    private double meanTemp;
+    private double ellipticity;
+    private double contrast;
     private String satellite;
     private String instrument;
     
@@ -34,9 +34,9 @@ public class Filamento {
         this.satellite = satellite;
     }
     
-    public Filamento(int idFil, String name, float totalFlux, 
-            float meanDens, float meanTemp, float ellipticity, 
-            float contrast, String satellite, String instrument) {
+    public Filamento(int idFil, String name, double totalFlux, 
+            double meanDens, double meanTemp, double ellipticity, 
+            double contrast, String satellite, String instrument) {
         this.idFil = idFil;
         this.name = name;
         this.totalFlux = totalFlux;
@@ -82,43 +82,43 @@ public class Filamento {
         this.name = name;
     }
 
-    public float getTotalFlux() {
+    public double getTotalFlux() {
         return totalFlux;
     }
 
-    public void setTotalFlux(float totalFlux) {
+    public void setTotalFlux(double totalFlux) {
         this.totalFlux = totalFlux;
     }
 
-    public float getMeanDens() {
+    public double getMeanDens() {
         return meanDens;
     }
 
-    public void setMeanDens(float meanDens) {
+    public void setMeanDens(double meanDens) {
         this.meanDens = meanDens;
     }
 
-    public float getMeanTemp() {
+    public double getMeanTemp() {
         return meanTemp;
     }
 
-    public void setMeanTemp(float meanTemp) {
+    public void setMeanTemp(double meanTemp) {
         this.meanTemp = meanTemp;
     }
 
-    public float getEllipticity() {
+    public double getEllipticity() {
         return ellipticity;
     }
 
-    public void setEllipticity(float ellipticity) {
+    public void setEllipticity(double ellipticity) {
         this.ellipticity = ellipticity;
     }
 
-    public float getContrast() {
+    public double getContrast() {
         return contrast;
     }
 
-    public void setContrast(float contrast) {
+    public void setContrast(double contrast) {
         this.contrast = contrast;
     }
 

@@ -3,12 +3,12 @@ package bean;
 public class BeanInformazioniFilamento {
     private int idFil;
     private String satellite;
-    private float gLonCentroide;
-    private float gLatCentroide;
-    private float maxGLonContorno;
-    private float minGLonContorno;
-    private float maxGLatContorno;
-    private float minGLatContorno;
+    private double gLonCentroide;
+    private double gLatCentroide;
+    private double maxGLonContorno;
+    private double minGLonContorno;
+    private double maxGLatContorno;
+    private double minGLatContorno;
     private int numSegmenti;
     
     public BeanInformazioniFilamento(int idFil, String satellite) {
@@ -17,9 +17,9 @@ public class BeanInformazioniFilamento {
     }
     
     public BeanInformazioniFilamento(int idFil, String satellite, 
-            float gLonCentroide, float gLatCentroide, float maxGLonContorno, 
-            float minGLonContorno, float maxGLatContorno, 
-            float minGLatContorno, int numSegmenti) {
+            double gLonCentroide, double gLatCentroide, double maxGLonContorno, 
+            double minGLonContorno, double maxGLatContorno, 
+            double minGLatContorno, int numSegmenti) {
         this.idFil = idFil;
         this.satellite = satellite;
         this.gLonCentroide = gLonCentroide;
@@ -39,51 +39,51 @@ public class BeanInformazioniFilamento {
         this.idFil = idFil;
     }
 
-    public float getgLonCentroide() {
+    public double getgLonCentroide() {
         return gLonCentroide;
     }
 
-    public void setgLonCentroide(float gLonCentroide) {
+    public void setgLonCentroide(double gLonCentroide) {
         this.gLonCentroide = gLonCentroide;
     }
 
-    public float getgLatCentroide() {
+    public double getgLatCentroide() {
         return gLatCentroide;
     }
 
-    public void setgLatCentroide(float gLatCentroide) {
+    public void setgLatCentroide(double gLatCentroide) {
         this.gLatCentroide = gLatCentroide;
     }
 
-    public float getMaxGLonContorno() {
+    public double getMaxGLonContorno() {
         return maxGLonContorno;
     }
 
-    public void setMaxGLonContorno(float maxGLonContorno) {
+    public void setMaxGLonContorno(double maxGLonContorno) {
         this.maxGLonContorno = maxGLonContorno;
     }
 
-    public float getMinGLonContorno() {
+    public double getMinGLonContorno() {
         return minGLonContorno;
     }
 
-    public void setMinGLonContorno(float minGLonContorno) {
+    public void setMinGLonContorno(double minGLonContorno) {
         this.minGLonContorno = minGLonContorno;
     }
 
-    public float getMaxGLatContorno() {
+    public double getMaxGLatContorno() {
         return maxGLatContorno;
     }
 
-    public void setMaxGLatContorno(float maxGLatContorno) {
+    public void setMaxGLatContorno(double maxGLatContorno) {
         this.maxGLatContorno = maxGLatContorno;
     }
 
-    public float getMinGLatContorno() {
+    public double getMinGLatContorno() {
         return minGLatContorno;
     }
 
-    public void setMinGLatContorno(float minGLatContorno) {
+    public void setMinGLatContorno(double minGLatContorno) {
         this.minGLatContorno = minGLatContorno;
     }
 

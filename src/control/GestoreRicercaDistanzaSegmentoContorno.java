@@ -33,9 +33,9 @@ public class GestoreRicercaDistanzaSegmentoContorno {
             BeanIdFilamento idFil = new BeanIdFilamento(beanRichiesta.getIdFil(), beanRichiesta.getSatellite());
             List<Contorno> listaContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
             Iterator<Contorno> i = listaContorno.iterator();
-            float distanzaVerticeMax = Float.POSITIVE_INFINITY;
-            float distanzaVerticeMin = Float.POSITIVE_INFINITY;
-            float calc;
+            double distanzaVerticeMax = Double.POSITIVE_INFINITY;
+            double distanzaVerticeMin = Double.POSITIVE_INFINITY;
+            double calc;
             while (i.hasNext()) {
                 Contorno c = i.next();
                 calc = DistanzaEuclidea.distanza(c.getgLonCont(), c.getgLatCont(), 

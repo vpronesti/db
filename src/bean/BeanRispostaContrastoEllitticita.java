@@ -5,11 +5,11 @@ import java.util.List;
 
 public class BeanRispostaContrastoEllitticita {
     private List<Filamento> listaFilamenti;
-    private float percentuale;
+    private double percentuale;
     private boolean inputValido;
     
     public BeanRispostaContrastoEllitticita(List<Filamento> listaFilamenti, 
-            float percentuale, boolean inputValido) {
+            double percentuale, boolean inputValido) {
         this.setListaFilamenti(listaFilamenti);
         this.percentuale = percentuale;
         this.inputValido = inputValido;
@@ -28,11 +28,11 @@ public class BeanRispostaContrastoEllitticita {
         this.listaFilamenti = listaFilamenti;
     }
 
-    public float getPercentuale() {
+    public double getPercentuale() {
         return percentuale;
     }
 
-    public void setPercentuale(float percentuale) {
+    public void setPercentuale(double percentuale) {
         this.percentuale = percentuale;
     }
 

@@ -29,9 +29,9 @@ public class RicercaContrastoEllitticitaController {
             text.setText("Inserire la brillanza"); 
             return null;
         }
-        float brillanza;
+        double brillanza;
         try {
-            brillanza = Float.parseFloat(brillanzaString);
+            brillanza = Double.parseDouble(brillanzaString);
         } catch (NumberFormatException e) {
             text.setText("La brillanza inserita non e' un numero");
             return null;
@@ -42,9 +42,9 @@ public class RicercaContrastoEllitticitaController {
             text.setText("Inserire l'inizio dell'intervallo"); 
             return null;
         }
-        float inizioIntervalloEllitticita;
+        double inizioIntervalloEllitticita;
         try {
-            inizioIntervalloEllitticita = Float.parseFloat(inizioIntervalloEllitticitaString);
+            inizioIntervalloEllitticita = Double.parseDouble(inizioIntervalloEllitticitaString);
         } catch (NumberFormatException e) {
             text.setText("L'inizio dell'intervallo di ellitticita' inserito non e' un numero");
             return null;
@@ -55,9 +55,9 @@ public class RicercaContrastoEllitticitaController {
             text.setText("Inserire la fine dell'intervallo"); 
             return null;
         }
-        float fineIntervalloEllitticita;
+        double fineIntervalloEllitticita;
         try {
-            fineIntervalloEllitticita = Float.parseFloat(fineIntervalloEllitticitaString);
+            fineIntervalloEllitticita = Double.parseDouble(fineIntervalloEllitticitaString);
         } catch (NumberFormatException e) {
             text.setText("La fine dell'intervallo di ellitticita' inserito non e' un numero");
             return null;

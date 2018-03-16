@@ -69,9 +69,9 @@ public class ContornoDao {
      */
     public List<Filamento> queryFilamentiInterniCerchio(Connection conn, 
             BeanRichiestaFilamentiRegione beanRichiesta) {
-        float longCentr = beanRichiesta.getLongCentroide();
-        float latiCentr = beanRichiesta.getLatiCentroide();
-        float dim = beanRichiesta.getDimensione();
+        double longCentr = beanRichiesta.getLongCentroide();
+        double latiCentr = beanRichiesta.getLatiCentroide();
+        double dim = beanRichiesta.getDimensione();
         String sql = "select filamento.idfil, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, filamento.satellite, instrument " + 
                 "from ( " + 
                     "select distinct c1.idfil, c1.satellite " + 
@@ -98,11 +98,11 @@ public class ContornoDao {
             while (rs.next()) {
                 int idFil = rs.getInt(1);
                 String name = rs.getString("name");
-                float total_flux = rs.getFloat("total_flux");
-                float mean_dens = rs.getFloat("mean_dens");
-                float mean_temp = rs.getFloat("mean_temp");
-                float ellipticity = rs.getFloat("ellipticity");
-                float contrast = rs.getFloat("contrast");
+                double total_flux = rs.getDouble("total_flux");
+                double mean_dens = rs.getDouble("mean_dens");
+                double mean_temp = rs.getDouble("mean_temp");
+                double ellipticity = rs.getDouble("ellipticity");
+                double contrast = rs.getDouble("contrast");
                 String satellite = rs.getString("satellite");
                 String instrument = rs.getString("instrument");
                 Filamento f = new Filamento(idFil, name, total_flux, 
@@ -126,11 +126,11 @@ public class ContornoDao {
      */
     public List<Filamento> queryFilamentiInterniQuadrato(Connection conn, 
             BeanRichiestaFilamentiRegione beanRichiesta) {
-        float dist = beanRichiesta.getDimensione() / 2;
-        float longMax = beanRichiesta.getLongCentroide() + dist;
-        float longMin = beanRichiesta.getLongCentroide() - dist;
-        float latiMax = beanRichiesta.getLatiCentroide() + dist;
-        float latiMin = beanRichiesta.getLatiCentroide() - dist;
+        double dist = beanRichiesta.getDimensione() / 2;
+        double longMax = beanRichiesta.getLongCentroide() + dist;
+        double longMin = beanRichiesta.getLongCentroide() - dist;
+        double latiMax = beanRichiesta.getLatiCentroide() + dist;
+        double latiMin = beanRichiesta.getLatiCentroide() - dist;
         
         String sql = "select filamento.idfil, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, filamento.satellite, instrument " + 
                 "from ( " + 
@@ -156,11 +156,11 @@ public class ContornoDao {
             while (rs.next()) {
                 int idFil = rs.getInt(1);
                 String name = rs.getString("name");
-                float total_flux = rs.getFloat("total_flux");
-                float mean_dens = rs.getFloat("mean_dens");
-                float mean_temp = rs.getFloat("mean_temp");
-                float ellipticity = rs.getFloat("ellipticity");
-                float contrast = rs.getFloat("contrast");
+                double total_flux = rs.getDouble("total_flux");
+                double mean_dens = rs.getDouble("mean_dens");
+                double mean_temp = rs.getDouble("mean_temp");
+                double ellipticity = rs.getDouble("ellipticity");
+                double contrast = rs.getDouble("contrast");
                 String satellite = rs.getString("satellite");
                 String instrument = rs.getString("instrument");
                 Filamento f = new Filamento(idFil, name, total_flux, 
@@ -223,8 +223,8 @@ public class ContornoDao {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                float gLonCont = rs.getFloat("glog_cont");
-                float gLatCont = rs.getFloat("glat_cont");
+                double gLonCont = rs.getDouble("glog_cont");
+                double gLatCont = rs.getDouble("glat_cont");
                 Contorno c = new Contorno(id, satellite, gLonCont, gLatCont);
                 listaContorni.add(c);
             }
@@ -246,18 +246,18 @@ public class ContornoDao {
                 "from contorno " + 
                 "where idfil = " + beanFil.getIdFil() + " and satellite = '" + 
                 beanFil.getSatellite() + "'";
-        Float maxGLogCont = null;
-        Float minGLogCont = null;
-        Float maxGLatCont = null;
-        Float minGLatCont = null;
+        Double maxGLogCont = null;
+        Double minGLogCont = null;
+        Double maxGLatCont = null;
+        Double minGLatCont = null;
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                maxGLogCont = rs.getFloat(1);
-                maxGLatCont = rs.getFloat(2);
-                minGLogCont = rs.getFloat(3);
-                minGLatCont = rs.getFloat(4);
+                maxGLogCont = rs.getDouble(1);
+                maxGLatCont = rs.getDouble(2);
+                minGLogCont = rs.getDouble(3);
+                minGLatCont = rs.getDouble(4);
             }
             rs.close();
             stmt.close();
@@ -280,14 +280,14 @@ public class ContornoDao {
                 "from contorno " + 
                 "where idfil = " + beanFil.getIdFil() + " and satellite = '" + 
                 beanFil.getSatellite() + "'";
-        Float gLogCont = null;
-        Float gLatCont = null;
+        Double gLogCont = null;
+        Double gLatCont = null;
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                gLogCont = rs.getFloat(1);
-                gLatCont = rs.getFloat(2);
+                gLogCont = rs.getDouble(1);
+                gLatCont = rs.getDouble(2);
             }
             rs.close();
             stmt.close();
@@ -330,8 +330,8 @@ public class ContornoDao {
                 Contorno c = i.next();
                 ps.setInt(1, c.getIdFil());
                 ps.setString(2, c.getSatellite());
-                ps.setFloat(3, c.getgLonCont());
-                ps.setFloat(4, c.getgLatCont());
+                ps.setDouble(3, c.getgLonCont());
+                ps.setDouble(4, c.getgLatCont());
                 ps.addBatch();
             }
             ps.executeBatch();

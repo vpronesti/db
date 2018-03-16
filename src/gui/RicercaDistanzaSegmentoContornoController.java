@@ -4,8 +4,8 @@ import bean.BeanRichiestaSegmentoContorno;
 import bean.BeanRispostaSegmentoContorno;
 import boundary.InterfacciaRicercaDistanzaSegmentoContorno;
 import dao.SatelliteDao;
-import static java.lang.Float.max;
-import static java.lang.Float.min;
+import static java.lang.Double.max;
+import static java.lang.Double.min;
 import java.sql.Connection;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -71,8 +71,8 @@ public class RicercaDistanzaSegmentoContornoController {
                     new  InterfacciaRicercaDistanzaSegmentoContorno(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaSegmentoContorno beanRisposta = boundarySegmentoContorno.ricercaDistanzaSegmentoContorno(beanRichiesta);
             if (beanRisposta.isSegmentoEsiste()) {
-                float verticeVicino = min(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
-                float verticeLontano = max(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
+                double verticeVicino = min(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
+                double verticeLontano = max(beanRisposta.getDistanzaA(), beanRisposta.getDistanzaB());
                 res = "Il vertice piu' vicino e' distante " + verticeVicino + " dal contorno\n" + 
                         "Il vertice piu' lontano e' distante " + verticeLontano + " dal contorno";
             } else {

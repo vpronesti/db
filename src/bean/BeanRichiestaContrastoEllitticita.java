@@ -1,51 +1,51 @@
 package bean;
 
 public class BeanRichiestaContrastoEllitticita {
-    private float brillanza;
-    private float contrasto;
-    private float inizioIntervalloEllitticita;
-    private float fineIntervalloEllitticita;
+    private double brillanza;
+    private double contrasto;
+    private double inizioIntervalloEllitticita;
+    private double fineIntervalloEllitticita;
     
-    public BeanRichiestaContrastoEllitticita(float brillanza, 
-            float inizioIntervalloEllitticita, 
-            float fineIntervalloEllitticita) {
+    public BeanRichiestaContrastoEllitticita(double brillanza, 
+            double inizioIntervalloEllitticita, 
+            double fineIntervalloEllitticita) {
         this.brillanza = brillanza;
         this.contrasto = 1 + this.brillanza/100;
         this.inizioIntervalloEllitticita = inizioIntervalloEllitticita;
         this.fineIntervalloEllitticita = fineIntervalloEllitticita;
     }
 
-    public float getBrillanza() {
+    public double getBrillanza() {
         return brillanza;
     }
 
-    public void setBrillanza(float brillanza) {
+    public void setBrillanza(double brillanza) {
         this.brillanza = brillanza;
         this.contrasto = 1 + this.brillanza/100;
     }
     
-    public float getContrasto() {
+    public double getContrasto() {
         return contrasto;
     }
 
-    public void setContrasto(float contrasto) {
+    public void setContrasto(double contrasto) {
         this.contrasto = contrasto;
         this.brillanza = 100 * (this.contrasto - 1);
     }
 
-    public float getInizioIntervalloEllitticita() {
+    public double getInizioIntervalloEllitticita() {
         return inizioIntervalloEllitticita;
     }
 
-    public void setInizioIntervalloEllitticita(float inizioIntervalloEllitticita) {
+    public void setInizioIntervalloEllitticita(double inizioIntervalloEllitticita) {
         this.inizioIntervalloEllitticita = inizioIntervalloEllitticita;
     }
 
-    public float getFineIntervalloEllitticita() {
+    public double getFineIntervalloEllitticita() {
         return fineIntervalloEllitticita;
     }
 
-    public void setFineIntervalloEllitticita(float fineIntervalloEllitticita) {
+    public void setFineIntervalloEllitticita(double fineIntervalloEllitticita) {
         this.fineIntervalloEllitticita = fineIntervalloEllitticita;
     }
 }

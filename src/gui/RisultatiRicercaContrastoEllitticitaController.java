@@ -5,7 +5,7 @@ import entity.Filamento;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -33,7 +33,7 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
     private final int itemsPerPage = 1;
     private BeanRispostaContrastoEllitticita beanRisposta;
     private List<Filamento> listaFilamenti;
-    private float percentuale;
+    private double percentuale;
     
     private final ObservableList<FilamentoGr> data;
     
@@ -79,23 +79,23 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
 
             TableColumn totalFluxCol = new TableColumn("Flusso");
             totalFluxCol.setCellValueFactory(
-                    new PropertyValueFactory<FilamentoGr, Float>("total_flux"));
+                    new PropertyValueFactory<FilamentoGr, Double>("total_flux"));
             totalFluxCol.setMinWidth(160);
             TableColumn meanDensCol = new TableColumn("Densita'");
             meanDensCol.setCellValueFactory(
-                    new PropertyValueFactory<FilamentoGr, Float>("mean_dens"));
+                    new PropertyValueFactory<FilamentoGr, Double>("mean_dens"));
             meanDensCol.setMinWidth(160);
             TableColumn meanTempCol = new TableColumn("Temperatura");
             meanTempCol.setCellValueFactory(
-                    new PropertyValueFactory<FilamentoGr, Float>("mean_temp"));
+                    new PropertyValueFactory<FilamentoGr, Double>("mean_temp"));
             meanTempCol.setMinWidth(160);
             TableColumn ellipticityCol = new TableColumn("Ellitticita'");
             ellipticityCol.setCellValueFactory(
-                    new PropertyValueFactory<FilamentoGr, Float>("ellipticity"));
+                    new PropertyValueFactory<FilamentoGr, Double>("ellipticity"));
             ellipticityCol.setMinWidth(160);
             TableColumn contrastCol = new TableColumn("Contrasto");
             contrastCol.setCellValueFactory(
-                    new PropertyValueFactory<FilamentoGr, Float>("contrast"));
+                    new PropertyValueFactory<FilamentoGr, Double>("contrast"));
             contrastCol.setMinWidth(160);
             
             TableColumn satelliteCol = new TableColumn("Satellite");
@@ -151,24 +151,24 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
 
         private SimpleIntegerProperty idFil;
         private SimpleStringProperty name;
-        private SimpleFloatProperty total_flux;
-        private SimpleFloatProperty mean_dens;
-        private SimpleFloatProperty mean_temp;
-        private SimpleFloatProperty ellipticity;
-        private SimpleFloatProperty contrast;
+        private SimpleDoubleProperty total_flux;
+        private SimpleDoubleProperty mean_dens;
+        private SimpleDoubleProperty mean_temp;
+        private SimpleDoubleProperty ellipticity;
+        private SimpleDoubleProperty contrast;
         private SimpleStringProperty satellite;
         private SimpleStringProperty instrument;
 
-        private FilamentoGr(int idFil, String name, float total_flux, 
-                float mean_dens, float mean_temp, float ellipticity, 
-                float contrast, String satellite, String instrument) {
+        private FilamentoGr(int idFil, String name, double total_flux, 
+                double mean_dens, double mean_temp, double ellipticity, 
+                double contrast, String satellite, String instrument) {
             this.idFil = new SimpleIntegerProperty(idFil);
             this.name = new SimpleStringProperty(name);
-            this.total_flux = new SimpleFloatProperty(total_flux);
-            this.mean_dens = new SimpleFloatProperty(mean_dens);
-            this.mean_temp = new SimpleFloatProperty(mean_temp);
-            this.ellipticity = new SimpleFloatProperty(ellipticity);
-            this.contrast = new SimpleFloatProperty(contrast);
+            this.total_flux = new SimpleDoubleProperty(total_flux);
+            this.mean_dens = new SimpleDoubleProperty(mean_dens);
+            this.mean_temp = new SimpleDoubleProperty(mean_temp);
+            this.ellipticity = new SimpleDoubleProperty(ellipticity);
+            this.contrast = new SimpleDoubleProperty(contrast);
             this.satellite = new SimpleStringProperty(satellite);
             this.instrument = new SimpleStringProperty(instrument);
         }
@@ -189,43 +189,43 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
             this.name = name;
         }
 
-        public Float getTotal_flux() {
+        public Double getTotal_flux() {
             return total_flux.get();
         }
 
-        public void setTotal_flux(SimpleFloatProperty total_flux) {
+        public void setTotal_flux(SimpleDoubleProperty total_flux) {
             this.total_flux = total_flux;
         }
 
-        public Float getMean_dens() {
+        public Double getMean_dens() {
             return mean_dens.get();
         }
 
-        public void setMean_dens(SimpleFloatProperty mean_dens) {
+        public void setMean_dens(SimpleDoubleProperty mean_dens) {
             this.mean_dens = mean_dens;
         }
 
-        public Float getMean_temp() {
+        public Double getMean_temp() {
             return mean_temp.get();
         }
 
-        public void setMean_temp(SimpleFloatProperty mean_temp) {
+        public void setMean_temp(SimpleDoubleProperty mean_temp) {
             this.mean_temp = mean_temp;
         }
 
-        public Float getEllipticity() {
+        public Double getEllipticity() {
             return ellipticity.get();
         }
 
-        public void setEllipticity(SimpleFloatProperty ellipticity) {
+        public void setEllipticity(SimpleDoubleProperty ellipticity) {
             this.ellipticity = ellipticity;
         }
 
-        public Float getContrast() {
+        public Double getContrast() {
             return contrast.get();
         }
 
-        public void setContrast(SimpleFloatProperty contrast) {
+        public void setContrast(SimpleDoubleProperty contrast) {
             this.contrast = contrast;
         }
 

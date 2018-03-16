@@ -40,10 +40,10 @@ public class SegmentoDao {
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
             int idBranch = rs.getInt("idbranch");
-            float gLonBr = rs.getFloat("glon_br");
-            float gLatBr = rs.getFloat("glat_br");
+            double gLonBr = rs.getDouble("glon_br");
+            double gLatBr = rs.getDouble("glat_br");
             int n = rs.getInt("n");
-            float flux = rs.getFloat("flux");
+            double flux = rs.getDouble("flux");
             Segmento s = new Segmento(idFil.getIdFil(), idFil.getSatellite(),
                     idBranch, "S", gLonBr, gLatBr, n, flux);
             listaSegmenti.add(s);
@@ -100,10 +100,10 @@ public class SegmentoDao {
             ResultSet rs = stmt.executeQuery(sql);        
             if (rs.next()) {
                 String type = rs.getString("type");
-                float gLonBr = rs.getFloat("glon_br");
-                float gLatBr = rs.getFloat("glat_br");
+                double gLonBr = rs.getDouble("glon_br");
+                double gLatBr = rs.getDouble("glat_br");
                 int n = rs.getInt("n");
-                float flux = rs.getFloat("flux");
+                double flux = rs.getDouble("flux");
                 s = new Segmento(beanRichiesta.getIdFil(), beanRichiesta.getSatellite(), 
                         beanRichiesta.getIdSeg(), type, gLonBr, gLatBr, n, flux);
             }
@@ -137,10 +137,10 @@ public class SegmentoDao {
             ResultSet rs = stmt.executeQuery(sql);        
             if (rs.next()) {
                 String type = rs.getString("type");
-                float gLonBr = rs.getFloat("glon_br");
-                float gLatBr = rs.getFloat("glat_br");
+                double gLonBr = rs.getDouble("glon_br");
+                double gLatBr = rs.getDouble("glat_br");
                 int n = rs.getInt("n");
-                float flux = rs.getFloat("flux");
+                double flux = rs.getDouble("flux");
                 s = new Segmento(beanRichiesta.getIdFil(), beanRichiesta.getSatellite(), 
                         beanRichiesta.getIdSeg(), type, gLonBr, gLatBr, n, flux);
             }
@@ -199,11 +199,11 @@ public class SegmentoDao {
             while (rs.next()) {
                 int idFil = rs.getInt("idfil");
                 String name = rs.getString("name");
-                float total_flux = rs.getFloat("total_flux");
-                float mean_dens = rs.getFloat("mean_dens");
-                float mean_temp = rs.getFloat("mean_temp");
-                float ellipticity = rs.getFloat("ellipticity");
-                float contrast = rs.getFloat("contrast");
+                double total_flux = rs.getDouble("total_flux");
+                double mean_dens = rs.getDouble("mean_dens");
+                double mean_temp = rs.getDouble("mean_temp");
+                double ellipticity = rs.getDouble("ellipticity");
+                double contrast = rs.getDouble("contrast");
                 String satellite = rs.getString("satellite");
                 String instrument = rs.getString("instrument");
                 Filamento f = new Filamento(idFil, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, satellite, instrument);
@@ -285,10 +285,10 @@ public class SegmentoDao {
                 ps.setString(2, s.getSatellite());
                 ps.setInt(3, s.getIdBranch());
                 ps.setString(4, s.getType());
-                ps.setFloat(5, s.getgLonBr());
-                ps.setFloat(6, s.getgLatBr());
+                ps.setDouble(5, s.getgLonBr());
+                ps.setDouble(6, s.getgLatBr());
                 ps.setInt(7, s.getN());
-                ps.setFloat(8, s.getFlux());
+                ps.setDouble(8, s.getFlux());
                 ps.addBatch();
             }
             ps.executeBatch();

@@ -50,7 +50,7 @@ public class RicercaStelleFilamentoController {
         String risp;
         if (beanRisposta.isContornoFilamento()) {
             risp = "Numero totale stelle trovate: " + beanRisposta.getTotaleStelleTrovate() + "\n";
-            Map<String, Float> tipiStellaPercentuale = beanRisposta.getTipiStellaPercentuale();
+            Map<String, Double> tipiStellaPercentuale = beanRisposta.getTipiStellaPercentuale();
             Set<String> tipiStella = tipiStellaPercentuale.keySet();
             for (String s : tipiStella) {
                 risp += "Percentuale stelle di tipo " + s + ": " + tipiStellaPercentuale.get(s) + "%\n";

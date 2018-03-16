@@ -3,15 +3,15 @@ package bean;
 import java.util.Map;
 
 public class BeanRispostaStelleRegione {
-    private float percentualeStelleInterne;
-    private float percentualeStelleEsterne;
-    private Map<String, Float> tipiStellePercentualeInterne;
-    private Map<String, Float> tipiStellePercentualeEsterne;
+    private double percentualeStelleInterne;
+    private double percentualeStelleEsterne;
+    private Map<String, Double> tipiStellePercentualeInterne;
+    private Map<String, Double> tipiStellePercentualeEsterne;
     
-    public BeanRispostaStelleRegione(float percentualeStelleInterne, 
-            float percentualeStelleEsterne, 
-            Map<String, Float> tipiStellePercentualeInterne, 
-            Map<String, Float> tipiStellePercentualeEsterne) {
+    public BeanRispostaStelleRegione(double percentualeStelleInterne, 
+            double percentualeStelleEsterne, 
+            Map<String, Double> tipiStellePercentualeInterne, 
+            Map<String, Double> tipiStellePercentualeEsterne) {
         this.percentualeStelleInterne = percentualeStelleInterne;
         this.percentualeStelleEsterne = percentualeStelleEsterne;
         this.tipiStellePercentualeInterne = tipiStellePercentualeInterne;
@@ -19,35 +19,35 @@ public class BeanRispostaStelleRegione {
 
     }
 
-    public float getPercentualeStelleInterne() {
+    public double getPercentualeStelleInterne() {
         return percentualeStelleInterne;
     }
 
-    public void setPercentualeStelleInterne(float percentualeStelleInterne) {
+    public void setPercentualeStelleInterne(double percentualeStelleInterne) {
         this.percentualeStelleInterne = percentualeStelleInterne;
     }
 
-    public float getPercentualeStelleEsterne() {
+    public double getPercentualeStelleEsterne() {
         return percentualeStelleEsterne;
     }
 
-    public void setPercentualeStelleEsterne(float percentualeStelleEsterne) {
+    public void setPercentualeStelleEsterne(double percentualeStelleEsterne) {
         this.percentualeStelleEsterne = percentualeStelleEsterne;
     }
 
-    public Map<String, Float> getTipiStellePercentualeInterne() {
+    public Map<String, Double> getTipiStellePercentualeInterne() {
         return tipiStellePercentualeInterne;
     }
 
-    public void setTipiStellePercentualeInterne(Map<String, Float> tipiStellePercentualeInterne) {
+    public void setTipiStellePercentualeInterne(Map<String, Double> tipiStellePercentualeInterne) {
         this.tipiStellePercentualeInterne = tipiStellePercentualeInterne;
     }
 
-    public Map<String, Float> getTipiStellePercentualeEsterne() {
+    public Map<String, Double> getTipiStellePercentualeEsterne() {
         return tipiStellePercentualeEsterne;
     }
 
-    public void setTipiStellePercentualeEsterne(Map<String, Float> tipiStellePercentualeEsterne) {
+    public void setTipiStellePercentualeEsterne(Map<String, Double> tipiStellePercentualeEsterne) {
         this.tipiStellePercentualeEsterne = tipiStellePercentualeEsterne;
     }
 

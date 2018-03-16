@@ -39,11 +39,11 @@ public class FilamentoDao {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 String name = rs.getString("name");
-                float totalFlux = rs.getFloat("total_flux");
-                float meanDens = rs.getFloat("mean_dens");
-                float meanTemp = rs.getFloat("mean_temp");
-                float ellipticity = rs.getFloat("ellipticity");
-                float contrast = rs.getFloat("contrast");
+                double totalFlux = rs.getDouble("total_flux");
+                double meanDens = rs.getDouble("mean_dens");
+                double meanTemp = rs.getDouble("mean_temp");
+                double ellipticity = rs.getDouble("ellipticity");
+                double contrast = rs.getDouble("contrast");
                 String satellite = rs.getString("satellite");
                 String instrument = rs.getString("instrument");
                 fil = new Filamento(idFil.getIdFil(), name, totalFlux, 
@@ -99,11 +99,11 @@ public class FilamentoDao {
             while (rs.next()) {
                 int idFil = rs.getInt("idfil");
                 String name = rs.getString("name");
-                float totalFlux = rs.getFloat("total_flux");
-                float meanDens = rs.getFloat("mean_dens");
-                float meanTemp = rs.getFloat("mean_temp");
-                float ellipticity = rs.getFloat("ellipticity");
-                float contrast = rs.getFloat("contrast");
+                double totalFlux = rs.getDouble("total_flux");
+                double meanDens = rs.getDouble("mean_dens");
+                double meanTemp = rs.getDouble("mean_temp");
+                double ellipticity = rs.getDouble("ellipticity");
+                double contrast = rs.getDouble("contrast");
                 String satellite = rs.getString("satellite");
                 String instrument = rs.getString("instrument");
                 Filamento f = new Filamento(idFil, name, totalFlux, 
@@ -211,11 +211,11 @@ public class FilamentoDao {
                 Filamento f = i.next();
                 ps.setInt(1, f.getIdFil());
                 ps.setString(2, f.getName());
-                ps.setFloat(3, f.getTotalFlux());
-                ps.setFloat(4, f.getMeanDens());
-                ps.setFloat(5, f.getMeanTemp());
-                ps.setFloat(6, f.getEllipticity());
-                ps.setFloat(7, f.getContrast());
+                ps.setDouble(3, f.getTotalFlux());
+                ps.setDouble(4, f.getMeanDens());
+                ps.setDouble(5, f.getMeanTemp());
+                ps.setDouble(6, f.getEllipticity());
+                ps.setDouble(7, f.getContrast());
                 ps.setString(8, f.getSatellite());
                 ps.setString(9, f.getInstrument());
                 ps.addBatch();

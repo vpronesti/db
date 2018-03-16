@@ -29,9 +29,9 @@ public class RicercaFilamentiRegioneController {
             text.setText("Inserire la longitudine del centroide"); 
             return null;
         }
-        float longitudineCentroide;
+        double longitudineCentroide;
         try {
-            longitudineCentroide = Float.parseFloat(longitudineCentroideString);
+            longitudineCentroide = Double.parseDouble(longitudineCentroideString);
         } catch (NumberFormatException e) {
             text.setText("La longitudine inserita non e' un numero");
             return null;
@@ -42,9 +42,9 @@ public class RicercaFilamentiRegioneController {
             text.setText("Inserire la latitudine del centroide"); 
             return null;
         }
-        float latitudineCentroide;
+        double latitudineCentroide;
         try {
-            latitudineCentroide = Float.parseFloat(latitudineCentroideString);
+            latitudineCentroide = Double.parseDouble(latitudineCentroideString);
         } catch (NumberFormatException e) {
             text.setText("La latitudine inserita non e' un numero");
             return null;
@@ -55,9 +55,9 @@ public class RicercaFilamentiRegioneController {
             text.setText("Inserire la dimensione della figura"); 
             return null;
         }
-        float dimensione;
+        double dimensione;
         try {
-            dimensione = Float.parseFloat(dimensioneString);
+            dimensione = Double.parseDouble(dimensioneString);
         } catch (NumberFormatException e) {
             text.setText("La dimensione inserita non e' un numero");
             return null;

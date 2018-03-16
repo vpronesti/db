@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 public class MenuController {
-//    @FXML
-//    Button PrenotazioneConId;
     @FXML
     Text text;
     

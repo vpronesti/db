@@ -45,9 +45,9 @@ public class StellaDao {
             while (rs.next()) {
                 int idStar = rs.getInt("idstar");
                 String nameStar = rs.getString("namestar");
-                float gLonSt = rs.getFloat("glon_st");
-                float gLatSt = rs.getFloat("glat_st");
-                float fluxSt = rs.getFloat("flux_st");
+                double gLonSt = rs.getDouble("glon_st");
+                double gLatSt = rs.getDouble("glat_st");
+                double fluxSt = rs.getDouble("flux_st");
                 String typeSt = rs.getString("type_st");
                 Stella s = new Stella(idStar, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
                 listaStelle.add(s);
@@ -67,10 +67,10 @@ public class StellaDao {
      * @return 
      */
     public List<Stella> queryStelleRegione(Connection conn, BeanRichiestaStelleRegione beanRichiesta) {
-        float maxLon = beanRichiesta.getLongCentr() + beanRichiesta.getLatoA()/2;
-        float maxLat = beanRichiesta.getLatiCentr() + beanRichiesta.getLatoB()/2;
-        float minLon = beanRichiesta.getLongCentr() - beanRichiesta.getLatoA()/2;
-        float minLat = beanRichiesta.getLatiCentr() - beanRichiesta.getLatoB()/2;
+        double maxLon = beanRichiesta.getLongCentr() + beanRichiesta.getLatoA()/2;
+        double maxLat = beanRichiesta.getLatiCentr() + beanRichiesta.getLatoB()/2;
+        double minLon = beanRichiesta.getLongCentr() - beanRichiesta.getLatoA()/2;
+        double minLat = beanRichiesta.getLatiCentr() - beanRichiesta.getLatoB()/2;
         String sql = "select idstar, namestar, glon_st, glat_st, flux_st, type_st " + 
                 "from stella " + 
                 "where glon_st > " + minLon + " and glon_st < " + maxLon + " and " + 
@@ -82,9 +82,9 @@ public class StellaDao {
             while (rs.next()) {
                 int idStar = rs.getInt("idstar");
                 String nameStar = rs.getString("namestar");
-                float gLonSt = rs.getFloat("glon_st");
-                float gLatSt = rs.getFloat("glat_st");
-                float fluxSt = rs.getFloat("flux_st");
+                double gLonSt = rs.getDouble("glon_st");
+                double gLatSt = rs.getDouble("glat_st");
+                double fluxSt = rs.getDouble("flux_st");
                 String typeSt = rs.getString("type_st");
                 Stella s = new Stella(idStar, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
                 listaStelle.add(s);
@@ -116,8 +116,8 @@ public class StellaDao {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int idStar = rs.getInt(1);
-                float gLonSt = rs.getFloat("glon_st");
-                float gLatSt = rs.getFloat("glat_st");
+                double gLonSt = rs.getDouble("glon_st");
+                double gLatSt = rs.getDouble("glat_st");
                 Stella s = new Stella(idStar, gLonSt, gLatSt);
                 listaStelle.add(s);
                 if (listaStelle.size() >= MAX_DIM_ST) {
@@ -236,8 +236,8 @@ System.out.println("thread finished ");
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int idStar = rs.getInt("idstar");
-                float gLonSt = rs.getFloat("glon_st");
-                float gLatSt = rs.getFloat("glat_st");
+                double gLonSt = rs.getDouble("glon_st");
+                double gLatSt = rs.getDouble("glat_st");
                 Stella s = new Stella(idStar, gLonSt, gLatSt);
                 
                 if (s.internoFilamento(listaPunti))
@@ -267,9 +267,9 @@ System.out.println("thread finished ");
             while (rs.next()) {
                 int idStar = rs.getInt("idstar");
                 String nameStar = rs.getString("namestar");
-                float gLonSt = rs.getFloat("glon_st");
-                float gLatSt = rs.getFloat("glat_st");
-                float fluxSt = rs.getFloat("flux_st");
+                double gLonSt = rs.getDouble("glon_st");
+                double gLatSt = rs.getDouble("glat_st");
+                double fluxSt = rs.getDouble("flux_st");
                 String typeSt = rs.getString("type_st");
                 Stella s = new Stella(idStar, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
                 if (s.internoFilamento(listaPunti))
@@ -302,9 +302,9 @@ System.out.println("thread finished ");
                 Stella s = i.next();
                 ps.setInt(1, s.getIdStar());
                 ps.setString(2, s.getName());
-                ps.setFloat(3, s.getgLonSt());
-                ps.setFloat(4, s.getgLatSt());
-                ps.setFloat(5, s.getFluxSt());
+                ps.setDouble(3, s.getgLonSt());
+                ps.setDouble(4, s.getgLatSt());
+                ps.setDouble(5, s.getFluxSt());
                 ps.setString(6, s.getType());
                 ps.addBatch();
             }

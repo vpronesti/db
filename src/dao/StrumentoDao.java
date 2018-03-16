@@ -83,7 +83,7 @@ public class StrumentoDao {
         return res;
     }
     
-    public void inserisciBanda(Connection conn, float banda) {
+    public void inserisciBanda(Connection conn, double banda) {
         String sql = "insert into banda(banda) values(" + banda + ")";
         try {
             Statement stmt = conn.createStatement();
@@ -112,7 +112,7 @@ public class StrumentoDao {
         return res;
     }
     
-    public boolean queryEsistenzaBanda(Connection conn, float banda) {
+    public boolean queryEsistenzaBanda(Connection conn, double banda) {
         String sql = "select * from banda where banda = " + banda;
         boolean res = false;
         try {
@@ -198,7 +198,7 @@ public class StrumentoDao {
      * @param banda 
      */
     public void inserisciStrumentoBanda(Connection conn, String strumento, 
-            float banda) {
+            double banda) {
         String sql = "insert into strumento_banda(strumento, banda) values('" 
                 + strumento + "', " + banda 
                 + ")";
