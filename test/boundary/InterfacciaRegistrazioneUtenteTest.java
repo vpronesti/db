@@ -1,15 +1,15 @@
 package boundary;
 
 import bean.BeanUtente;
-import dao.UtenteDao;
-import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import util.DBAccess;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 2 e 3.2
@@ -18,6 +18,7 @@ import util.DBAccess;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRegistrazioneUtenteTest {
     private final boolean expected;
+    private String userIdAmministratore;
     private String nome;
     private String cognome;
     private String userId;
@@ -29,22 +30,47 @@ public class InterfacciaRegistrazioneUtenteTest {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
             // userId meno di 6 caratteri
-            {false, "u1", "u1", "utent", "password", "email1", "Registrato"},
+            {false, NONREGISTRATO, "u1", "u1", "utent", "password", "email1", "Registrato"},
             // password meno di 6 caratteri
-            {false, "u1", "u1", "utente", "pass", "email1", "Registrato"},
+            {false, NONREGISTRATO, "u1", "u1", "utente", "pass", "email1", "Registrato"},
             // tipo utente diverso da registrato o amministratore
-            {false, "u1", "u1", "utente", "password", "email1", "Registra"},
-            // utente definibile
-            {true, "u1", "u1", "utente", "password", "email", "Registrato"},
+            {false, NONREGISTRATO, "u1", "u1", "utente", "password", "email1", "Registra"},
+            // utente definibile ma un utente non amministratore non puo' inserire un nuovo utente
+            {false, NONREGISTRATO, "u1", "u1", "utente", "password", "email", "Registrato"},
             // utente gia' definito
-            {false, "u1", "u1", "utente", "password", "email", "Registrato"}
+            {false, NONREGISTRATO, "u1", "u1", "utente", "password", "email", "Registrato"},
+            
+            // userId meno di 6 caratteri
+            {false, REGISTRATO, "u1", "u1", "utent", "password", "email1", "Registrato"},
+            // password meno di 6 caratteri
+            {false, REGISTRATO, "u1", "u1", "utente", "pass", "email1", "Registrato"},
+            // tipo utente diverso da registrato o amministratore
+            {false, REGISTRATO, "u1", "u1", "utente", "password", "email1", "Registra"},
+            // utente definibile ma un utente non amministratore non puo' inserire un nuovo utente
+            {false, REGISTRATO, "u1", "u1", "utente", "password", "email", "Registrato"},
+            // utente gia' definito
+            {false, REGISTRATO, "u1", "u1", "utente", "password", "email", "Registrato"},
+            
+            // userId meno di 6 caratteri
+            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "email1", "Registrato"},
+            // password meno di 6 caratteri
+            {false, AMMINISTRATORE, "u1", "u1", "utente", "pass", "email1", "Registrato"},
+            // tipo utente diverso da registrato o amministratore
+            {false, AMMINISTRATORE, "u1", "u1", "utente", "password", "email1", "Registra"},
+            // utente definibile
+            {true, AMMINISTRATORE, "u1", "u1", "utente", "password", "email", "Registrato"},
+            // utente gia' definito
+            {false, AMMINISTRATORE, "u1", "u1", "utente", "password", "email", "Registrato"}
+            
+
         });
     }
     
-    public InterfacciaRegistrazioneUtenteTest(boolean expected, String nome, 
-            String cognome, String userId, String password, String email, 
-            String tipo) {
+    public InterfacciaRegistrazioneUtenteTest(boolean expected, 
+            String userIdAmminitratore, String nome, String cognome, 
+            String userId, String password, String email, String tipo) {
         this.expected = expected;
+        this.userIdAmministratore = userIdAmminitratore;
         this.nome = nome;
         this.cognome = cognome;
         this.userId = userId;
@@ -56,7 +82,7 @@ public class InterfacciaRegistrazioneUtenteTest {
     @Test
     public void testRegistrazione() {
         InterfacciaRegistrazioneUtente interfacciaRegistrazioneUtente = 
-                new InterfacciaRegistrazioneUtente("a");
+                new InterfacciaRegistrazioneUtente(userIdAmministratore);
         BeanUtente beanUtente = new BeanUtente(nome, cognome, userId, password, email, tipo);
         boolean res = interfacciaRegistrazioneUtente.definizioneUtente(beanUtente);
 //        if (res) {

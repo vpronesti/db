@@ -18,6 +18,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import util.DBAccess;
 import static util.DistanzaEuclidea.distanza;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 8
@@ -25,6 +28,7 @@ import static util.DistanzaEuclidea.distanza;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaFilamentiRegioneOutputTest {
     private boolean expected;
+    private String userId;
     private double longCentroide;
     private double latiCentroide;
     private double dimensione;
@@ -33,14 +37,19 @@ public class InterfacciaRicercaFilamentiRegioneOutputTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.CERCHIO}
+            {true, AMMINISTRATORE, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.CERCHIO},
+            {true, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.CERCHIO},
+            {true, AMMINISTRATORE, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.QUADRATO},
+            {true, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.QUADRATO},
+            {false, NONREGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.QUADRATO}   
         });
     }
     
     public InterfacciaRicercaFilamentiRegioneOutputTest(boolean expected, 
-                double longCentroide, double latiCentroide, double dimensione, 
-                TipoFigura tipoFigura) {
+                String userId, double longCentroide, double latiCentroide, 
+                double dimensione, TipoFigura tipoFigura) {
         this.expected = expected;
+        this.userId = userId;
         this.longCentroide = longCentroide;
         this.latiCentroide = latiCentroide;
         this.dimensione = dimensione;
@@ -98,7 +107,11 @@ public class InterfacciaRicercaFilamentiRegioneOutputTest {
                  dimensione, tipoFigura);
         BeanRispostaFilamenti beanRisposta = 
                 interfacciaFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
-        boolean res = this.controllaFilamentiRegione(beanRisposta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaFilamentiRegione(beanRisposta);
+        else
+            res = false;
         assertEquals("errore", res, expected);
     }
 }

@@ -9,6 +9,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 10
@@ -16,6 +19,7 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaStelleRegioneTest {
     private final boolean expected;
+    private String userId;
     private double longCentr;
     private double latiCentr;
     private double latoA;
@@ -24,14 +28,19 @@ public class InterfacciaRicercaStelleRegioneTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            
-            {true, new Double(5.0004370), new Double(0.084881000), new Double(0.7), new Double(1.2)},
+            // utente amministratore
+            {true, AMMINISTRATORE, new Double(5.0004370), new Double(0.084881000), new Double(0.7), new Double(1.2)},
+            // utente registrato
+            {true, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.7), new Double(1.2)},
+            // utente non esistente
+            {false, NONREGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.7), new Double(1.2)},
         });
     }
 
-    public InterfacciaRicercaStelleRegioneTest(boolean expected, 
+    public InterfacciaRicercaStelleRegioneTest(boolean expected, String userId, 
             double longCentr, double latiCentr, double latoA, double latoB) {
         this.expected = expected;
+        this.userId = userId;
         this.longCentr = longCentr;
         this.latiCentr = latiCentr;
         this.latoA = latoA;
@@ -71,10 +80,14 @@ public class InterfacciaRicercaStelleRegioneTest {
     @Test
     public void testRicercaStelleRegione() {
         InterfacciaRicercaStelleRegione interfacciaStelleRegione = 
-                new InterfacciaRicercaStelleRegione("a");
+                new InterfacciaRicercaStelleRegione(userId);
         BeanRichiestaStelleRegione beanRichiesta = new BeanRichiestaStelleRegione(longCentr, latiCentr, latoA, latoB);
         BeanRispostaStelleRegione beanRisposta = interfacciaStelleRegione.ricercaStelleRegione(beanRichiesta);
-        boolean res = this.controllaRisposta(beanRisposta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaRisposta(beanRisposta);
+        else
+            res = false;
         assertEquals("errore", res, expected);
     }
 }

@@ -48,9 +48,9 @@ public class GestoreRicercaDistanzaSegmentoContorno {
                     distanzaVerticeMin = calc;
             }
             beanRisposta = new BeanRispostaSegmentoContorno(distanzaVerticeMax, 
-                            distanzaVerticeMin, true);
+                            distanzaVerticeMin, true, true);
         } else {
-            beanRisposta = new BeanRispostaSegmentoContorno(false);
+            beanRisposta = new BeanRispostaSegmentoContorno(false, true);
         }
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;

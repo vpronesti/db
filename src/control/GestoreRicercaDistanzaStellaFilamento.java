@@ -54,9 +54,9 @@ public class GestoreRicercaDistanzaStellaFilamento {
                 listaDistanze.add(distanzaMin);
             }
             beanRisposta = new BeanRispostaStellaFilamento(listaStelleInterne, 
-                            listaDistanze, true);
+                            listaDistanze, true, true);
         } else {
-            beanRisposta = new BeanRispostaStellaFilamento(false);
+            beanRisposta = new BeanRispostaStellaFilamento(false, true);
         }
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;

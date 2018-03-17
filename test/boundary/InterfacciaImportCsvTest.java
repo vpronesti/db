@@ -1,15 +1,20 @@
 package boundary;
 
 import bean.BeanRichiestaImport;
+import bean.BeanUtente;
+import dao.UtenteDao;
 import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
 import java.io.File;
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import util.DBAccess;
+import static util.UserId.AMMINISTRATORE;
 
 /**
  * test per il requisito funzionale n 3.1 e 4
@@ -26,20 +31,17 @@ public class InterfacciaImportCsvTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-//            ok ma mancano dei filamenti controllare che non ci siano duplicati
-//            {true, "a", new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
-//            {true, "a", new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO, null},
+//            {true, AMMINISTRATORE, new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
+//            {true, AMMINISTRATORE, new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO, null},
 //            
-//            {true, "a", new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
-//            {true, "a", new File("contorni_filamenti_Spitzer.csv"), TipoFileCsv.CONTORNO, "Spitzer"},
+//            {true, AMMINISTRATORE, new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
+//            {true, AMMINISTRATORE, new File("contorni_filamenti_Spitzer.csv"), TipoFileCsv.CONTORNO, "Spitzer"},
             
-//            Ok pg non fa vedere la tab
-//            {true, "a", new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel"},
-//            {true, "a", new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
+            {true, AMMINISTRATORE, new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel"},
+//            {true, AMMINISTRATORE, new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
             
-//            ok
-            {true, "a", new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, null},
-//            {false, "a", new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA, null} // gestire meglio il caso di file non esistente
+            {true, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, null},
+//            {false, AMMINISTRATORE, new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA, null} // gestire meglio il caso di file non esistente
         });
     }
     
@@ -55,15 +57,18 @@ public class InterfacciaImportCsvTest {
     @Test
     public void testImport() {
         InterfacciaImportCsv interfacciaImportCsv = 
-                new InterfacciaImportCsv("a");
+                new InterfacciaImportCsv(userId);
         BeanRichiestaImport beanRichiesta = 
                 new BeanRichiestaImport(this.fileSelezionato, this.tipo, this.satellite);
         boolean res = true;
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaAmministratore(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
         try {
             res = interfacciaImportCsv.importaCsv(beanRichiesta);
         } catch (FormatoFileNonSupportatoException e) {
             res = false;
         }
-        assertEquals("errore nella definizione", res, expected);
+        assertEquals("errore", res && azioneConsentita, expected);
     }
 }

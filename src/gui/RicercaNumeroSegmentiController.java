@@ -58,15 +58,19 @@ public class RicercaNumeroSegmentiController {
             InterfacciaRicercaNumeroSegmenti boundaryNumeroSegmenti = 
                     new  InterfacciaRicercaNumeroSegmenti(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
-            if (beanRisposta.isInputValido()) {
-                if (beanRisposta.getFilamenti().size() > 0) {
-                    RisultatiRicercaNumeroSegmentiController risultatiController = new RisultatiRicercaNumeroSegmentiController(beanRisposta);
-                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCANUMEROSEGMENTI, risultatiController);
+            if (beanRisposta.isAzioneConsentita()) {
+                if (beanRisposta.isInputValido()) {
+                    if (beanRisposta.getFilamenti().size() > 0) {
+                        RisultatiRicercaNumeroSegmentiController risultatiController = new RisultatiRicercaNumeroSegmentiController(beanRisposta);
+                        ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCANUMEROSEGMENTI, risultatiController);
+                    } else {
+                        text.setText("Non ci sono filamenti con numero di segmenti nell'intervallo specificato");
+                    }
                 } else {
-                    text.setText("Non ci sono filamenti con numero di segmenti nell'intervallo specificato");
+                    text.setText("La dimensione minima dell'intervallo deve essere strettamente maggiore di 2");
                 }
             } else {
-                text.setText("La dimensione minima dell'intervallo deve essere strettamente maggiore di 2");
+                text.setText("Azione non consentita");
             }
         }
     }

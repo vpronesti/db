@@ -2,7 +2,11 @@ package boundary;
 
 import bean.BeanRichiestaContrastoEllitticita;
 import bean.BeanRispostaContrastoEllitticita;
+import bean.BeanUtente;
 import control.GestoreRicercaContrastoEllitticita;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 /**
  * REQ-6
@@ -32,11 +36,18 @@ public class InterfacciaRicercaContrastoEllitticita {
     
     public BeanRispostaContrastoEllitticita ricercaContrastoEllitticita(BeanRichiestaContrastoEllitticita beanRichiesta) {
         BeanRispostaContrastoEllitticita beanRisposta;
-        if (this.controllaBean(beanRichiesta)) {
-            controllerFilamento = new GestoreRicercaContrastoEllitticita(this);
-            beanRisposta = controllerFilamento.ricercaContrastoEllitticita(beanRichiesta);
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(beanRichiesta)) {
+                controllerFilamento = new GestoreRicercaContrastoEllitticita(this);
+                beanRisposta = controllerFilamento.ricercaContrastoEllitticita(beanRichiesta);
+            } else {
+                beanRisposta = new BeanRispostaContrastoEllitticita(false, true);
+            }
         } else {
-            beanRisposta = new BeanRispostaContrastoEllitticita(false);
+            beanRisposta = new BeanRispostaContrastoEllitticita(false, false);
         }
         return beanRisposta;
     }

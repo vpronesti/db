@@ -9,6 +9,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 9
@@ -16,22 +19,34 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaStelleFilamentoTest {
     private final boolean expected;
+    private String userId;
     private int id;
     private String satellite;
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            
-            {true, 45, "Herschel"},
+            // utente amministratore
+            {true, AMMINISTRATORE, 45, "Herschel"},
             // filamento non esistente
-            {false, 46, "Herschel"}
+            {false, AMMINISTRATORE, 46, "Herschel"},
+            
+            // utente registrato
+            {true, REGISTRATO, 45, "Herschel"},
+            // filamento non esistente
+            {false, REGISTRATO, 46, "Herschel"},
+            
+            // utente non registrato
+            {false, NONREGISTRATO, 45, "Herschel"},
+            // filamento non esistente
+            {false, NONREGISTRATO, 46, "Herschel"}
         });
     }
     
     public InterfacciaRicercaStelleFilamentoTest(boolean expected, 
-                int id, String satellite) {
+                String userId, int id, String satellite) {
         this.expected = expected;
+        this.userId = userId;
         this.id = id;
         this.satellite = satellite;
     }
@@ -57,10 +72,14 @@ public class InterfacciaRicercaStelleFilamentoTest {
     @Test
     public void testRicercaStelleFilamento() {
         InterfacciaRicercaStelleFilamento interfacciaStelleFilamento = 
-                new InterfacciaRicercaStelleFilamento("a");
+                new InterfacciaRicercaStelleFilamento(userId);
         BeanIdFilamento beanRichiesta = new BeanIdFilamento(id, satellite);
         BeanRispostaStelleFilamento beanRisposta = interfacciaStelleFilamento.ricercaStelleFilamento(beanRichiesta);
-        boolean res = this.controllaRisposta(beanRisposta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaRisposta(beanRisposta);
+        else
+            res = false;
         assertEquals("errore", res, expected);
     }
 }

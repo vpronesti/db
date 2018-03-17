@@ -81,15 +81,19 @@ public class RicercaFilamentiRegioneController {
             InterfacciaRicercaFilamentiRegione boundaryFilamentiRegione = 
                     new  InterfacciaRicercaFilamentiRegione(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaFilamenti beanRisposta = boundaryFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
-            if (beanRisposta.isInputValido()) {
-                if (beanRisposta.getFilamenti().size() > 0) {
-                RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
-                ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
+            if (beanRisposta.isAzioneConsentita()) {
+                if (beanRisposta.isInputValido()) {
+                    if (beanRisposta.getFilamenti().size() > 0) {
+                    RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
+                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
+                    } else {
+                        text.setText("Non ci sono filamenti nella regione specificata");
+                    }
                 } else {
-                    text.setText("Non ci sono filamenti nella regione specificata");
+                    text.setText("La dimensione deve essere positiva");
                 }
             } else {
-                text.setText("La dimensione deve essere positiva");
+                text.setText("Azione non consentita");
             }
         }
     }

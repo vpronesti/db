@@ -10,6 +10,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 6
@@ -17,6 +19,7 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaContrastoEllitticitaOutputTest {
     private final boolean expected;
+    private String userId;
     private double brillanza;
     private double contrasto;
     private double inizioIntervalloEllitticita;
@@ -25,14 +28,16 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, 23, 3, 8}
+            {true, REGISTRATO, 23, 3, 8},
+            {false, NONREGISTRATO, 23, 3, 8}
         });
     }
     
-    public InterfacciaRicercaContrastoEllitticitaOutputTest(boolean expected, 
+    public InterfacciaRicercaContrastoEllitticitaOutputTest(boolean expected, String userId, 
             double brillanza, double inizioIntervalloEllitticita, 
             double fineIntervalloEllitticita) {
         this.expected = expected;
+        this.userId = userId;
         this.brillanza = brillanza;
         this.contrasto = 1 + this.brillanza/100;
         this.inizioIntervalloEllitticita = inizioIntervalloEllitticita;
@@ -56,10 +61,14 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
     @Test
     public void testRicercaBrillanza() {
         InterfacciaRicercaContrastoEllitticita interfacciaContrastoEllitticita = 
-                new InterfacciaRicercaContrastoEllitticita("a");
+                new InterfacciaRicercaContrastoEllitticita(userId);
         BeanRichiestaContrastoEllitticita beanRichiesta = new BeanRichiestaContrastoEllitticita(brillanza, inizioIntervalloEllitticita, fineIntervalloEllitticita);
         BeanRispostaContrastoEllitticita beanRisposta = interfacciaContrastoEllitticita.ricercaContrastoEllitticita(beanRichiesta);
-        boolean res = this.controllaBrillanza(beanRisposta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaBrillanza(beanRisposta);
+        else
+            res = false;
         assertEquals("errore", res, expected);
     }
     
@@ -84,10 +93,14 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
     @Test
     public void testRicercaEllitticita() {
         InterfacciaRicercaContrastoEllitticita interfacciaContrastoEllitticita = 
-                new InterfacciaRicercaContrastoEllitticita("a");
+                new InterfacciaRicercaContrastoEllitticita(userId);
         BeanRichiestaContrastoEllitticita beanRichiesta = new BeanRichiestaContrastoEllitticita(brillanza, inizioIntervalloEllitticita, fineIntervalloEllitticita);
         BeanRispostaContrastoEllitticita beanRisposta = interfacciaContrastoEllitticita.ricercaContrastoEllitticita(beanRichiesta);
-        boolean res = this.controllaEllitticita(beanRisposta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaEllitticita(beanRisposta);
+        else
+            res = false;
         assertEquals("errore", res, expected);
     }
     

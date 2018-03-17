@@ -2,7 +2,11 @@ package boundary;
 
 import bean.BeanIdFilamento;
 import bean.BeanRispostaStelleFilamento;
+import bean.BeanUtente;
 import control.GestoreRicercaStelleFilamento;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 /**
  * REQ-9
@@ -23,11 +27,18 @@ public class InterfacciaRicercaStelleFilamento {
     }
     
     public BeanRispostaStelleFilamento ricercaStelleFilamento(BeanIdFilamento idFil) {
-        if (this.controllaBean(idFil)) {
-            controllerFilamento = new GestoreRicercaStelleFilamento(this);
-            return controllerFilamento.ricercaStelleFilamento(idFil);
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(idFil)) {
+                controllerFilamento = new GestoreRicercaStelleFilamento(this);
+                return controllerFilamento.ricercaStelleFilamento(idFil);
+            } else {
+                return new BeanRispostaStelleFilamento(false, true);
+            }
         } else {
-            return new BeanRispostaStelleFilamento(false);
+            return new BeanRispostaStelleFilamento(false, false);
         }
     }    
 }

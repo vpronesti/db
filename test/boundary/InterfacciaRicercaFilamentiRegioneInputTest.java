@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 8
@@ -17,6 +18,7 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaFilamentiRegioneInputTest {
     private final boolean expected;
+    private String userId;
     private double longCentroide;
     private double latiCentroide;
     private double dimensione;
@@ -25,20 +27,21 @@ public class InterfacciaRicercaFilamentiRegioneInputTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.CERCHIO},
+            {true, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.CERCHIO},
             // la dimensione non puo' essere negativa
-            {false, new Double(5.0004370), new Double(0.084881000), new Double(-0.5), TipoFigura.CERCHIO},
+            {false, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(-0.5), TipoFigura.CERCHIO},
             
-            {true, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.QUADRATO},
+            {true, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.5), TipoFigura.QUADRATO},
             // la dimensione non puo' essere negativa
-            {false, new Double(5.0004370), new Double(0.084881000), new Double(-0.5), TipoFigura.QUADRATO}
+            {false, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(-0.5), TipoFigura.QUADRATO}
         });
     }
     
     public InterfacciaRicercaFilamentiRegioneInputTest(boolean expected, 
-                double longCentroide, double latiCentroide, double dimensione, 
-                TipoFigura tipoFigura) {
+                String userId, double longCentroide, double latiCentroide, 
+                double dimensione, TipoFigura tipoFigura) {
         this.expected = expected;
+        this.userId = userId;
         this.longCentroide = longCentroide;
         this.latiCentroide = latiCentroide;
         this.dimensione = dimensione;
@@ -48,13 +51,13 @@ public class InterfacciaRicercaFilamentiRegioneInputTest {
     @Test
     public void testRicercaFilamentiRegione() {
         InterfacciaRicercaFilamentiRegione interfacciaFilamentiRegione = 
-                new InterfacciaRicercaFilamentiRegione("a");
+                new InterfacciaRicercaFilamentiRegione(userId);
         BeanRichiestaFilamentiRegione beanRichiesta = 
                 new BeanRichiestaFilamentiRegione(longCentroide, 
                         latiCentroide, dimensione, tipoFigura);
         BeanRispostaFilamenti beanRisposta = interfacciaFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
         
-        assertEquals("errore", beanRisposta.isInputValido(), expected);
+        assertEquals("errore", beanRisposta.isInputValido() && beanRisposta.isAzioneConsentita(), expected);
     }
     
     

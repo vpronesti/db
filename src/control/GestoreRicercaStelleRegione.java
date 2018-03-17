@@ -141,7 +141,7 @@ public class GestoreRicercaStelleRegione {
         BeanRispostaStelleRegione beanRisposta = 
                 new BeanRispostaStelleRegione(percentualeStelleInterne, 
                         percentualeStelleEsterne, tipiStellePercentualeInterne, 
-                        tipiStellePercentualeEsterne);
+                        tipiStellePercentualeEsterne, true);
 
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;

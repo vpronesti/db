@@ -76,12 +76,16 @@ public class RicercaContrastoEllitticitaController {
             InterfacciaRicercaContrastoEllitticita boundaryContrastoEllitticita = 
                     new  InterfacciaRicercaContrastoEllitticita(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaContrastoEllitticita beanRisposta = boundaryContrastoEllitticita.ricercaContrastoEllitticita(beanRichiesta);
-            if (!beanRisposta.isInputValido()) {
-                text.setText("Le percentuali non possono essere minori di zero ed i valori di ellitticita' devono essere compresi tra 1 e 10 esclusi");
+            if (beanRisposta.isAzioneConsentita()) {
+                if (!beanRisposta.isInputValido()) {
+                    text.setText("Le percentuali non possono essere minori di zero ed i valori di ellitticita' devono essere compresi tra 1 e 10 esclusi");
+                } else {
+                    RisultatiRicercaContrastoEllitticitaController risultatiController = 
+                            new RisultatiRicercaContrastoEllitticitaController(beanRisposta); 
+                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCACONTRASTOELLITTICITA, risultatiController);
+                }
             } else {
-                RisultatiRicercaContrastoEllitticitaController risultatiController = 
-                        new RisultatiRicercaContrastoEllitticitaController(beanRisposta); 
-                ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCACONTRASTOELLITTICITA, risultatiController);
+                text.setText("Azione non consentita");
             }
         }
     }

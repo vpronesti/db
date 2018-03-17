@@ -1,9 +1,13 @@
 package boundary;
 
 import bean.BeanRichiestaImport;
+import bean.BeanUtente;
 import control.GestoreImportCsv;
+import dao.UtenteDao;
 import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
+import java.sql.Connection;
+import util.DBAccess;
 
 /**
  * REQ-FN-3
@@ -31,11 +35,15 @@ public class InterfacciaImportCsv {
     }
     
     public boolean importaCsv(BeanRichiestaImport beanRichiesta) throws FormatoFileNonSupportatoException {
-        if (this.controllaBean(beanRichiesta)) {
-            controllerImportCsv = new GestoreImportCsv(this);
-            return controllerImportCsv.importCsv(beanRichiesta);    
-        } else {
-            return false;
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaAmministratore(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(beanRichiesta)) {
+                controllerImportCsv = new GestoreImportCsv(this);
+                return controllerImportCsv.importCsv(beanRichiesta);    
+            } 
         }
+        return false;
     }
 }

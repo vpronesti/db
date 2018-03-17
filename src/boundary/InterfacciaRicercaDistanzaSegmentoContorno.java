@@ -2,7 +2,11 @@ package boundary;
 
 import bean.BeanRichiestaSegmentoContorno;
 import bean.BeanRispostaSegmentoContorno;
+import bean.BeanUtente;
 import control.GestoreRicercaDistanzaSegmentoContorno;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 /**
  * REQ-11
@@ -23,11 +27,18 @@ public class InterfacciaRicercaDistanzaSegmentoContorno {
     }
     
     public BeanRispostaSegmentoContorno ricercaDistanzaSegmentoContorno(BeanRichiestaSegmentoContorno beanRichiesta) {
-        if (this.controllaBean(beanRichiesta)) {
-            controllerFilamento = new GestoreRicercaDistanzaSegmentoContorno(this);
-            return controllerFilamento.ricercaDistanzaSegmentoContorno(beanRichiesta);
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(beanRichiesta)) {
+                controllerFilamento = new GestoreRicercaDistanzaSegmentoContorno(this);
+                return controllerFilamento.ricercaDistanzaSegmentoContorno(beanRichiesta);
+            } else {
+                return new BeanRispostaSegmentoContorno(false, true);
+            }
         } else {
-            return new BeanRispostaSegmentoContorno(false);
+            return new BeanRispostaSegmentoContorno(false, false);
         }
     }      
 }

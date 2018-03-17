@@ -4,16 +4,19 @@ public class BeanRispostaSegmentoContorno {
     private double distanzaA;
     private double distanzaB;
     private boolean segmentoEsiste;
+    private boolean azioneConsentita;
     
     public BeanRispostaSegmentoContorno(double distanzaA, double distanzaB, 
-            boolean segmentoEsiste) {
+            boolean segmentoEsiste, boolean azioneConsentita) {
         this.distanzaA = distanzaA;
         this.distanzaB = distanzaB;
         this.segmentoEsiste = segmentoEsiste;
+        this.azioneConsentita = azioneConsentita;
     }
     
-    public BeanRispostaSegmentoContorno(boolean segmentoEsiste) {
+    public BeanRispostaSegmentoContorno(boolean segmentoEsiste, boolean azioneConsentita) {
         this.segmentoEsiste = segmentoEsiste;
+        this.azioneConsentita = azioneConsentita;
     }
 
     public double getDistanzaA() {
@@ -38,5 +41,13 @@ public class BeanRispostaSegmentoContorno {
 
     public void setSegmentoEsiste(boolean segmentoEsiste) {
         this.segmentoEsiste = segmentoEsiste;
+    }
+
+    public boolean isAzioneConsentita() {
+        return azioneConsentita;
+    }
+
+    public void setAzioneConsentita(boolean azioneConsentita) {
+        this.azioneConsentita = azioneConsentita;
     }
 }

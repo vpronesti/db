@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 6
@@ -15,6 +16,7 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaContrastoEllitticitaInputTest {
     private final boolean expected;
+    private String userId;
     private double brillanza;
     private double inizioIntervalloEllitticita;
     private double fineIntervalloEllitticita;
@@ -23,19 +25,20 @@ public class InterfacciaRicercaContrastoEllitticitaInputTest {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
             // la brillanza non puo' essere negativa
-            {false, -23, 2, 8},
+            {false, REGISTRATO, -23, 2, 8},
             // i valori di ellitticita devono essere compresi tra 1 e 10 esclusi
-            {false, 23, 1, 4},
-            {false, 23, 3, 10},
-            {true, 23, 3, 8},
-            {false, -23, 1, 10}
+            {false, REGISTRATO, 23, 1, 4},
+            {false, REGISTRATO, 23, 3, 10},
+            {true, REGISTRATO, 23, 3, 8},
+            {false, REGISTRATO, -23, 1, 10}
         });
     }
     
     public InterfacciaRicercaContrastoEllitticitaInputTest(boolean expected, 
-            double brillanza, double inizioIntervalloEllitticita, 
+            String userId, double brillanza, double inizioIntervalloEllitticita, 
             double fineIntervalloEllitticita) {
         this.expected = expected;
+        this.userId = userId;
         this.brillanza = brillanza;
         this.inizioIntervalloEllitticita = inizioIntervalloEllitticita;
         this.fineIntervalloEllitticita = fineIntervalloEllitticita;
@@ -45,11 +48,11 @@ public class InterfacciaRicercaContrastoEllitticitaInputTest {
     @Test
     public void testRicercaContrastoEllitticita() {
         InterfacciaRicercaContrastoEllitticita interfacciaContrastoEllitticita = 
-                new InterfacciaRicercaContrastoEllitticita("a");
+                new InterfacciaRicercaContrastoEllitticita(userId);
         BeanRichiestaContrastoEllitticita beanRichiesta = new BeanRichiestaContrastoEllitticita(brillanza, inizioIntervalloEllitticita, fineIntervalloEllitticita);
         BeanRispostaContrastoEllitticita beanRisposta = interfacciaContrastoEllitticita.ricercaContrastoEllitticita(beanRichiesta);
         
-        assertEquals("errore", beanRisposta.isInputValido(), expected);
+        assertEquals("errore", beanRisposta.isInputValido() && beanRisposta.isAzioneConsentita(), expected);
     }
     
     

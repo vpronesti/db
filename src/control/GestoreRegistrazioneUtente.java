@@ -18,7 +18,7 @@ public class GestoreRegistrazioneUtente {
         UtenteDao utenteDao = UtenteDao.getInstance();
         boolean res = false;
         if (!utenteDao.queryEsistenzaUtente(conn, beanUtente))
-        res = utenteDao.inserisciUtente(conn, beanUtente);
+            res = utenteDao.inserisciUtente(conn, beanUtente);
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }

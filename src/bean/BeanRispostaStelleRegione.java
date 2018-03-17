@@ -7,16 +7,23 @@ public class BeanRispostaStelleRegione {
     private double percentualeStelleEsterne;
     private Map<String, Double> tipiStellePercentualeInterne;
     private Map<String, Double> tipiStellePercentualeEsterne;
+    private boolean azioneConsentita;
     
     public BeanRispostaStelleRegione(double percentualeStelleInterne, 
             double percentualeStelleEsterne, 
             Map<String, Double> tipiStellePercentualeInterne, 
-            Map<String, Double> tipiStellePercentualeEsterne) {
+            Map<String, Double> tipiStellePercentualeEsterne, 
+            boolean azioneConsentita) {
         this.percentualeStelleInterne = percentualeStelleInterne;
         this.percentualeStelleEsterne = percentualeStelleEsterne;
         this.tipiStellePercentualeInterne = tipiStellePercentualeInterne;
         this.tipiStellePercentualeEsterne = tipiStellePercentualeEsterne;
+        this.azioneConsentita = azioneConsentita;
 
+    }
+
+    public BeanRispostaStelleRegione(boolean azioneConsentita) {
+        this.azioneConsentita = azioneConsentita;
     }
 
     public double getPercentualeStelleInterne() {
@@ -49,6 +56,14 @@ public class BeanRispostaStelleRegione {
 
     public void setTipiStellePercentualeEsterne(Map<String, Double> tipiStellePercentualeEsterne) {
         this.tipiStellePercentualeEsterne = tipiStellePercentualeEsterne;
+    }
+
+    public boolean isAzioneConsentita() {
+        return azioneConsentita;
+    }
+
+    public void setAzioneConsentita(boolean azioneConsentita) {
+        this.azioneConsentita = azioneConsentita;
     }
 
 }

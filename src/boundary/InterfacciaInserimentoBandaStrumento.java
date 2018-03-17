@@ -1,7 +1,11 @@
 package boundary;
 
 import bean.BeanStrumento;
+import bean.BeanUtente;
 import control.GestoreInserimentoBandaStrumento;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 public class InterfacciaInserimentoBandaStrumento {
     private GestoreInserimentoBandaStrumento controllerInserimento;
@@ -19,11 +23,15 @@ public class InterfacciaInserimentoBandaStrumento {
     }
     
     public boolean inserisciBandaStrumento(BeanStrumento beanStrumento) {
-        if (this.controllaBean(beanStrumento)) {
-            controllerInserimento = new GestoreInserimentoBandaStrumento(this);
-            return controllerInserimento.inserisciBandaStrumento(beanStrumento);
-        } else {
-            return false;
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaAmministratore(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(beanStrumento)) {
+                controllerInserimento = new GestoreInserimentoBandaStrumento(this);
+                return controllerInserimento.inserisciBandaStrumento(beanStrumento);
+            }
         }
+        return false;
     }
 }

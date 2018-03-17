@@ -14,6 +14,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import util.DBAccess;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 7
@@ -21,19 +24,23 @@ import util.DBAccess;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaNumeroSegmentiOutputTest {
     private final boolean expected;
+    private String userId;
     private int inizioIntervallo;
     private int fineIntervallo;
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, 5, 8}
+            {true, AMMINISTRATORE, 5, 8},
+            {true, REGISTRATO, 5, 8},
+            {false, NONREGISTRATO, 5, 8}
         });
     }
     
     public InterfacciaRicercaNumeroSegmentiOutputTest(boolean expected, 
-                int inizioIntervallo, int fineIntervallo) {
+                String userId, int inizioIntervallo, int fineIntervallo) {
         this.expected = expected;
+        this.userId = userId;
         this.inizioIntervallo = inizioIntervallo;
         this.fineIntervallo = fineIntervallo;
     }
@@ -63,10 +70,14 @@ public class InterfacciaRicercaNumeroSegmentiOutputTest {
     @Test
     public void testRicercaNumeroSegmenti() {
         InterfacciaRicercaNumeroSegmenti interfacciaNumeroSegmenti = 
-                new InterfacciaRicercaNumeroSegmenti("a");
+                new InterfacciaRicercaNumeroSegmenti(userId);
         BeanRichiestaNumeroSegmenti beanRichiesta = new BeanRichiestaNumeroSegmenti(inizioIntervallo, fineIntervallo);
         BeanRispostaFilamenti beanRisposta = interfacciaNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
-        boolean res = this.controllaNumeroSegmenti(beanRisposta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaNumeroSegmenti(beanRisposta);
+        else
+            res = false;
         assertEquals("errore", res, expected);
     }
 }

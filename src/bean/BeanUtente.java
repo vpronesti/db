@@ -8,6 +8,10 @@ public class BeanUtente {
     private String email;
     private String tipo;
 
+    public BeanUtente(String userId) {
+        this.userId = userId;
+    }
+    
     public BeanUtente(String nome, String cognome, String userId, 
             String password, String email, String tipo) {
         this.nome = nome;

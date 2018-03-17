@@ -1,7 +1,11 @@
 package boundary;
 
 import bean.BeanInformazioniFilamento;
+import bean.BeanUtente;
 import control.GestoreRecuperoInformazioniFilamento;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 /**
  * REQ-5
@@ -22,11 +26,15 @@ public class InterfacciaRecuperoInformazioniDerivateFilamento {
     }
     
     public boolean recuperaInfoFilamento(BeanInformazioniFilamento beanFil) {
-        if (this.controllaBean(beanFil)) {
-            controllerFilamento = new GestoreRecuperoInformazioniFilamento(this);
-            return controllerFilamento.recuperaInfoFilamento(beanFil);
-        } else {
-            return false;
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(beanFil)) {
+                controllerFilamento = new GestoreRecuperoInformazioniFilamento(this);
+                return controllerFilamento.recuperaInfoFilamento(beanFil);
+            }
         }
+        return false;
     }
 }

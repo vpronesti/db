@@ -32,6 +32,23 @@ public class UtenteDao {
         }
     }
     
+    public boolean queryEsistenzaAmministratore(Connection conn, BeanUtente beanUtente) {
+        boolean res = false;
+        String sql = "select * from utente where userid = '" + 
+                beanUtente.getUserId() + "' and tipo = 'Amministratore'";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next())
+                res = true;
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
     public boolean queryEsistenzaUtente(Connection conn, BeanUtente beanUtente) {
         boolean res = false;
         String sql = "select * from utente where userid = '" 

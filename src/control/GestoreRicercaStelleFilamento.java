@@ -58,7 +58,7 @@ public class GestoreRicercaStelleFilamento {
             }
 
             beanRisposta = new BeanRispostaStelleFilamento(numeroTotaleStelle, 
-                    tipiStellaPercentuale, true);
+                    tipiStellaPercentuale, true, true);
             
             
 //            ContornoDao contornoDao = ContornoDao.getInstance();
@@ -92,7 +92,7 @@ public class GestoreRicercaStelleFilamento {
 //                beanRisposta = new BeanRispostaStelleFilamento(false); // non ci sono punti di contorno
 //            }
         } else {
-            beanRisposta = new BeanRispostaStelleFilamento(false); // filamento non esiste
+            beanRisposta = new BeanRispostaStelleFilamento(false, true); // filamento non esiste
         }
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;

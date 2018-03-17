@@ -2,6 +2,9 @@ package boundary;
 
 import bean.BeanUtente;
 import control.GestoreRegistrazioneUtente;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 public class InterfacciaRegistrazioneUtente {
     private GestoreRegistrazioneUtente controllerRegistrazioneUtente;
@@ -36,13 +39,17 @@ public class InterfacciaRegistrazioneUtente {
     }
     
     public boolean definizioneUtente(BeanUtente beanUtente) {
-        if (this.controlloBean(beanUtente)) {
-            boolean res;
-            controllerRegistrazioneUtente = new GestoreRegistrazioneUtente(this);
-            res = controllerRegistrazioneUtente.gestioneRegistrazioneUtente(beanUtente);
-            return res;
-        } else {
-            return false;
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaAmministratore(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controlloBean(beanUtente)) {
+                boolean res;
+                controllerRegistrazioneUtente = new GestoreRegistrazioneUtente(this);
+                res = controllerRegistrazioneUtente.gestioneRegistrazioneUtente(beanUtente);
+                return res;
+            }
         }
+        return false;
     }
 }

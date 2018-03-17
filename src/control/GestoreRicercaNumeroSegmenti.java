@@ -29,7 +29,7 @@ public class GestoreRicercaNumeroSegmenti {
 //            Filamento f = filamentoDao.queryCampiFilamento(conn, listaIdFil.get(i));
 //            listaFilamenti.add(f);
 //        }
-        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true);
+        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true, true);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }    

@@ -48,15 +48,19 @@ public class RicercaStelleFilamentoController {
                     new  InterfacciaRicercaStelleFilamento(LogInController.interfacciaUtenteLogin.getUserId());
         BeanRispostaStelleFilamento beanRisposta = boundaryStelleFilamento.ricercaStelleFilamento(idFil);
         String risp;
-        if (beanRisposta.isContornoFilamento()) {
-            risp = "Numero totale stelle trovate: " + beanRisposta.getTotaleStelleTrovate() + "\n";
-            Map<String, Double> tipiStellaPercentuale = beanRisposta.getTipiStellaPercentuale();
-            Set<String> tipiStella = tipiStellaPercentuale.keySet();
-            for (String s : tipiStella) {
-                risp += "Percentuale stelle di tipo " + s + ": " + tipiStellaPercentuale.get(s) + "%\n";
+        if (beanRisposta.isAzioneConsentita()) {
+            if (beanRisposta.isContornoFilamento()) {
+                risp = "Numero totale stelle trovate: " + beanRisposta.getTotaleStelleTrovate() + "\n";
+                Map<String, Double> tipiStellaPercentuale = beanRisposta.getTipiStellaPercentuale();
+                Set<String> tipiStella = tipiStellaPercentuale.keySet();
+                for (String s : tipiStella) {
+                    risp += "Percentuale stelle di tipo " + s + ": " + tipiStellaPercentuale.get(s) + "%\n";
+                }
+            } else {
+                risp = "Nel db non sono definiti i punti di confine per l'id specificato oppure non esiste l'id";
             }
         } else {
-            risp = "Nel db non sono definiti i punti di confine per l'id specificato oppure non esiste l'id";
+            risp = "Azione non consentita";
         }
         text.setText(risp);
     }

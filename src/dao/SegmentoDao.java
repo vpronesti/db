@@ -55,6 +55,66 @@ public class SegmentoDao {
     }
     
     /**
+     * utilizzato per gli import
+     * controlla che il punto di un segmento non faccia parte di altri segmenti
+     * @param conn
+     * @param s
+     * @return 
+     */
+    public boolean querySegmentoAppartenteAltroSegmento(Connection conn, Segmento s) {
+        boolean res = false;
+        String sql = "select * from segmento where (idfil <> " + 
+                s.getIdFil() + " or satellite <> '" + s.getSatellite() + "') and " + 
+                "glon_br = " + s.getgLonBr() + " and glat_br = " + s.getgLatBr();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                res = true;
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
+    /**
+     * utilizzato per l'import dei file
+     * @param conn
+     * @param idFil
+     * @return 
+     */
+    public List<Segmento> queryPuntiSegmento(Connection conn, BeanIdFilamento idFil) {
+        String sql = "select  idbranch, type, glon_br, glat_br, n, flux " + 
+                "from segmento where idfil = " + idFil.getIdFil() + 
+                " and satellite = '" + idFil.getSatellite() + "'";
+        List<Segmento> listaSegmenti = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int idBranch = rs.getInt("idbranch");
+                String type = rs.getString("type");
+                double gLonBr = rs.getDouble("glon_br");
+                double gLatBr = rs.getDouble("glat_br");
+                int n = rs.getInt("n");
+                double flux = rs.getDouble("flux");
+                Segmento seg = new Segmento(idFil.getIdFil(), idFil.getSatellite(), 
+                        idBranch, type, gLonBr, gLatBr, n, flux);
+                listaSegmenti.add(seg);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaSegmenti;
+    }
+    
+    
+    /**
      * utilizzato per la distanza tra segmento e contorno 
      * @param conn
      * @param idFil

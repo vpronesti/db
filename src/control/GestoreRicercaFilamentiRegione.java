@@ -33,7 +33,7 @@ public class GestoreRicercaFilamentiRegione {
         
 //System.out.println("check time: " + (System.currentTimeMillis() - start));
 //System.out.println("len: " + listaFilamenti.size());
-        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true); //listaIdInterni);
+        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true, true); //listaIdInterni);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }
@@ -48,7 +48,7 @@ public class GestoreRicercaFilamentiRegione {
 //System.out.println("check time: " + (System.currentTimeMillis() - start));
 //System.out.println("len: " + listaFilamenti.size());
 
-        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true);
+        BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true, true);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }

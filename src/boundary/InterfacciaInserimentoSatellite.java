@@ -1,7 +1,11 @@
 package boundary;
 
 import bean.BeanSatellite;
+import bean.BeanUtente;
 import control.GestoreInserimentoSatellite;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 public class InterfacciaInserimentoSatellite {
     private GestoreInserimentoSatellite controllerInserimento;
@@ -27,11 +31,15 @@ public class InterfacciaInserimentoSatellite {
     }
     
     public boolean inserisciSatellite(BeanSatellite satellite) {
-        if (this.controllaBean(satellite)) {
-            controllerInserimento = new GestoreInserimentoSatellite(this);
-            return controllerInserimento.inserisciSatellite(satellite);
-        } else {
-            return false;
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaAmministratore(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(satellite)) {
+                controllerInserimento = new GestoreInserimentoSatellite(this);
+                return controllerInserimento.inserisciSatellite(satellite);
+            }
         }
+        return false;
     }
 }

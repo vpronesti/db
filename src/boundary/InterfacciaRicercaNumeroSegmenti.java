@@ -2,7 +2,11 @@ package boundary;
 
 import bean.BeanRichiestaNumeroSegmenti;
 import bean.BeanRispostaFilamenti;
+import bean.BeanUtente;
 import control.GestoreRicercaNumeroSegmenti;
+import dao.UtenteDao;
+import java.sql.Connection;
+import util.DBAccess;
 
 /**
  * REQ-7
@@ -32,11 +36,18 @@ public class InterfacciaRicercaNumeroSegmenti {
     
     public BeanRispostaFilamenti ricercaNumeroSegmenti(BeanRichiestaNumeroSegmenti beanRichiesta) {
         BeanRispostaFilamenti beanRisposta;
-        if (this.controllaBean(beanRichiesta)) {
-            controllerFilamento = new GestoreRicercaNumeroSegmenti(this);
-            beanRisposta = controllerFilamento.ricercaNumeroSegmenti(beanRichiesta);
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
+        if (azioneConsentita) {
+            if (this.controllaBean(beanRichiesta)) {
+                controllerFilamento = new GestoreRicercaNumeroSegmenti(this);
+                beanRisposta = controllerFilamento.ricercaNumeroSegmenti(beanRichiesta);
+            } else {
+                beanRisposta = new BeanRispostaFilamenti(false, true);
+            }
         } else {
-            beanRisposta = new BeanRispostaFilamenti(false);
+            beanRisposta = new BeanRispostaFilamenti(false, false);
         }
         return beanRisposta;
     }

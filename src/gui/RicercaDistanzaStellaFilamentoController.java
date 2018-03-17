@@ -51,11 +51,15 @@ public class RicercaDistanzaStellaFilamentoController {
             InterfacciaRicercaDistanzaStellaFilamento boundaryStellaFilamento = 
                     new  InterfacciaRicercaDistanzaStellaFilamento(LogInController.interfacciaUtenteLogin.getUserId());
             BeanRispostaStellaFilamento beanRisposta = boundaryStellaFilamento.ricercaDistanzaStellaFilamento(idFil);
-            if (beanRisposta.isFilamentoEsiste()) {
-                RisultatiRicercaDistanzaStellaFilamentoController risultatiController = new RisultatiRicercaDistanzaStellaFilamentoController(beanRisposta, true); 
-                ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCADISTANZASTELLAFILAMENTO, risultatiController);
+            if (beanRisposta.isAzioneConsentita()) {
+                if (beanRisposta.isFilamentoEsiste()) {
+                    RisultatiRicercaDistanzaStellaFilamentoController risultatiController = new RisultatiRicercaDistanzaStellaFilamentoController(beanRisposta, true); 
+                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCADISTANZASTELLAFILAMENTO, risultatiController);
+                } else {
+                    res = "Il filamento inserito non esiste";
+                }
             } else {
-                res = "Il filamento inserito non esiste";
+                res = "Azione non consentita";
             }
             text.setText(res);
         }

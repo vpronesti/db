@@ -131,17 +131,21 @@ public class RicercaStelleRegioneController {
 
 
             BeanRispostaStelleRegione beanRisposta = boundaryStelleRegione.ricercaStelleRegione(beanRichiesta);
+            String res = "";
+            if (beanRisposta.isAzioneConsentita()) {
             
-            
-            String res = "Percentuale stelle interne ai filamenti: " + beanRisposta.getPercentualeStelleInterne() + "%\n";
-            Set<String> tipiStelleInterne = beanRisposta.getTipiStellePercentualeInterne().keySet();
-            for (String s : tipiStelleInterne) {
-                res += "\tPercentuale stelle " + s + ": " + beanRisposta.getTipiStellePercentualeInterne().get(s) + "%\n";
-            }                            
-            res += "Percentuale stelle esterne ai filamenti: " + beanRisposta.getPercentualeStelleEsterne() + "%\n";
-            Set<String> tipiStelleEsterne = beanRisposta.getTipiStellePercentualeEsterne().keySet();
-            for (String s : tipiStelleEsterne) {
-                res += "\tPercentuale stelle " + s + ": " + beanRisposta.getTipiStellePercentualeEsterne().get(s) + "%\n";
+                res = "Percentuale stelle interne ai filamenti: " + beanRisposta.getPercentualeStelleInterne() + "%\n";
+                Set<String> tipiStelleInterne = beanRisposta.getTipiStellePercentualeInterne().keySet();
+                for (String s : tipiStelleInterne) {
+                    res += "\tPercentuale stelle " + s + ": " + beanRisposta.getTipiStellePercentualeInterne().get(s) + "%\n";
+                }                            
+                res += "Percentuale stelle esterne ai filamenti: " + beanRisposta.getPercentualeStelleEsterne() + "%\n";
+                Set<String> tipiStelleEsterne = beanRisposta.getTipiStellePercentualeEsterne().keySet();
+                for (String s : tipiStelleEsterne) {
+                    res += "\tPercentuale stelle " + s + ": " + beanRisposta.getTipiStellePercentualeEsterne().get(s) + "%\n";
+                }
+            } else {
+                res = "Azione non consentita";
             }
             text.setText(res);
         }

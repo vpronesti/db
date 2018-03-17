@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 7
@@ -15,6 +16,7 @@ import org.junit.runners.Parameterized;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRicercaNumeroSegmentiInputTest {
     private final boolean expected;
+    private String userId;
     private int inizioIntervallo;
     private int fineIntervallo;
     
@@ -22,20 +24,21 @@ public class InterfacciaRicercaNumeroSegmentiInputTest {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
             // il numero di segmenti non puo' essere negativo
-            {false, -23, -2},
-            {false, -23, 10},
+            {false, REGISTRATO, -23, -2},
+            {false, REGISTRATO, -23, 10},
             // l'intervallo non puo' essere definito al contrario
-            {false, 10, 2},
+            {false, REGISTRATO, 10, 2},
             // l'ampiezza dell'intervallo deve essere di almeno 2
-            {false, 5, 6},
-            {false, 5, 7},
-            {true, 5, 8}
+            {false, REGISTRATO, 5, 6},
+            {false, REGISTRATO, 5, 7},
+            {true, REGISTRATO, 5, 8}
         });
     }
     
     public InterfacciaRicercaNumeroSegmentiInputTest(boolean expected, 
-                int inizioIntervallo, int fineIntervallo) {
+                String userId, int inizioIntervallo, int fineIntervallo) {
         this.expected = expected;
+        this.userId = userId;
         this.inizioIntervallo = inizioIntervallo;
         this.fineIntervallo = fineIntervallo;
     }
@@ -43,11 +46,11 @@ public class InterfacciaRicercaNumeroSegmentiInputTest {
     @Test
     public void testRicercaNumeroSegmenti() {
         InterfacciaRicercaNumeroSegmenti interfacciaNumeroSegmenti = 
-                new InterfacciaRicercaNumeroSegmenti("a");
+                new InterfacciaRicercaNumeroSegmenti(userId);
         BeanRichiestaNumeroSegmenti beanRichiesta = new BeanRichiestaNumeroSegmenti(inizioIntervallo, fineIntervallo);
         BeanRispostaFilamenti beanRisposta = interfacciaNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
         
-        assertEquals("errore", beanRisposta.isInputValido(), expected);
+        assertEquals("errore", beanRisposta.isInputValido() && beanRisposta.isAzioneConsentita(), expected);
     }
     
     

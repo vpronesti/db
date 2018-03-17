@@ -7,16 +7,19 @@ public class BeanRispostaStellaFilamento {
     private List<Stella> listaStelle;
     private List<Double> listaDistanze;
     private boolean filamentoEsiste;
+    private boolean azioneConsentita;
     
     public BeanRispostaStellaFilamento(List<Stella> listaStelle, 
-            List<Double> listaDistanze, boolean filamentoEsiste) {
+            List<Double> listaDistanze, boolean filamentoEsiste, boolean azioneConsentita) {
         this.listaStelle = listaStelle;
         this.listaDistanze = listaDistanze;
         this.filamentoEsiste = filamentoEsiste;
+        this.azioneConsentita = azioneConsentita;
     }
     
-    public BeanRispostaStellaFilamento(boolean filamentoEsiste) {
+    public BeanRispostaStellaFilamento(boolean filamentoEsiste, boolean azioneConsentita) {
         this.filamentoEsiste = filamentoEsiste;
+        this.azioneConsentita = azioneConsentita;
     }
 
     public boolean isFilamentoEsiste() {
@@ -41,5 +44,13 @@ public class BeanRispostaStellaFilamento {
 
     public void setListaDistanze(List<Double> listaDistanze) {
         this.listaDistanze = listaDistanze;
+    }
+
+    public boolean isAzioneConsentita() {
+        return azioneConsentita;
+    }
+
+    public void setAzioneConsentita(boolean azioneConsentita) {
+        this.azioneConsentita = azioneConsentita;
     }
 }

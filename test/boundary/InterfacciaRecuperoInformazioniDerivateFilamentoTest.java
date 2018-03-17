@@ -2,12 +2,10 @@ package boundary;
 
 import bean.BeanIdFilamento;
 import bean.BeanInformazioniFilamento;
-import bean.BeanRichiestaFilamentiRegione;
-import bean.BeanRispostaFilamenti;
+import bean.BeanUtente;
 import dao.ContornoDao;
+import dao.UtenteDao;
 import entity.Contorno;
-import entity.Filamento;
-import entity.TipoFigura;
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,7 +16,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import util.DBAccess;
-import static util.DistanzaEuclidea.distanza;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 8
@@ -26,19 +26,23 @@ import static util.DistanzaEuclidea.distanza;
 @RunWith(value = Parameterized.class)
 public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
     private boolean expected;
+    private String userId;
     private int id;
     private String satellite;
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, 45, "Herschel"}
+            {true, REGISTRATO, 45, "Herschel"},
+            {true, AMMINISTRATORE, 45, "Herschel"},
+            {false, NONREGISTRATO, 45, "Herschel"}
         });
     }
     
-    public InterfacciaRecuperoInformazioniDerivateFilamentoTest(boolean expected, 
-                int id, String satellite) {
+    public InterfacciaRecuperoInformazioniDerivateFilamentoTest(boolean expected,
+                String userId, int id, String satellite) {
         this.expected = expected;
+        this.userId = userId;
         this.id = id;
         this.satellite = satellite;
     }
@@ -78,12 +82,15 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
     @Test
     public void testRicercaFilamenti() {
         InterfacciaRecuperoInformazioniDerivateFilamento interfacciaFilamento = 
-                new InterfacciaRecuperoInformazioniDerivateFilamento("a");
+                new InterfacciaRecuperoInformazioniDerivateFilamento(userId);
         BeanInformazioniFilamento beanRichiesta = new
          BeanInformazioniFilamento(id, satellite);
+        Connection conn = DBAccess.getInstance().getConnection();
+        boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
+        DBAccess.getInstance().closeConnection(conn);
         boolean res = 
                 interfacciaFilamento.recuperaInfoFilamento(beanRichiesta);
         boolean chk = this.controllaFilamento(beanRichiesta);
-        assertEquals("errore", res == chk, expected);
+        assertEquals("errore", res == chk && azioneConsentita, expected);
     }
 }

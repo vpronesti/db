@@ -2,7 +2,6 @@ package control;
 
 import bean.BeanIdFilamento;
 import bean.BeanRichiestaImport;
-import bean.BeanSatellite;
 import boundary.InterfacciaImportCsv;
 import dao.ContornoDao;
 import dao.FilamentoDao;
@@ -69,6 +68,19 @@ public class GestoreImportCsv {
                         break;
                     } else {
                         filamentiOk.add(idFil);
+                    }
+                }
+                SegmentoDao segmentoDao = SegmentoDao.getInstance();
+                List<Segmento> listaSegmenti = segmentoDao.queryPuntiSegmento(conn, idFil);
+                Iterator<Segmento> j = listaSegmenti.iterator();
+                while (j.hasNext()) {
+                    Segmento s = j.next();
+                    // il punto di un contorno non puo' sovrapporsi ai punti 
+                    // dei segmenti del filamento a cui appartiene
+                    if (s.getgLonBr() == con.getgLonCont() && 
+                            s.getgLatBr() == con.getgLatCont()) {
+                        contornoInseribile = false;
+                        break;
                     }
                 }
             }
@@ -226,20 +238,23 @@ public class GestoreImportCsv {
                     } else {
                         filamentiOk.add(idFil);
                     }
-                    /**
-                     * controllare che il segmento che si vuole definire 
-                     * non si sovrapponga ad un segmento gia esistente
-                     */
-                    
-                    /**
-                     * controllare che il segmento che si vuole definire 
-                     * non si sovrapponga al perimetro del segmento
-                     */
-                    List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
-                    if (puntiContorno.contains(new Contorno(seg.getIdFil(), seg.getSatellite(), seg.getgLonBr(), seg.getgLatBr()))) {
-                        segmentoInseribile = false;
-                        break;
-                    }
+                }
+                /**
+                 * controllare che il segmento che si vuole definire 
+                 * non si sovrapponga ad un segmento gia esistente
+                 */
+                if (segmentoDao.querySegmentoAppartenteAltroSegmento(conn, seg)) {
+                    segmentoInseribile = false;
+                    break;
+                }
+                /**
+                 * controllare che il segmento che si vuole definire 
+                 * non si sovrapponga al perimetro del segmento
+                 */
+                List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
+                if (puntiContorno.contains(new Contorno(seg.getIdFil(), seg.getSatellite(), seg.getgLonBr(), seg.getgLatBr()))) {
+                    segmentoInseribile = false;
+                    break;
                 }
             }
 
