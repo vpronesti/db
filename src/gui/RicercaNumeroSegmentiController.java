@@ -60,7 +60,7 @@ public class RicercaNumeroSegmentiController {
             BeanRispostaFilamenti beanRisposta = boundaryNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
             if (beanRisposta.isAzioneConsentita()) {
                 if (beanRisposta.isInputValido()) {
-                    if (beanRisposta.getFilamenti().size() > 0) {
+                    if (beanRisposta.getListaFilamenti().size() > 0) {
                         RisultatiRicercaNumeroSegmentiController risultatiController = new RisultatiRicercaNumeroSegmentiController(beanRisposta);
                         ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCANUMEROSEGMENTI, risultatiController);
                     } else {

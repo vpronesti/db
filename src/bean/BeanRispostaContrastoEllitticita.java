@@ -5,19 +5,21 @@ import java.util.List;
 
 public class BeanRispostaContrastoEllitticita {
     private List<Filamento> listaFilamenti;
-    private double percentuale;
+    private double percentualeFilamentiTrovati;
     private boolean inputValido;
     private boolean azioneConsentita;
     
     public BeanRispostaContrastoEllitticita(List<Filamento> listaFilamenti, 
-            double percentuale, boolean inputValido, boolean azioneConsentita) {
+            double percentualeFilamentiTrovati, boolean inputValido, 
+            boolean azioneConsentita) {
         this.setListaFilamenti(listaFilamenti);
-        this.percentuale = percentuale;
+        this.percentualeFilamentiTrovati = percentualeFilamentiTrovati;
         this.inputValido = inputValido;
         this.azioneConsentita = azioneConsentita;
     }
     
-    public BeanRispostaContrastoEllitticita(boolean inputValido, boolean azioneConsentita) {
+    public BeanRispostaContrastoEllitticita(boolean inputValido, 
+            boolean azioneConsentita) {
         this.inputValido = inputValido;
         this.azioneConsentita = azioneConsentita;
     }
@@ -30,12 +32,12 @@ public class BeanRispostaContrastoEllitticita {
         this.listaFilamenti = listaFilamenti;
     }
 
-    public double getPercentuale() {
-        return percentuale;
+    public double getPercentualeFilamentiTrovati() {
+        return percentualeFilamentiTrovati;
     }
 
-    public void setPercentuale(double percentuale) {
-        this.percentuale = percentuale;
+    public void setPercentualeFilamentiTrovati(double percentualeFilamentiTrovati) {
+        this.percentualeFilamentiTrovati = percentualeFilamentiTrovati;
     }
 
     public boolean isInputValido() {

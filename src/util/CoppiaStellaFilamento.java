@@ -1,22 +1,33 @@
 package util;
 
 import bean.BeanIdFilamento;
+import bean.BeanIdStella;
 
 public class CoppiaStellaFilamento {
-    private int idStar;
+    private BeanIdStella idStella;
     private BeanIdFilamento idFil;
 
-    public CoppiaStellaFilamento(int idStar, BeanIdFilamento idFil) {
-        this.idStar = idStar;
+    public CoppiaStellaFilamento(BeanIdStella idStella, BeanIdFilamento idFil) {
+        this.idStella = idStella;
         this.idFil = idFil;
     }
-
-    public int getIdStar() {
-        return idStar;
+    
+    public boolean equals(Object v) {
+        boolean retVal = false;
+        if (v instanceof CoppiaStellaFilamento) {
+            CoppiaStellaFilamento ptr = (CoppiaStellaFilamento) v;
+            retVal = ptr.getIdStella().equals(this.getIdStella()) && 
+                    ptr.getIdFil().equals(this.getIdFil());
+    }
+        return false;
     }
 
-    public void setIdStar(int idStar) {
-        this.idStar = idStar;
+    public BeanIdStella getIdStella() {
+        return idStella;
+    }
+
+    public void setIdStar(BeanIdStella idStella) {
+        this.idStella = idStella;
     }
 
     public BeanIdFilamento getIdFil() {
@@ -25,15 +36,5 @@ public class CoppiaStellaFilamento {
 
     public void setIdFil(BeanIdFilamento idFil) {
         this.idFil = idFil;
-    }
-    
-    public boolean equals(Object v) {
-        boolean retVal = false;
-        if (v instanceof CoppiaStellaFilamento) {
-            CoppiaStellaFilamento ptr = (CoppiaStellaFilamento) v;
-            retVal = ptr.getIdStar() == this.idStar && 
-                    ptr.getIdFil().equals(this.idFil);
-    }
-        return false;
     }
 }

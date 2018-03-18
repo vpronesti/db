@@ -83,7 +83,7 @@ public class RicercaFilamentiRegioneController {
             BeanRispostaFilamenti beanRisposta = boundaryFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
             if (beanRisposta.isAzioneConsentita()) {
                 if (beanRisposta.isInputValido()) {
-                    if (beanRisposta.getFilamenti().size() > 0) {
+                    if (beanRisposta.getListaFilamenti().size() > 0) {
                     RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
                     ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
                     } else {

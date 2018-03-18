@@ -121,7 +121,7 @@ public class RisultatiRicercaNumeroSegmentiController implements Initializable {
     
     public RisultatiRicercaNumeroSegmentiController(BeanRispostaFilamenti beanRisposta) {
         this.beanRisposta = beanRisposta;
-        this.listaFilamenti = beanRisposta.getFilamenti();
+        this.listaFilamenti = beanRisposta.getListaFilamenti();
         this.data = getData();
     }
     
@@ -137,9 +137,9 @@ public class RisultatiRicercaNumeroSegmentiController implements Initializable {
     
     @Override
     public void initialize() {
-        numeroTotaleFilamentiTrovatiText.setText("Numero totale di filamenti trovati: " + this.beanRisposta.getFilamenti().size());
-        int lastPage = ((beanRisposta.getFilamenti().size() % rowsPerPage > 0) ? 1 : 0);
-        risultatiPagination.setPageCount(beanRisposta.getFilamenti().size() / rowsPerPage + lastPage);
+        numeroTotaleFilamentiTrovatiText.setText("Numero totale di filamenti trovati: " + this.beanRisposta.getListaFilamenti().size());
+        int lastPage = ((beanRisposta.getListaFilamenti().size() % rowsPerPage > 0) ? 1 : 0);
+        risultatiPagination.setPageCount(beanRisposta.getListaFilamenti().size() / rowsPerPage + lastPage);
         risultatiPagination.setPageFactory(this::createPage);        
     }
     

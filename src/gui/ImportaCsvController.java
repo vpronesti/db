@@ -55,8 +55,7 @@ public class ImportaCsvController {
     protected void importa(ActionEvent event) throws Exception {
         BeanRichiestaImport beanRichiestaImport = this.wrapRichiesta();
         if (beanRichiestaImport != null) {
-            if (beanRichiestaImport.getTipo() == TipoFileCsv.STELLA || 
-                    beanRichiestaImport.getTipo() == TipoFileCsv.FILAMENTO) {
+            if (beanRichiestaImport.getTipo() == TipoFileCsv.FILAMENTO) {
                 InterfacciaImportCsv boundaryImportCsv = new
                         InterfacciaImportCsv(LogInController.interfacciaUtenteLogin.getUserId());
                 try {

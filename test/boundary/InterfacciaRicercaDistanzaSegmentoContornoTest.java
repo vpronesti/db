@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.NONREGISTRATO;
 import static util.UserId.REGISTRATO;
 
 /**
@@ -26,6 +27,7 @@ public class InterfacciaRicercaDistanzaSegmentoContornoTest {
         return Arrays.asList(new Object[][] {
             // segmento non esistente
             {false, REGISTRATO, 45, "Herschel", 2},
+            {false, NONREGISTRATO, 45, "Herschel", 26},
             {true, REGISTRATO, 45, "Herschel", 26},
         });
     }

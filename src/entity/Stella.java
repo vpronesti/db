@@ -6,15 +6,17 @@ import java.util.List;
 
 public class Stella {
     private int idStar;
+    private String satellite;
     private String name;
     private double gLonSt;
     private double gLatSt;
     private double fluxSt;
     private String type;
     
-    public Stella(int idStar, String name, double gLonSt, double gLatSt, 
-            double fluxSt, String type) {
+    public Stella(int idStar, String satellite, String name, 
+            double gLonSt, double gLatSt, double fluxSt, String type) {
         this.idStar = idStar;
+        this.satellite = satellite;
         this.name = name;
         this.gLonSt = gLonSt;
         this.gLatSt = gLatSt;
@@ -23,8 +25,9 @@ public class Stella {
         
     }
 
-    public Stella(int idStar, double gLonSt, double gLatSt) {
+    public Stella(int idStar, String satellite, double gLonSt, double gLatSt) {
         this.idStar = idStar;
+        this.satellite = satellite;
         this.gLonSt = gLonSt;
         this.gLatSt = gLatSt;
     }
@@ -96,5 +99,13 @@ public class Stella {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSatellite() {
+        return satellite;
+    }
+
+    public void setSatellite(String satellite) {
+        this.satellite = satellite;
     }
 }

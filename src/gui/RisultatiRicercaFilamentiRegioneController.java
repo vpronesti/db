@@ -119,7 +119,7 @@ public class RisultatiRicercaFilamentiRegioneController implements Initializable
     
     public RisultatiRicercaFilamentiRegioneController(BeanRispostaFilamenti beanRisposta) {
         this.beanRisposta = beanRisposta;
-        this.listaFilamenti = beanRisposta.getFilamenti();
+        this.listaFilamenti = beanRisposta.getListaFilamenti();
         this.data = getData();
     }
     
@@ -135,8 +135,8 @@ public class RisultatiRicercaFilamentiRegioneController implements Initializable
     
     @Override
     public void initialize() {
-        int lastPage = ((beanRisposta.getFilamenti().size() % rowsPerPage > 0) ? 1 : 0);
-        risultatiPagination.setPageCount(beanRisposta.getFilamenti().size() / rowsPerPage + lastPage);
+        int lastPage = ((beanRisposta.getListaFilamenti().size() % rowsPerPage > 0) ? 1 : 0);
+        risultatiPagination.setPageCount(beanRisposta.getListaFilamenti().size() / rowsPerPage + lastPage);
         risultatiPagination.setPageFactory(this::createPage);        
     }
     

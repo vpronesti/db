@@ -66,7 +66,7 @@ public class UtenteDao {
         return res;
     }
     
-    public Utente findUtente(Connection conn, String userId, String password) {
+    public Utente queryUtente(Connection conn, String userId, String password) {
         Statement stmt = null;
         Utente utente = null;
         try {

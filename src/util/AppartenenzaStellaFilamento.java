@@ -1,6 +1,7 @@
 package util;
 
 import bean.BeanIdFilamento;
+import bean.BeanIdStella;
 import dao.ContornoDao;
 import entity.Contorno;
 import entity.Stella;
@@ -33,7 +34,8 @@ public class AppartenenzaStellaFilamento implements Runnable {
             while (iS.hasNext()) {
                 Stella s = iS.next();
                 if (s.internoFilamento(listaContorno)) {
-                    CoppiaStellaFilamento c = new CoppiaStellaFilamento(s.getIdStar(), idFil);
+                    BeanIdStella idStella = new BeanIdStella(s.getIdStar(), s.getSatellite());
+                    CoppiaStellaFilamento c = new CoppiaStellaFilamento(idStella, idFil);
                     getListaAppartenenza().add(c);
                 }
             }

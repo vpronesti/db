@@ -18,7 +18,7 @@ public class GestoreLogin {
     public String login(String userId, String password) {
         Connection conn = DBAccess.getInstance().getConnection();
         UtenteDao utenteDao = UtenteDao.getInstance();
-        Utente utente = utenteDao.findUtente(conn, userId, password);
+        Utente utente = utenteDao.queryUtente(conn, userId, password);
         DBAccess.getInstance().closeConnection(conn);
         if (utente == null) {
             return null;

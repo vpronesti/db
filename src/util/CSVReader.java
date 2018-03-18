@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CSVReader {
     
-    public List<Filamento> leggiCatalogoFilamenti(File file, 
+    public List<Filamento> leggiFilamenti(File file, 
             int maxRighe, int posInizio, int totaleRighe) 
             throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
@@ -87,7 +87,7 @@ public class CSVReader {
         return listaFilamenti;
     }
     
-    public List<Contorno> leggiContornoFilamenti(File file, 
+    public List<Contorno> leggiContorni(File file, 
             int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
@@ -143,7 +143,7 @@ public class CSVReader {
         return listaContorni;
     }
     
-    public List<Segmento> leggiPosizioniSegmenti(File file, 
+    public List<Segmento> leggiSegmenti(File file, 
             int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
@@ -216,8 +216,8 @@ public class CSVReader {
         return listaSegmenti;
     }
 
-    public List<Stella> leggiPosizioniStelle(File file, 
-            int maxRighe, int posInizio, int totaleRighe) 
+    public List<Stella> leggiStelle(File file, 
+            int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException {
         BufferedReader br = null;
         String line = "";
@@ -257,7 +257,7 @@ public class CSVReader {
                 double flux_st = Double.parseDouble(values[4]);
                 String type_st = values[5];
                 
-                Stella st = new Stella(idStar, nameStar, glon_st, 
+                Stella st = new Stella(idStar, satellite, nameStar, glon_st, 
                         glat_st, flux_st, type_st);
                 listaStelle.add(st);
                 

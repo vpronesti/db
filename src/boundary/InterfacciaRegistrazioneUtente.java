@@ -17,22 +17,28 @@ public class InterfacciaRegistrazioneUtente {
     
     private boolean controlloBean(BeanUtente beanUtente) {
         boolean res = true;
-        if (beanUtente.getUserId().length() < LUNGHEZZAMINIMA) {
+        if (beanUtente.getUserId() == null || 
+                beanUtente.getUserId().length() < LUNGHEZZAMINIMA) {
             res = false;
         }
-        if (beanUtente.getPassword().length() < LUNGHEZZAMINIMA){
+        if (beanUtente.getPassword() == null || 
+                beanUtente.getPassword().length() < LUNGHEZZAMINIMA){
             res = false;
         }
-        if (beanUtente.getNome().equals("")) {
+        if (beanUtente.getNome() == null || beanUtente.getNome().isEmpty()) {
             res = false;
         }
-        if (beanUtente.getCognome().equals("")) {
+        if (beanUtente.getCognome() == null || beanUtente.getCognome().isEmpty()) {
             res = false;
         }
-        if (beanUtente.getEmail().equals("")) {
+        if (beanUtente.getEmail() == null || beanUtente.getEmail().isEmpty()) {
             res = false;
         }
-        if (!beanUtente.getTipo().equals("Amministratore") && !beanUtente.getTipo().equals("Registrato")) {
+        if (beanUtente.getTipo() != null && !beanUtente.getTipo().isEmpty()) {
+            if (!beanUtente.getTipo().equals("Amministratore") && !beanUtente.getTipo().equals("Registrato")) {
+                res = false;
+            } 
+        } else {
             res = false;
         }
         return res;

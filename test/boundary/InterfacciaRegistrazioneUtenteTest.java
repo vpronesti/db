@@ -51,6 +51,28 @@ public class InterfacciaRegistrazioneUtenteTest {
             // utente gia' definito
             {false, REGISTRATO, "u1", "u1", "utente", "password", "email", "Registrato"},
             
+            
+            // si deve inserire il nome
+            {false, AMMINISTRATORE, "", "u1", "utente", "password", "email1", "Registrato"},
+            {false, AMMINISTRATORE, null, "u1", "utente", "password", "email1", "Registrato"},
+            // si deve inserire il cognome
+            {false, AMMINISTRATORE, "u1", "", "utente", "password", "email1", "Registrato"},
+            {false, AMMINISTRATORE, "u1", null, "utente", "password", "email1", "Registrato"},
+            // inserire l'userId
+            {false, AMMINISTRATORE, "u1", "u1", "", "password", "email1", "Registrato"},
+            {false, AMMINISTRATORE, "u1", "u1", null, "password", "email1", "Registrato"},
+            // inserire la password
+            {false, AMMINISTRATORE, "u1", "u1", "utente", "", "email1", "Registrato"},
+            {false, AMMINISTRATORE, "u1", "u1", "utente", null, "email1", "Registrato"},
+            // inserire l'email
+            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "", "Registrato"},
+            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", null, "Registrato"},
+            // inserire il tipo di utente
+            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "email1", ""},
+            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "email1", null},
+            
+            // userId meno di 6 caratteri
+            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "email1", "Registrato"},
             // userId meno di 6 caratteri
             {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "email1", "Registrato"},
             // password meno di 6 caratteri

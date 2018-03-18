@@ -67,15 +67,11 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
             }
             longMedia /= (double) puntiContorno.size();
             latiMedia /= (double) puntiContorno.size();
-            if (beanFil.getMaxGLatContorno() != latiMedia || beanFil.getMaxGLonContorno() != longMedia)
+            if (beanFil.getgLatCentroide() != latiMedia || beanFil.getgLonCentroide()!= longMedia)
                 res = false;
         }
         
         DBAccess.getInstance().closeConnection(conn);
-        if (!res) {
-            System.out.println("valori java: long = " + longMedia + " lat = " + latiMedia);
-            System.out.println("valori db: long = " + beanFil.getgLonCentroide() + " lat = " + beanFil.getMaxGLatContorno());
-        }
         return res;
     }
     

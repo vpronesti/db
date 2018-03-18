@@ -49,7 +49,7 @@ public class InterfacciaRicercaNumeroSegmentiOutputTest {
         boolean res = true;
         Connection conn = DBAccess.getInstance().getConnection();
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
-        Iterator<Filamento> i = beanRisposta.getFilamenti().iterator();
+        Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
         while (i.hasNext()) {
             Filamento f = i.next();
             BeanIdFilamento idFil = new BeanIdFilamento(f.getIdFil(), f.getSatellite());

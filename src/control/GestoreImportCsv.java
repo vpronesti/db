@@ -24,7 +24,7 @@ import util.CSVReader;
 import util.DBAccess;
 
 /**
- * REQ-FN-3
+ * REQ-FN-3.1
  * REQ-FN-4
  */
 public class GestoreImportCsv {
@@ -32,9 +32,8 @@ public class GestoreImportCsv {
     private CSVReader csvReader;
     private final int MAXRIGHE = 100000;
     
-    /**
-     * probabilmente bisogna cambiare contains
-     */
+    private final int LIMITE_IMPORT = 10000;
+    private final boolean ABILITA_LIMITE = true;
     
     public GestoreImportCsv(InterfacciaImportCsv boundary) {
         this.boundary = boundary;
@@ -50,7 +49,7 @@ public class GestoreImportCsv {
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
         while (rigaInizioLettura < totaleRighe) {
-            List<Contorno> listaContorni = csvReader.leggiContornoFilamenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+            List<Contorno> listaContorni = csvReader.leggiContorni(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
             if (listaContorni == null)
                 break;
             rigaInizioLettura += listaContorni.size();
@@ -90,10 +89,15 @@ public class GestoreImportCsv {
         if (contornoInseribile) {
             rigaInizioLettura = 0;
             while (rigaInizioLettura < totaleRighe) {
-                List<Contorno> listaContorni = csvReader.leggiContornoFilamenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+                List<Contorno> listaContorni = csvReader.leggiContorni(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
                 if (listaContorni == null)
                     break;
                 rigaInizioLettura += listaContorni.size();
+                if (ABILITA_LIMITE) {
+                    listaContorni = listaContorni.subList(0, LIMITE_IMPORT);
+                    contornoDao.inserisciContornoBatch(conn, listaContorni);
+                    break;
+                }
                 contornoDao.inserisciContornoBatch(conn, listaContorni);
             }
             /**
@@ -121,7 +125,7 @@ public class GestoreImportCsv {
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
         while (rigaInizioLettura < totaleRighe) {
-            listaFilamenti = csvReader.leggiCatalogoFilamenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe);
+            listaFilamenti = csvReader.leggiFilamenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe);
             if (listaFilamenti == null)
                 break;
             rigaInizioLettura += listaFilamenti.size();
@@ -184,10 +188,15 @@ public class GestoreImportCsv {
         if (filamentoInseribile) {
             rigaInizioLettura = 0;
             while (rigaInizioLettura < totaleRighe) {
-                listaFilamenti = csvReader.leggiCatalogoFilamenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe);
+                listaFilamenti = csvReader.leggiFilamenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe);
                 if (listaFilamenti == null)
                     break;
                 rigaInizioLettura += listaFilamenti.size();
+                if (ABILITA_LIMITE) {
+                    listaFilamenti = listaFilamenti.subList(0, LIMITE_IMPORT);
+                    filamentoDao.inserisciFilamentoBatch(conn, listaFilamenti);
+                    break;
+                }
                 filamentoDao.inserisciFilamentoBatch(conn, listaFilamenti);
                 /** dopo l'inserimento di nuovi filamenti si dovrebbe 
                  * controllare se nel db sono presenti stelle interne a 
@@ -216,7 +225,7 @@ public class GestoreImportCsv {
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
         while (rigaInizioLettura < totaleRighe) {
-            List<Segmento> listaSegmenti = csvReader.leggiPosizioniSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+            List<Segmento> listaSegmenti = csvReader.leggiSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
             if (listaSegmenti == null)
                 break;
             rigaInizioLettura += listaSegmenti.size();
@@ -262,10 +271,15 @@ public class GestoreImportCsv {
         if (segmentoInseribile) {
             rigaInizioLettura = 0;
             while (rigaInizioLettura < totaleRighe) {
-                List<Segmento> listaSegmenti = csvReader.leggiPosizioniSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+                List<Segmento> listaSegmenti = csvReader.leggiSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
                 if (listaSegmenti == null)
                     break;
                 rigaInizioLettura += listaSegmenti.size();
+                if (ABILITA_LIMITE) {
+                    listaSegmenti = listaSegmenti.subList(0, LIMITE_IMPORT);
+                    segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti);
+                    break;
+                }
                 segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti);
             }
         }
@@ -273,18 +287,22 @@ public class GestoreImportCsv {
         return segmentoInseribile;
     }
         
-    public void importStelle(File file) throws FormatoFileNonSupportatoException {
+    public void importStelle(File file, String satellite) throws FormatoFileNonSupportatoException {
         StellaDao stellaDao = StellaDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
         while (rigaInizioLettura < totaleRighe) {
-            List<Stella> listaStelle = csvReader.leggiPosizioniStelle(file, MAXRIGHE, rigaInizioLettura, totaleRighe);
+            List<Stella> listaStelle = csvReader.leggiStelle(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
             if (listaStelle == null)
                 break;
             rigaInizioLettura += listaStelle.size();
-            Iterator<Stella> i = listaStelle.iterator();
-
+//            Iterator<Stella> i = listaStelle.iterator();
+            if (ABILITA_LIMITE) {
+                listaStelle = listaStelle.subList(0, LIMITE_IMPORT);
+                stellaDao.inserisciStellaBatch(conn, listaStelle);
+                break;
+            }
 //System.out.println("inserting, rigaInizioLettura" + rigaInizioLettura);
             stellaDao.inserisciStellaBatch(conn, listaStelle);  
         }
@@ -308,7 +326,7 @@ public class GestoreImportCsv {
         } else if (tipoFile == TipoFileCsv.SEGMENTO) {
             res = this.importSegmenti(beanRichiesta.getFileSelezionato(), satellite);    
         } else if (tipoFile == TipoFileCsv.STELLA) {
-            this.importStelle(beanRichiesta.getFileSelezionato()); 
+            this.importStelle(beanRichiesta.getFileSelezionato(), satellite); 
         } else {
             res = false;
         }

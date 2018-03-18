@@ -3,10 +3,10 @@ package boundary;
 import control.GestoreLogin;
 
 public class InterfacciaUtenteLogin {
-    String userId;
-    String password;
-    String tipo;
-    boolean logged;
+    private String userId;
+    private String password;
+    private String tipo;
+    private boolean logged;
 
     public InterfacciaUtenteLogin(String userId, String password) {
         this.userId = userId;

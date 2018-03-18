@@ -80,7 +80,7 @@ public class InterfacciaRicercaFilamentiRegioneOutputTest {
         boolean res = true;
         Connection conn = DBAccess.getInstance().getConnection();
         ContornoDao contornoDao = ContornoDao.getInstance();
-        Iterator<Filamento> i = beanRisposta.getFilamenti().iterator();
+        Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
         while (i.hasNext() && res) {
             Filamento f = i.next();
             BeanIdFilamento id = new BeanIdFilamento(f.getIdFil(), f.getSatellite());

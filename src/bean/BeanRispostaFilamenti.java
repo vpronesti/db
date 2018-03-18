@@ -4,12 +4,13 @@ import entity.Filamento;
 import java.util.List;
 
 public class BeanRispostaFilamenti {    
-    private List<Filamento> filamenti;
+    private List<Filamento> listaFilamenti;
     private boolean inputValido;
     private boolean azioneConsentita;
     
-    public BeanRispostaFilamenti(List<Filamento> filamenti, boolean inputValido, boolean azioneConsentita) {
-        this.filamenti = filamenti;
+    public BeanRispostaFilamenti(List<Filamento> listaFilamenti, 
+            boolean inputValido, boolean azioneConsentita) {
+        this.listaFilamenti = listaFilamenti;
         this.inputValido = inputValido;
         this.azioneConsentita = azioneConsentita;
     }
@@ -19,12 +20,12 @@ public class BeanRispostaFilamenti {
         this.azioneConsentita = azioneConsentita;
     }
 
-    public List<Filamento> getFilamenti() {
-        return filamenti;
+    public List<Filamento> getListaFilamenti() {
+        return listaFilamenti;
     }
 
-    public void setFilamenti(List<Filamento> filamenti) {
-        this.filamenti = filamenti;
+    public void setListaFilamenti(List<Filamento> listaFilamenti) {
+        this.listaFilamenti = listaFilamenti;
     }
 
     public boolean isInputValido() {

@@ -7,6 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
+import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 1
@@ -20,12 +23,15 @@ public class InterfacciaUtenteLoginTest {
     @Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            // utente amministratore
-            {true, "a", "a"},
-            // utente registrato
-            {true, "z", "z"},
+            // utente amministratore, la password coincide con l'user
+            {true, AMMINISTRATORE, AMMINISTRATORE},
+            {false, AMMINISTRATORE, REGISTRATO},
+            
+            // utente registrato, la password coincide con l'user
+            {true, REGISTRATO, REGISTRATO},
+            {false, REGISTRATO, AMMINISTRATORE},
             // utente non registrato
-            {false, "w", "w"}
+            {false, NONREGISTRATO, NONREGISTRATO}
         });
     }
     

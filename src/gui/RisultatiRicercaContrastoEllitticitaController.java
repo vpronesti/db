@@ -125,7 +125,7 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
     public RisultatiRicercaContrastoEllitticitaController(BeanRispostaContrastoEllitticita beanRisposta) {
         this.beanRisposta = beanRisposta;
         this.listaFilamenti = beanRisposta.getListaFilamenti();
-        this.percentuale = beanRisposta.getPercentuale();
+        this.percentuale = beanRisposta.getPercentualeFilamentiTrovati();
         this.data = getData();
     }
     
