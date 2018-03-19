@@ -47,7 +47,7 @@ public class Stella {
                     (CLi - STL) * (CBip1 - STB) - (CBi - STB) * (CLip1 - STL);
             double denominatore = 
                     (CLi - STL) * (CLip1 - STL) + (CBi - STB) * (CBip1 - STB);
-            double addendo = atan(numeratore / denominatore);
+            double addendo = Math.toRadians(atan(numeratore / denominatore));
             sum += addendo;
         }
         return abs(sum) >= 0.01;

@@ -5,6 +5,7 @@ import boundary.InterfacciaImportCsv;
 import dao.SatelliteDao;
 import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
+import exception.ImpossibileAprireFileException;
 import java.io.File;
 import java.sql.Connection;
 import java.util.List;
@@ -51,6 +52,8 @@ public class SatelliteImportaCsvController implements Initializable {
                 }
             } catch (FormatoFileNonSupportatoException e) {
                 text.setText("Il formato del file scelto non e' supportato");
+            } catch (ImpossibileAprireFileException e) {
+                text.setText("Il percorso specificato o non esiste o e' una directory");
             }
         }
     }

@@ -4,6 +4,7 @@ import bean.BeanRichiestaImport;
 import boundary.InterfacciaImportCsv;
 import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
+import exception.ImpossibileAprireFileException;
 import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -66,6 +67,8 @@ public class ImportaCsvController {
                     }
                 } catch (FormatoFileNonSupportatoException e) {
                     text.setText("Il formato del file scelto non e' supportato");
+                } catch (ImpossibileAprireFileException e) {
+                    text.setText("Il percorso specificato o non esiste o e' una directory");
                 }
             } else {
             SatelliteImportaCsvController satelliteController = 

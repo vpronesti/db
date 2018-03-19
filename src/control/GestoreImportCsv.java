@@ -15,6 +15,7 @@ import entity.Segmento;
 import entity.Stella;
 import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
+import exception.ImpossibileAprireFileException;
 import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -32,16 +33,14 @@ public class GestoreImportCsv {
     private CSVReader csvReader;
     private final int MAXRIGHE = 100000;
     
-    private final int LIMITE_IMPORT = 10000;
-    private final boolean ABILITA_LIMITE = true;
-    
     public GestoreImportCsv(InterfacciaImportCsv boundary) {
         this.boundary = boundary;
         this.csvReader = new CSVReader();
     }
     
     public boolean importContorni(File file, String satellite) 
-            throws FormatoFileNonSupportatoException {
+            throws FormatoFileNonSupportatoException, 
+            ImpossibileAprireFileException {
         boolean contornoInseribile = true;
         ContornoDao contornoDao = ContornoDao.getInstance();
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
@@ -93,11 +92,6 @@ public class GestoreImportCsv {
                 if (listaContorni == null)
                     break;
                 rigaInizioLettura += listaContorni.size();
-                if (ABILITA_LIMITE) {
-                    listaContorni = listaContorni.subList(0, LIMITE_IMPORT);
-                    contornoDao.inserisciContornoBatch(conn, listaContorni);
-                    break;
-                }
                 contornoDao.inserisciContornoBatch(conn, listaContorni);
             }
             /**
@@ -105,7 +99,8 @@ public class GestoreImportCsv {
              * aggiornare la tabella stella_filamento perche' qualche 
              * stella potrebbe entrare o uscire da un filamento
              */
-            
+//            StellaDao.getInstance().aggiornaStelleFilamento(conn);
+            ContornoDao.getInstance().aggiornamentoStellaFilamento(conn);
             
         }
         
@@ -114,7 +109,8 @@ public class GestoreImportCsv {
     }
 
     public boolean importFilamenti(File file) 
-            throws FormatoFileNonSupportatoException {
+            throws FormatoFileNonSupportatoException, 
+            ImpossibileAprireFileException {
         Connection conn = DBAccess.getInstance().getConnection();
         boolean filamentoInseribile = true;
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
@@ -192,11 +188,6 @@ public class GestoreImportCsv {
                 if (listaFilamenti == null)
                     break;
                 rigaInizioLettura += listaFilamenti.size();
-                if (ABILITA_LIMITE) {
-                    listaFilamenti = listaFilamenti.subList(0, LIMITE_IMPORT);
-                    filamentoDao.inserisciFilamentoBatch(conn, listaFilamenti);
-                    break;
-                }
                 filamentoDao.inserisciFilamentoBatch(conn, listaFilamenti);
                 /** dopo l'inserimento di nuovi filamenti si dovrebbe 
                  * controllare se nel db sono presenti stelle interne a 
@@ -215,7 +206,8 @@ public class GestoreImportCsv {
     }
     
     public boolean importSegmenti(File file, String satellite) 
-            throws FormatoFileNonSupportatoException {
+            throws FormatoFileNonSupportatoException, 
+            ImpossibileAprireFileException {
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
         ContornoDao contornoDao = ContornoDao.getInstance();
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
@@ -275,11 +267,6 @@ public class GestoreImportCsv {
                 if (listaSegmenti == null)
                     break;
                 rigaInizioLettura += listaSegmenti.size();
-                if (ABILITA_LIMITE) {
-                    listaSegmenti = listaSegmenti.subList(0, LIMITE_IMPORT);
-                    segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti);
-                    break;
-                }
                 segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti);
             }
         }
@@ -287,7 +274,9 @@ public class GestoreImportCsv {
         return segmentoInseribile;
     }
         
-    public void importStelle(File file, String satellite) throws FormatoFileNonSupportatoException {
+    public void importStelle(File file, String satellite) 
+            throws FormatoFileNonSupportatoException, 
+            ImpossibileAprireFileException {
         StellaDao stellaDao = StellaDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
         int rigaInizioLettura = 0;
@@ -298,24 +287,21 @@ public class GestoreImportCsv {
                 break;
             rigaInizioLettura += listaStelle.size();
 //            Iterator<Stella> i = listaStelle.iterator();
-            if (ABILITA_LIMITE) {
-                listaStelle = listaStelle.subList(0, LIMITE_IMPORT);
-                stellaDao.inserisciStellaBatch(conn, listaStelle);
-                break;
-            }
+
 //System.out.println("inserting, rigaInizioLettura" + rigaInizioLettura);
             stellaDao.inserisciStellaBatch(conn, listaStelle);  
         }
-//        ContornoDao contornoDao = ContornoDao.getInstance();
-//        contornoDao.aggiornamentoStellaFilamento(conn);
+        ContornoDao contornoDao = ContornoDao.getInstance();
+        contornoDao.aggiornamentoStellaFilamento(conn);
 
-        stellaDao.aggiornaStelleFilamento(conn);
+//        stellaDao.aggiornaStelleFilamento(conn);
         
         DBAccess.getInstance().closeConnection(conn);
     }
     
     public boolean importCsv(BeanRichiestaImport beanRichiesta) 
-            throws FormatoFileNonSupportatoException {
+            throws FormatoFileNonSupportatoException, 
+            ImpossibileAprireFileException {
         TipoFileCsv tipoFile = beanRichiesta.getTipo();
         String satellite = beanRichiesta.getSatellite();
         boolean res = true;

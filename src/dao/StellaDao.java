@@ -1,6 +1,7 @@
 package dao;
 
 import bean.BeanIdFilamento;
+import bean.BeanIdStella;
 import bean.BeanRichiestaStelleRegione;
 import entity.Contorno;
 import entity.Stella;
@@ -12,7 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import util.AppartenenzaStellaFilamento;
 import util.CoppiaStellaFilamento;
 
 public class StellaDao {
@@ -106,13 +106,14 @@ public class StellaDao {
      * @return 
      */
     public void aggiornaStelleFilamento(Connection conn) {
-        String sql = "select idstar satellite, glon_st, glat_st " + 
+        String sql = "select idstar, satellite, glon_st, glat_st " + 
                 "from stella";
         List<Stella> listaStelle = new ArrayList<>();
-        List<AppartenenzaStellaFilamento> listaAppartenenza = new ArrayList<>();
-        List<Thread> listaThread = new ArrayList<>();
+//        List<AppartenenzaStellaFilamento> listaAppartenenza = new ArrayList<>();
+//        List<Thread> listaThread = new ArrayList<>();
         List<BeanIdFilamento> listaIdFil = ContornoDao.getInstance().queryIdFilamentiContorno(conn);
-    System.out.println("lista id fil:" + listaIdFil.size());
+        List<CoppiaStellaFilamento> listaStFil = new ArrayList<>();
+//    System.out.println("lista id fil:" + listaIdFil.size());
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -122,79 +123,93 @@ public class StellaDao {
                 double gLonSt = rs.getDouble("glon_st");
                 double gLatSt = rs.getDouble("glat_st");
                 Stella s = new Stella(idStar, satellite, gLonSt, gLatSt);
-                listaStelle.add(s);
-                if (listaStelle.size() >= MAX_DIM_ST) {
-                    int c = 0;
-                    for (c = 0; c + MAX_DIM_FIL < listaIdFil.size(); c += MAX_DIM_FIL) {
-                    
-                        AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c, c + MAX_DIM_FIL));
-                        listaAppartenenza.add(a);
-                        Thread t = new Thread(a);
-                        listaThread.add(t);
-System.out.println("adding thread: " + listaThread.size());
-                        t.start();
-
-                        listaStelle = new ArrayList<>();
-                    }
-                    if (listaIdFil.size() % MAX_DIM_FIL != 0) {
-                        AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c - MAX_DIM_FIL, listaIdFil.size()));
-                        listaAppartenenza.add(a);
-                        Thread t = new Thread(a);
-                        listaThread.add(t);
-System.out.println("adding thread: " + listaThread.size());
-                        t.start();
-
-                        listaStelle = new ArrayList<>();
+                
+                Iterator<BeanIdFilamento> i = listaIdFil.iterator();
+                while (i.hasNext()) {
+                    BeanIdFilamento idFil = i.next();
+                    List<Contorno> listaPunti = ContornoDao.getInstance().queryPuntiContornoFilamento(conn, idFil);
+                    if (s.internoFilamento(listaPunti)) {
+                        BeanIdStella idStella = new BeanIdStella(s.getIdStar(), s.getSatellite());
+                        CoppiaStellaFilamento csf = new CoppiaStellaFilamento(idStella, idFil);
+                        listaStFil.add(csf);
                     }
                 }
-            }
-            if (listaStelle.size() > 0) {
-                int c = 0;
-                for (c = 0; c + MAX_DIM_FIL < listaIdFil.size(); c += MAX_DIM_FIL) {
-
-                    AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c, c + MAX_DIM_FIL));
-                    listaAppartenenza.add(a);
-                    Thread t = new Thread(a);
-                    listaThread.add(t);
-System.out.println("adding thread: " + listaThread.size());
-                    t.start();
-
-                    listaStelle = new ArrayList<>();
-                }
-                if (listaIdFil.size() % MAX_DIM_FIL != 0) {
-                    AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c - MAX_DIM_FIL, listaIdFil.size()));
-                    listaAppartenenza.add(a);
-                    Thread t = new Thread(a);
-                    listaThread.add(t);
-System.out.println("adding thread: " + listaThread.size());
-                    t.start();
-
-                    listaStelle = new ArrayList<>();
-                }
+                
+                
+//                listaStelle.add(s);
+//                if (listaStelle.size() >= MAX_DIM_ST) {
+//                    int c = 0;
+//                    for (c = 0; c + MAX_DIM_FIL < listaIdFil.size(); c += MAX_DIM_FIL) {
+//                    
+//                        AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c, c + MAX_DIM_FIL));
+//                        listaAppartenenza.add(a);
+//                        Thread t = new Thread(a);
+//                        listaThread.add(t);
+//System.out.println("adding thread: " + listaThread.size());
+//                        t.start();
+//
+//                        listaStelle = new ArrayList<>();
+//                    }
+//                    if (listaIdFil.size() % MAX_DIM_FIL != 0) {
+//                        AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c - MAX_DIM_FIL, listaIdFil.size()));
+//                        listaAppartenenza.add(a);
+//                        Thread t = new Thread(a);
+//                        listaThread.add(t);
+//System.out.println("adding thread: " + listaThread.size());
+//                        t.start();
+//
+//                        listaStelle = new ArrayList<>();
+//                    }
+//                }
+//            }
+//            if (listaStelle.size() > 0) {
+//                int c = 0;
+//                for (c = 0; c + MAX_DIM_FIL < listaIdFil.size(); c += MAX_DIM_FIL) {
+//
+//                    AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c, c + MAX_DIM_FIL));
+//                    listaAppartenenza.add(a);
+//                    Thread t = new Thread(a);
+//                    listaThread.add(t);
+//System.out.println("adding thread: " + listaThread.size());
+//                    t.start();
+//
+//                    listaStelle = new ArrayList<>();
+//                }
+//                if (listaIdFil.size() % MAX_DIM_FIL != 0) {
+//                    AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c - MAX_DIM_FIL, listaIdFil.size()));
+//                    listaAppartenenza.add(a);
+//                    Thread t = new Thread(a);
+//                    listaThread.add(t);
+//System.out.println("adding thread: " + listaThread.size());
+//                    t.start();
+//
+//                    listaStelle = new ArrayList<>();
+//                }
             }
             rs.close();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-        Iterator<Thread> iT = listaThread.iterator();
-        while (iT.hasNext()) {
-            Thread t = iT.next();
-            try {
-                t.join();
-System.out.println("thread finished ");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        
-        Iterator<AppartenenzaStellaFilamento> iSF = listaAppartenenza.iterator();
-        while (iSF.hasNext()) {
-            AppartenenzaStellaFilamento a = iSF.next();
-            List<CoppiaStellaFilamento> listaCSF = a.getListaAppartenenza();
-            this.inserisciStellaFilamentoBatch(conn, listaCSF);
-        }
+//        
+//        Iterator<Thread> iT = listaThread.iterator();
+//        while (iT.hasNext()) {
+//            Thread t = iT.next();
+//            try {
+//                t.join();
+//System.out.println("thread finished ");
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        
+//        Iterator<AppartenenzaStellaFilamento> iSF = listaAppartenenza.iterator();
+//        while (iSF.hasNext()) {
+//            AppartenenzaStellaFilamento a = iSF.next();
+//            List<CoppiaStellaFilamento> listaCSF = a.getListaAppartenenza();
+//            this.inserisciStellaFilamentoBatch(conn, listaCSF);
+//        }
+        this.inserisciStellaFilamentoBatch(conn, listaStFil);
     }
     public void inserisciStellaFilamentoBatch(Connection conn, List<CoppiaStellaFilamento> lsf) {
         
@@ -233,21 +248,23 @@ System.out.println("thread finished ");
      * @param con
      * @return 
      */
-    public List<Integer> queryIdStelleContornoFilamento(Connection conn, List<Contorno> listaPunti) {
-        String sql = "select idstar, glon_st, glat_st from stella";
-        List<Integer> listaIdStelle = new ArrayList<>();
+    public List<BeanIdStella> queryIdStelleContornoFilamento(Connection conn, List<Contorno> listaPunti) {
+        String sql = "select idstar, satellite, glon_st, glat_st from stella";
+        List<BeanIdStella> listaIdStelle = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                int idStar = rs.getInt("idstar");
+                int id = rs.getInt("idstar");
                 String satellite = rs.getString("satellite");
                 double gLonSt = rs.getDouble("glon_st");
                 double gLatSt = rs.getDouble("glat_st");
-                Stella s = new Stella(idStar, satellite, gLonSt, gLatSt);
+                Stella s = new Stella(id, satellite, gLonSt, gLatSt);
                 
-                if (s.internoFilamento(listaPunti))
-                    listaIdStelle.add(idStar);
+                if (s.internoFilamento(listaPunti)) {
+                    BeanIdStella idStella = new BeanIdStella(id, satellite);
+                    listaIdStelle.add(idStella);
+                }
             }
             rs.close();
             stmt.close();

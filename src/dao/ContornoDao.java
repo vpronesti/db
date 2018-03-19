@@ -1,6 +1,7 @@
 package dao;
 
 import bean.BeanIdFilamento;
+import bean.BeanIdStella;
 import bean.BeanInformazioniFilamento;
 import bean.BeanRichiestaFilamentiRegione;
 import entity.Contorno;
@@ -24,43 +25,45 @@ public class ContornoDao {
         return instance;
     }
     
-//    public void aggiornamentoStellaFilamento(Connection conn) {
-//        List<BeanIdFilamento> listaId = this.queryIdFilamentiContorno(conn);
-//System.out.println("numId: " + listaId.size());
-//        String sql = "insert into stella_filamento(idstar, idfil, satellite) values (?, ?, ?) " + 
-//                "on conflict (idstar, idfil, satellite) do update set " + 
-//                "idstar = excluded.idstar, " + 
-//                "idfil = excluded.idfil, " + 
-//                "satellite = excluded.satellite";
-//        Iterator<Integer> i = listaId.iterator();
-//        try {
-//            conn.setAutoCommit(false);
-//            Connection conn2 = DBAccess.getInstance().getConnection();
-//            PreparedStatement ps = conn.prepareStatement(sql);
-//            while (i.hasNext()) {
-//                int id = i.next();
-//                BeanIdFilamento idFil = new BeanIdFilamento();
-//                List<Contorno> puntiContorno = this.queryPuntiContornoFilamento(conn2, idFil);
-//System.out.println("listCon: " + puntiContorno.size());
-//                StellaDao stellaDao = StellaDao.getInstance();
-//                List<Integer> listaIdStelle = stellaDao.queryIdStelleContornoFilamento(conn2, puntiContorno);
-//System.out.println("idStelle: " + listaIdStelle.size());
-//                Iterator<Integer> iS = listaIdStelle.iterator();
-//                while (iS.hasNext()) {
-//                    int idS = iS.next();
-//                    ps.setInt(1, idS);
-//                    ps.setInt(2, idFil);
-//                    ps.addBatch();
-//                }
-//            }
-//            ps.executeBatch();
-//            ps.close();
-//            conn.commit();
-//            DBAccess.getInstance().closeConnection(conn2);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void aggiornamentoStellaFilamento(Connection conn) {
+        List<BeanIdFilamento> listaId = this.queryIdFilamentiContorno(conn);
+System.out.println("numId: " + listaId.size());
+        String sql = "insert into stella_filamento(idstar, satellite_star, idfil, satellite_filamento) values (?, ?, ?, ?) " + 
+                "on conflict (idstar, satellite_star, idfil, satellite_filamento) do update set " + 
+                "idstar = excluded.idstar, " + 
+                "satellite_star = excluded.satellite_star, " + 
+                "idfil = excluded.idfil, " + 
+                "satellite_filamento = excluded.satellite_filamento";
+        Iterator<BeanIdFilamento> i = listaId.iterator();
+        try {
+            conn.setAutoCommit(false);
+            Connection conn2 = DBAccess.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            while (i.hasNext()) {
+                BeanIdFilamento idFil = i.next();
+                List<Contorno> puntiContorno = this.queryPuntiContornoFilamento(conn2, idFil);
+System.out.println("listCon: " + puntiContorno.size());
+                StellaDao stellaDao = StellaDao.getInstance();
+                List<BeanIdStella> listaIdStelle = stellaDao.queryIdStelleContornoFilamento(conn2, puntiContorno);
+System.out.println("idStelle: " + listaIdStelle.size());
+                Iterator<BeanIdStella> iS = listaIdStelle.iterator();
+                while (iS.hasNext()) {
+                    BeanIdStella idS = iS.next();
+                    ps.setInt(1, idS.getIdStella());
+                    ps.setString(2, idS.getSatellite());
+                    ps.setInt(3, idFil.getIdFil());
+                    ps.setString(4, idFil.getSatellite());
+                    ps.addBatch();
+                }
+            }
+            ps.executeBatch();
+            ps.close();
+            conn.commit();
+            DBAccess.getInstance().closeConnection(conn2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
     /**
      * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
