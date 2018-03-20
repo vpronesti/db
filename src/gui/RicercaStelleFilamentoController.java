@@ -49,7 +49,7 @@ public class RicercaStelleFilamentoController {
         BeanRispostaStelleFilamento beanRisposta = boundaryStelleFilamento.ricercaStelleFilamento(idFil);
         String risp;
         if (beanRisposta.isAzioneConsentita()) {
-            if (beanRisposta.isContornoFilamento()) {
+            if (beanRisposta.isFilamentoEsiste()) {
                 risp = "Numero totale stelle trovate: " + beanRisposta.getTotaleStelleTrovate() + "\n";
                 Map<String, Double> tipiStellaPercentuale = beanRisposta.getTipiStellaPercentuale();
                 Set<String> tipiStella = tipiStellaPercentuale.keySet();

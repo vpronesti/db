@@ -1,6 +1,7 @@
 package control;
 
 import bean.BeanIdFilamento;
+import bean.BeanIdStella;
 import bean.BeanRichiestaStelleRegione;
 import bean.BeanRispostaStelleRegione;
 import boundary.InterfacciaRicercaStelleRegione;
@@ -29,49 +30,10 @@ public class GestoreRicercaStelleRegione {
         this.amministratore = amministratore;
     }
     
-    private List<Filamento> ricercaFilamentiRegione(Connection conn, BeanRichiestaStelleRegione beanRichiesta) {
-        ContornoDao contornoDao = ContornoDao.getInstance();
-        List<BeanIdFilamento> listaIdInterni = new ArrayList<>();
-        List<BeanIdFilamento> listaIdEsistenti = contornoDao.queryIdFilamentiContorno(conn);
-        Iterator<BeanIdFilamento> i = listaIdEsistenti.iterator();
-        while (i.hasNext()) {
-            BeanIdFilamento id = i.next();
-            List<Contorno> listaPunti = contornoDao.queryPuntiContornoFilamento(conn, id);
-            Iterator<Contorno> j = listaPunti.iterator();
-            boolean puntoInterno = true;
-            while (j.hasNext() && puntoInterno) {
-                Contorno c = j.next();
-                if (c.getgLonCont() > beanRichiesta.getLongCentr() + beanRichiesta.getLatoA() / 2)
-                    puntoInterno = false;
-                if (c.getgLonCont() < beanRichiesta.getLongCentr() - beanRichiesta.getLatoA() / 2)
-                    puntoInterno = false;
-                if (c.getgLatCont() > beanRichiesta.getLatiCentr() + beanRichiesta.getLatoB() / 2)
-                    puntoInterno = false;
-                if (c.getgLatCont() < beanRichiesta.getLatiCentr() - beanRichiesta.getLatoB() / 2)
-                    puntoInterno = false;
-            }
-            if (puntoInterno)
-                listaIdInterni.add(id);
-        }
-        
-        List<Filamento> listaFilamenti = new ArrayList<>();
-        FilamentoDao filamentoDao = FilamentoDao.getInstance();
-        Iterator<BeanIdFilamento> it = listaIdInterni.iterator();
-        while (it.hasNext()) {
-            Filamento f = filamentoDao.queryCampiFilamento(conn, it.next());
-            listaFilamenti.add(f);
-        }
-        return listaFilamenti;
-    }
-    
     public BeanRispostaStelleRegione ricercaStelleRegione(BeanRichiestaStelleRegione beanRichiesta) {
         Connection conn = DBAccess.getInstance().getConnection();
         StellaDao stellaDao = StellaDao.getInstance();
-        ContornoDao contornoDao = ContornoDao.getInstance();
         List<Stella> listaStelleRegione = stellaDao.queryStelleRegione(conn, beanRichiesta);
-        List<Filamento> listaFilamentiRegione = this.ricercaFilamentiRegione(conn, beanRichiesta);
-        Iterator<Filamento> i = listaFilamentiRegione.iterator();
-        
         
         Map<String, Integer> tipiStelleNumeroInterne = new HashMap<>();
         Map<String, Integer> tipiStelleNumeroEsterne = new HashMap<>();
@@ -79,31 +41,28 @@ public class GestoreRicercaStelleRegione {
         int totaleStelleRegione = listaStelleRegione.size();
         
         List<Stella> listaStelleEsterne = new ArrayList<>();
+        List<Stella> listaStelleInterne = new ArrayList<>();
+        
+        /**
+         * per ciascuna delle stelle della regione si stabilisce 
+         * se sono interne ad almeno un filamento oppure no
+         */
         Iterator<Stella> iS = listaStelleRegione.iterator();
         while (iS.hasNext()) {
             Stella s = iS.next();
-            listaStelleEsterne.add(s);
+            BeanIdStella idStella = new BeanIdStella(s.getIdStar(), s.getSatellite());
+            if (stellaDao.queryStellaAppartieneFilamento(conn, idStella))
+                listaStelleInterne.add(s);
+            else
+                listaStelleEsterne.add(s);
         }
-        List<Stella> listaStelleInterne = new ArrayList<>();
-
-        while (i.hasNext()) {
-            Filamento f = i.next();
-            BeanIdFilamento id = new BeanIdFilamento(f.getIdFil(), f.getSatellite());
-            List<Contorno> listaPunti = contornoDao.queryPuntiContornoFilamento(conn, id);
-            Iterator<Stella> j = listaStelleRegione.iterator();
-            while (j.hasNext()) {
-                Stella s = j.next();
-                if (listaStelleInterne.contains(s))
-                    continue;
-                if (s.internoFilamento(listaPunti)) {
-                    listaStelleInterne.add(s);
-                    listaStelleEsterne.remove(s);
-                }
-            }
-        }
+        
         int totaleStelleInterne = listaStelleInterne.size();
         int totaleStelleEsterne = listaStelleEsterne.size();
         iS = listaStelleInterne.iterator();
+        /**
+         * si associa ad ogni tipo di stella interna il corrispettivo numero di stelle trovate
+         */
         while (iS.hasNext()) {
             Stella s = iS.next();
             if (tipiStelleNumeroInterne.containsKey(s.getType()))
@@ -112,6 +71,9 @@ public class GestoreRicercaStelleRegione {
                 tipiStelleNumeroInterne.put(s.getType(), 1);
         }
         iS = listaStelleEsterne.iterator();
+        /**
+         * si associa ad ogni tipo di stella esterna il corrispettivo numero di stelle trovate
+         */
         while (iS.hasNext()) {
             Stella s = iS.next();
             if (tipiStelleNumeroEsterne.containsKey(s.getType()))
@@ -120,6 +82,10 @@ public class GestoreRicercaStelleRegione {
                 tipiStelleNumeroEsterne.put(s.getType(), 1);
         }
 
+        /**
+         * passaggio dalle associazioni tipoStella-numeroStelle 
+         * ad associazioni del tipo tipoStella-percentuale
+         */
         double percentualeStelleInterne = ((totaleStelleRegione != 0) ? (double) totaleStelleInterne * 100 /totaleStelleRegione : 0); 
         Map<String, Double> tipiStellePercentualeInterne = new HashMap<>();
         Set<String> tipiStelleInterne = tipiStelleNumeroInterne.keySet();
@@ -145,5 +111,5 @@ public class GestoreRicercaStelleRegione {
 
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
-    }            
+    }
 }

@@ -30,6 +30,8 @@ public class InterfacciaRicercaStelleRegioneTest {
         return Arrays.asList(new Object[][] {
             // utente amministratore
             {true, AMMINISTRATORE, new Double(5.0004370), new Double(0.084881000), new Double(0.7), new Double(1.2)},
+            {true, AMMINISTRATORE, new Double(5.06635), new Double(-0.043962), new Double(0.7), new Double(1.2)},
+            {true, AMMINISTRATORE, new Double(9.783937), new Double(-0.374957), new Double(0.7), new Double(1.2)},
             // utente registrato
             {true, REGISTRATO, new Double(5.0004370), new Double(0.084881000), new Double(0.7), new Double(1.2)},
             // utente non esistente
@@ -56,6 +58,10 @@ public class InterfacciaRicercaStelleRegioneTest {
             System.out.println("diff: " + (100 - beanRisp.getPercentualeStelleEsterne() + beanRisp.getPercentualeStelleInterne()));
             res = false;
         }
+        /**
+         * la somma delle percentuali dovrebbe essere 
+         * 0 o 100 sia per stelle interne che estere
+         */
         double totalePercentualeI = 0;
         Set<String> tipiStellaI = beanRisp.getTipiStellePercentualeInterne().keySet();
         for (String s : tipiStellaI) {

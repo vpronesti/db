@@ -5,20 +5,20 @@ import java.util.Map;
 public class BeanRispostaStelleFilamento {
     private int totaleStelleTrovate;
     private Map<String, Double> tipiStellaPercentuale;
-    private boolean contornoFilamento;
+    private boolean filamentoEsiste;
     private boolean azioneConsentita;
     
     public BeanRispostaStelleFilamento(int totaleStelleTrovate, 
             Map<String, Double> tipiStellaPercentuale, 
-            boolean contornoFilamento, boolean azioneConsentita) {
+            boolean filamentoEsiste, boolean azioneConsentita) {
         this.totaleStelleTrovate = totaleStelleTrovate;
         this.tipiStellaPercentuale = tipiStellaPercentuale;
-        this.contornoFilamento = contornoFilamento;
+        this.filamentoEsiste = filamentoEsiste;
         this.azioneConsentita = azioneConsentita;
     }
     
-    public BeanRispostaStelleFilamento(boolean contornoFilamento, boolean azioneConsentita) {
-        this.contornoFilamento = contornoFilamento;
+    public BeanRispostaStelleFilamento(boolean filamentoEsiste, boolean azioneConsentita) {
+        this.filamentoEsiste = filamentoEsiste;
         this.azioneConsentita = azioneConsentita;
     }
 
@@ -30,12 +30,12 @@ public class BeanRispostaStelleFilamento {
         this.totaleStelleTrovate = totaleStelleTrovate;
     }
 
-    public boolean isContornoFilamento() {
-        return contornoFilamento;
+    public boolean isFilamentoEsiste() {
+        return filamentoEsiste;
     }
 
-    public void setContornoFilamento(boolean contornoFilamento) {
-        this.contornoFilamento = contornoFilamento;
+    public void setFilamentoEsiste(boolean filamentoEsiste) {
+        this.filamentoEsiste = filamentoEsiste;
     }
 
     public Map<String, Double> getTipiStellaPercentuale() {

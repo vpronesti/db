@@ -86,11 +86,5 @@ public class ImportaCsvController {
     @FXML
     void initialize() {
         tipoFileComboBox.setItems(FXCollections.observableArrayList(TipoFileCsv.values()));
-//        ObservableList<String> items = FXCollections.observableArrayList();
-//        items.add("Contorni");
-//        items.add("Filamenti");
-//        items.add("Scheletro");
-//        items.add("Stelle");
-//        this.tipoFileComboBox.setItems(items);
     }
 }

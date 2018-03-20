@@ -31,20 +31,17 @@ public class GestoreRicercaDistanzaStellaFilamento {
         boolean filamentoEsiste = filamentoDao.queryEsistenzaFilamento(conn, idFil);
         if (filamentoEsiste) {
             SegmentoDao segmentoDao = SegmentoDao.getInstance();
-            List<Segmento> listaSegmentiPrincipali = segmentoDao.queryPuntiSegmentoPrincipaleFilamento(conn, idFil);
-              
-            ContornoDao contornoDao = ContornoDao.getInstance();
-            List<Contorno> listaPunti = contornoDao.queryPuntiContornoFilamento(conn, idFil);
+            List<Segmento> listaPuntiSegmentoPrincipale = segmentoDao.queryPuntiSegmentoPrincipaleFilamento(conn, idFil);
               
             StellaDao stellaDao = StellaDao.getInstance();
-            List<Stella> listaStelleInterne = stellaDao.queryStelleContornoFilamento(conn, listaPunti);
+            List<Stella> listaStelleInterne = stellaDao.queryStelleFilamento(conn, idFil);
             Iterator<Stella> iSt = listaStelleInterne.iterator();
-              
+            
             List<Double> listaDistanze = new ArrayList<>();
              
             while (iSt.hasNext()) {
                 Stella st = iSt.next();
-                Iterator<Segmento> iSe = listaSegmentiPrincipali.iterator();
+                Iterator<Segmento> iSe = listaPuntiSegmentoPrincipale.iterator();
                 double distanzaMin = Double.POSITIVE_INFINITY;
                 while (iSe.hasNext()) {
                     Segmento se = iSe.next();

@@ -48,23 +48,6 @@ public class Filamento {
         this.satellite = satellite;
         this.instrument = instrument;
     }
-
-    private boolean controllaSatellite(String satellite) {
-        SatelliteDao satelliteDao = SatelliteDao.getInstance();
-        BeanSatellite beanSatellite = new BeanSatellite(satellite);
-        Connection conn = DBAccess.getInstance().getConnection();
-        boolean res = satelliteDao.queryEsistenzaSatellite(conn, beanSatellite);
-        DBAccess.getInstance().closeConnection(conn);
-        return res;
-    }
-    
-    private boolean controllaStrumento(String strumento) {
-        StrumentoDao strumentoDao = StrumentoDao.getInstance();
-        Connection conn = DBAccess.getInstance().getConnection();
-        boolean res = strumentoDao.queryEsistenzaStrumento(conn, strumento);
-        DBAccess.getInstance().closeConnection(conn);
-        return res;
-    }
     
     public int getIdFil() {
         return idFil;

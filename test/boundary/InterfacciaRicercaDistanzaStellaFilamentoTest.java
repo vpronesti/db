@@ -24,9 +24,10 @@ public class InterfacciaRicercaDistanzaStellaFilamentoTest {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
             
+            {true, REGISTRATO, 4178, "Herschel"},
             {true, REGISTRATO, 45, "Herschel"},
             // filamento non esistente
-            {false, REGISTRATO, 45, "Spitzer"},
+//            {false, REGISTRATO, 45, "Spitzer"},
         });
     }
 
@@ -38,12 +39,26 @@ public class InterfacciaRicercaDistanzaStellaFilamentoTest {
         this.satellite = satellite;
     }
     
+    private boolean controllaRisposta(BeanRispostaStellaFilamento beanRisposta) {
+        boolean res = true;
+        if (beanRisposta.getListaDistanze().size() != beanRisposta.getListaStelle().size())
+            res = false;
+        return res;
+    }
+    
     @Test
     public void testRicercaDistanzaStellaFilamento() {
         InterfacciaRicercaDistanzaStellaFilamento interfacciaStellaFilamento = 
                 new InterfacciaRicercaDistanzaStellaFilamento(userId);
         BeanIdFilamento beanRichiesta = new BeanIdFilamento(id, satellite);
         BeanRispostaStellaFilamento beanRisposta = interfacciaStellaFilamento.ricercaDistanzaStellaFilamento(beanRichiesta);
-        assertEquals("errore", beanRisposta.isFilamentoEsiste() && beanRisposta.isAzioneConsentita(), expected);
+        boolean res;
+        if (beanRisposta.isFilamentoEsiste() && beanRisposta.isAzioneConsentita()) {
+            res = this.controllaRisposta(beanRisposta);
+System.out.println("dim " + beanRisposta.getListaStelle().size());
+        } else {
+            res = false;
+        }
+        assertEquals("errore", res, expected);
     }
 }

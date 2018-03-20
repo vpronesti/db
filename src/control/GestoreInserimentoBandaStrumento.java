@@ -13,6 +13,18 @@ public class GestoreInserimentoBandaStrumento {
         this.amministratore = amministratore;
     }
     
+    /**
+     * inserisce nel DB la rappresentazione per la coppia strumento-banda
+     * 
+     * verifica l'esistenza dello strumento, poi se la banda non e' gia' 
+     * presente nel BD se ne inserisce il valore nella relativa tabella 
+     * 
+     * si inserisce la coppia strumento-banda nella tabella del DB che 
+     * associa le due entita'
+     * se la corrispondenza esiste gia' l'inserimento viene rifiutato
+     * @param beanStrumento
+     * @return 
+     */
     public boolean inserisciBandaStrumento(BeanStrumento beanStrumento) {
         Connection conn = DBAccess.getInstance().getConnection();
         boolean res;

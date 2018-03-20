@@ -3,6 +3,10 @@ package bean;
 public class BeanIdStella {
     private int idStella;
     private String satellite;
+    
+    public String toString() {
+        return "idStella: " + idStella + ", satellite = " + satellite;
+    }
 
     public BeanIdStella(int idStella, String satellite) {
         this.idStella = idStella;

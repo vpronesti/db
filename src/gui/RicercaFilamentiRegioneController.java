@@ -84,8 +84,8 @@ public class RicercaFilamentiRegioneController {
             if (beanRisposta.isAzioneConsentita()) {
                 if (beanRisposta.isInputValido()) {
                     if (beanRisposta.getListaFilamenti().size() > 0) {
-                    RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
-                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
+                        RisultatiRicercaFilamentiRegioneController risultatiController = new RisultatiRicercaFilamentiRegioneController(beanRisposta);
+                        ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCAFILAMENTIREGIONE, risultatiController);
                     } else {
                         text.setText("Non ci sono filamenti nella regione specificata");
                     }

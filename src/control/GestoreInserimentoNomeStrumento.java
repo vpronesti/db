@@ -15,6 +15,19 @@ public class GestoreInserimentoNomeStrumento {
         this.amministratore = amministratore;
     }
     
+    /**
+     * inserisce nel DB la rappresentazione per la coppia strumento-satellite
+     * 
+     * verifica l'esistenza del satellite, poi se lo strumento non e' gia' 
+     * stato definito nel DB si provvede ad inserirne il nome nella 
+     * relativa tabella
+     * 
+     * successivamente si inserisce la coppia strumento-satellite nella 
+     * tabella del DB che associa le due entita'
+     * se la corrispondenza esiste gia' l'inserimento viene rifiutato
+     * @param beanStrumento
+     * @return 
+     */
     public boolean inserisciNomeStrumento(BeanStrumentoSatellite beanStrumento) {
         boolean res;
         Connection conn = DBAccess.getInstance().getConnection();

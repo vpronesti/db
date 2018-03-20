@@ -148,11 +148,11 @@ public class RisultatiRicercaDistanzaStellaFilamentoController implements Initia
             text.setText("Inserire il tipo di ordinamento");
             return;
         }
-        if (tipoOrd == "Flusso") {
+        if (tipoOrd.equals("Flusso")) {
             RisultatiRicercaDistanzaStellaFilamentoController risultatiController = new RisultatiRicercaDistanzaStellaFilamentoController(beanRisposta, false); 
             ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCADISTANZASTELLAFILAMENTO, risultatiController);
         }
-        if (tipoOrd == "Distanza") {
+        if (tipoOrd.equals("Distanza")) {
             RisultatiRicercaDistanzaStellaFilamentoController risultatiController = new RisultatiRicercaDistanzaStellaFilamentoController(beanRisposta, true); 
             ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCADISTANZASTELLAFILAMENTO, risultatiController);
         }

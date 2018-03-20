@@ -80,9 +80,13 @@ public class RicercaContrastoEllitticitaController {
                 if (!beanRisposta.isInputValido()) {
                     text.setText("Le percentuali non possono essere minori di zero ed i valori di ellitticita' devono essere compresi tra 1 e 10 esclusi");
                 } else {
-                    RisultatiRicercaContrastoEllitticitaController risultatiController = 
-                            new RisultatiRicercaContrastoEllitticitaController(beanRisposta); 
-                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCACONTRASTOELLITTICITA, risultatiController);
+                    if (beanRisposta.getListaFilamenti().size() == 0) {
+                        text.setText("Non ci sono filamenti con le caratteristiche richieste");
+                    } else {
+                        RisultatiRicercaContrastoEllitticitaController risultatiController = 
+                                new RisultatiRicercaContrastoEllitticitaController(beanRisposta);
+                        ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCACONTRASTOELLITTICITA, risultatiController);
+                    }
                 }
             } else {
                 text.setText("Azione non consentita");

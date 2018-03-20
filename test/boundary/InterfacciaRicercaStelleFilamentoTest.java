@@ -27,6 +27,7 @@ public class InterfacciaRicercaStelleFilamentoTest {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
             // utente amministratore
+            {true, AMMINISTRATORE, 4178, "Herschel"},
             {true, AMMINISTRATORE, 45, "Herschel"},
             // filamento non esistente
             {false, AMMINISTRATORE, 46, "Herschel"},
@@ -53,15 +54,17 @@ public class InterfacciaRicercaStelleFilamentoTest {
     
     private boolean controllaRisposta(BeanRispostaStelleFilamento beanRisp) {
         boolean res = true;
-        if (beanRisp.isContornoFilamento()) {
-            double totalePercentuale = 0;
-            Set<String> tipiStella = beanRisp.getTipiStellaPercentuale().keySet();
-            for (String s : tipiStella) {
-                totalePercentuale += beanRisp.getTipiStellaPercentuale().get(s);
-            }
-            if (totalePercentuale != 100) {
-                System.out.println("totale percentuale: " + totalePercentuale);
-                res = false;
+        if (beanRisp.isFilamentoEsiste()) {
+            if (beanRisp.getTotaleStelleTrovate() > 0) {
+                double totalePercentuale = 0;
+                Set<String> tipiStella = beanRisp.getTipiStellaPercentuale().keySet();
+                for (String s : tipiStella) {
+                    totalePercentuale += beanRisp.getTipiStellaPercentuale().get(s);
+                }
+                if (totalePercentuale != 100) {
+                    System.out.println("totale percentuale: " + totalePercentuale);
+                    res = false;
+                }
             }
         } else {
             res = false;

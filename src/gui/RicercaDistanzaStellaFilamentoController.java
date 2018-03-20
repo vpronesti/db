@@ -53,8 +53,12 @@ public class RicercaDistanzaStellaFilamentoController {
             BeanRispostaStellaFilamento beanRisposta = boundaryStellaFilamento.ricercaDistanzaStellaFilamento(idFil);
             if (beanRisposta.isAzioneConsentita()) {
                 if (beanRisposta.isFilamentoEsiste()) {
-                    RisultatiRicercaDistanzaStellaFilamentoController risultatiController = new RisultatiRicercaDistanzaStellaFilamentoController(beanRisposta, true); 
-                    ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCADISTANZASTELLAFILAMENTO, risultatiController);
+                    if (beanRisposta.getListaStelle().size() == 0) {
+                        res = "Non ci sono stelle all'interno del filamento specificato";
+                    } else {
+                        RisultatiRicercaDistanzaStellaFilamentoController risultatiController = new RisultatiRicercaDistanzaStellaFilamentoController(beanRisposta, true); 
+                        ViewSwap.getInstance().swap(event, ViewSwap.RISULTATIRICERCADISTANZASTELLAFILAMENTO, risultatiController);
+                    }
                 } else {
                     res = "Il filamento inserito non esiste";
                 }

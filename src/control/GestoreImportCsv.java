@@ -2,6 +2,7 @@ package control;
 
 import bean.BeanIdFilamento;
 import bean.BeanRichiestaImport;
+import bean.BeanSatellite;
 import boundary.InterfacciaImportCsv;
 import dao.ContornoDao;
 import dao.FilamentoDao;
@@ -84,7 +85,7 @@ public class GestoreImportCsv {
             }
 
         }
-        
+
         if (contornoInseribile) {
             rigaInizioLettura = 0;
             while (rigaInizioLettura < totaleRighe) {
@@ -101,7 +102,7 @@ public class GestoreImportCsv {
              */
 //            StellaDao.getInstance().aggiornaStelleFilamento(conn);
             ContornoDao.getInstance().aggiornamentoStellaFilamento(conn);
-            
+
         }
         
         DBAccess.getInstance().closeConnection(conn);
@@ -130,8 +131,8 @@ public class GestoreImportCsv {
             
 //long start = System.currentTimeMillis();
             List<SatelliteStrumento> listaSatStrOk = new ArrayList<>();
-            List<String> satellitiOk = new ArrayList<>();
-            List<String> strumentiOk = new ArrayList<>();
+//            List<String> satellitiOk = new ArrayList<>();
+//            List<String> strumentiOk = new ArrayList<>();
 
             while (i.hasNext()) {
                 Filamento fil = i.next();
@@ -274,29 +275,35 @@ public class GestoreImportCsv {
         return segmentoInseribile;
     }
         
-    public void importStelle(File file, String satellite) 
+    public boolean importStelle(File file, String satellite) 
             throws FormatoFileNonSupportatoException, 
             ImpossibileAprireFileException {
+        boolean stellaInseribile = true;
         StellaDao stellaDao = StellaDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
-        while (rigaInizioLettura < totaleRighe) {
-            List<Stella> listaStelle = csvReader.leggiStelle(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
-            if (listaStelle == null)
-                break;
-            rigaInizioLettura += listaStelle.size();
+        if (SatelliteDao.getInstance().queryEsistenzaSatellite(conn, new BeanSatellite(satellite))) {
+            while (rigaInizioLettura < totaleRighe) {
+                List<Stella> listaStelle = csvReader.leggiStelle(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+                if (listaStelle == null)
+                    break;
+                rigaInizioLettura += listaStelle.size();
 //            Iterator<Stella> i = listaStelle.iterator();
 
 //System.out.println("inserting, rigaInizioLettura" + rigaInizioLettura);
-            stellaDao.inserisciStellaBatch(conn, listaStelle);  
-        }
-        ContornoDao contornoDao = ContornoDao.getInstance();
-        contornoDao.aggiornamentoStellaFilamento(conn);
+                stellaDao.inserisciStellaBatch(conn, listaStelle);  
+            }
+            ContornoDao contornoDao = ContornoDao.getInstance();
+            contornoDao.aggiornamentoStellaFilamento(conn);
 
 //        stellaDao.aggiornaStelleFilamento(conn);
+        } else {
+            stellaInseribile = false;
+        }
         
         DBAccess.getInstance().closeConnection(conn);
+        return stellaInseribile;
     }
     
     public boolean importCsv(BeanRichiestaImport beanRichiesta) 
@@ -312,7 +319,7 @@ public class GestoreImportCsv {
         } else if (tipoFile == TipoFileCsv.SEGMENTO) {
             res = this.importSegmenti(beanRichiesta.getFileSelezionato(), satellite);    
         } else if (tipoFile == TipoFileCsv.STELLA) {
-            this.importStelle(beanRichiesta.getFileSelezionato(), satellite); 
+            res = this.importStelle(beanRichiesta.getFileSelezionato(), satellite); 
         } else {
             res = false;
         }

@@ -34,10 +34,10 @@ public class GestoreRicercaStelleFilamento {
         if (filamentoDao.queryEsistenzaFilamento(conn, idFil)) {
             
             StellaDao stellaDao = StellaDao.getInstance();
-            ContornoDao contornoDao = ContornoDao.getInstance();
-            List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
-            List<Stella> listaStelle = stellaDao.queryStelleContornoFilamento(conn, puntiContorno);
-//            List<Stella> listaStelle = stellaDao.queryStelleFilamento(conn, idFil);
+//            ContornoDao contornoDao = ContornoDao.getInstance();
+//            List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
+//            List<Stella> listaStelle = stellaDao.queryStelleContornoFilamento(conn, puntiContorno);
+            List<Stella> listaStelle = stellaDao.queryStelleFilamento(conn, idFil);
             
             Map<String, Integer> tipoStellaNumero = new HashMap<>();
             int numeroTotaleStelle = listaStelle.size();
