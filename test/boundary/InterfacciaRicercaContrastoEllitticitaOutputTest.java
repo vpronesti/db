@@ -50,7 +50,7 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
         Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
         while (i.hasNext()) {
             Filamento f = i.next();
-            if (f.getContrast() < this.contrasto) {
+            if (f.getContrasto() < this.contrasto) {
                 res = false;
                 break;
             }
@@ -77,7 +77,7 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
         Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
         while (i.hasNext()) {
             Filamento f = i.next();
-            double ellitticita = f.getEllipticity();
+            double ellitticita = f.getEllitticita();
             if (ellitticita < this.inizioIntervalloEllitticita) {
                 res = false;
                 break;

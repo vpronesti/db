@@ -84,15 +84,15 @@ public class SatelliteDao {
             stmt = conn.createStatement();
             String sql = "";
             if (satellite.getTermineOperazione() != null) {
-            sql = "insert into satellite(nome, primaosservazione, " + 
-                    "termineoperazione, agenzia) values('" + 
+            sql = "insert into satellite(nome, prima_osservazione, " + 
+                    "termine_operazione, agenzia) values('" + 
                     satellite.getNome() + "', '" +  
                     satellite.getPrimaOsservazione() + "', '" + 
                     satellite.getTermineOperazione() + "', '" + 
                     satellite.getAgenzia() + "')";
             } else {
-                sql = "insert into satellite(nome, primaosservazione, " + 
-                    "termineoperazione, agenzia) values('" + 
+                sql = "insert into satellite(nome, prima_osservazione, " + 
+                    "termine_operazione, agenzia) values('" + 
                     satellite.getNome() + "', '" +  
                     satellite.getPrimaOsservazione() + "', NULL , '" + 
                     satellite.getAgenzia() + "')";

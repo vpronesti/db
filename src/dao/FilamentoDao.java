@@ -29,7 +29,7 @@ public class FilamentoDao {
      * @return 
      */
     public Filamento queryCampiFilamento(Connection conn, BeanIdFilamento idFil) {
-        String sql = "select name, total_flux, mean_dens, mean_temp, ellipticity, contrast, satellite, instrument " + 
+        String sql = "select nome, flusso_totale, dens_media, temp_media, ellitticita, contrasto, satellite, strumento " + 
                 "from filamento " + 
                 "where idFil = " + idFil.getIdFil() + " and satellite = '" + idFil.getSatellite() + "'";
         Filamento fil = null;
@@ -38,17 +38,17 @@ public class FilamentoDao {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                String name = rs.getString("name");
-                double totalFlux = rs.getDouble("total_flux");
-                double meanDens = rs.getDouble("mean_dens");
-                double meanTemp = rs.getDouble("mean_temp");
-                double ellipticity = rs.getDouble("ellipticity");
-                double contrast = rs.getDouble("contrast");
+                String nome = rs.getString("nome");
+                double flussoTotale = rs.getDouble("flusso_totale");
+                double densMedia = rs.getDouble("dens_media");
+                double tempMedia = rs.getDouble("temp_media");
+                double ellitticita = rs.getDouble("ellitticita");
+                double contrasto = rs.getDouble("contrasto");
                 String satellite = rs.getString("satellite");
-                String instrument = rs.getString("instrument");
-                fil = new Filamento(idFil.getIdFil(), name, totalFlux, 
-                        meanDens, meanTemp, ellipticity, contrast, satellite, 
-                        instrument);
+                String strumento = rs.getString("strumento");
+                fil = new Filamento(idFil.getIdFil(), nome, flussoTotale, 
+                        densMedia, tempMedia, ellitticita, contrasto, satellite, 
+                        strumento);
             }
             rs.close();
             stmt.close();
@@ -87,28 +87,28 @@ public class FilamentoDao {
      * @return 
      */
     public List<Filamento> queryFilamentoContrastoEllitticita(Connection conn, BeanRichiestaContrastoEllitticita beanRichiesta) {
-        String sql = "select idfil, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, satellite, instrument " + 
+        String sql = "select idfil, nome, flusso_totale, dens_media, temp_media, ellitticita, contrasto, satellite, strumento " + 
                 "from filamento " + 
-                "where contrast > " + beanRichiesta.getContrasto() + " and " + 
-                beanRichiesta.getInizioIntervalloEllitticita() + " <= ellipticity and " + 
-                beanRichiesta.getFineIntervalloEllitticita() + ">= ellipticity";
+                "where contrasto > " + beanRichiesta.getContrasto() + " and " + 
+                beanRichiesta.getInizioIntervalloEllitticita() + " <= ellitticita and " + 
+                beanRichiesta.getFineIntervalloEllitticita() + ">= ellitticita";
         List<Filamento> listaFilamenti = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int idFil = rs.getInt("idfil");
-                String name = rs.getString("name");
-                double totalFlux = rs.getDouble("total_flux");
-                double meanDens = rs.getDouble("mean_dens");
-                double meanTemp = rs.getDouble("mean_temp");
-                double ellipticity = rs.getDouble("ellipticity");
-                double contrast = rs.getDouble("contrast");
+                String nome = rs.getString("nome");
+                double flussoTotale = rs.getDouble("flusso_totale");
+                double densMedia = rs.getDouble("dens_media");
+                double tempMedia = rs.getDouble("temp_media");
+                double ellitticita = rs.getDouble("ellitticita");
+                double contrasto = rs.getDouble("contrasto");
                 String satellite = rs.getString("satellite");
-                String instrument = rs.getString("instrument");
-                Filamento f = new Filamento(idFil, name, totalFlux, 
-                        meanDens, meanTemp, ellipticity, contrast, satellite, 
-                        instrument);
+                String strumento = rs.getString("strumento");
+                Filamento f = new Filamento(idFil, nome, flussoTotale, 
+                        densMedia, tempMedia, ellitticita, contrasto, satellite, 
+                        strumento);
                 listaFilamenti.add(f);
             }
             rs.close();
@@ -156,26 +156,26 @@ public class FilamentoDao {
      */
     public void inserisciFilamento(Connection conn, Filamento fil) {
         Statement stmt = null;
-        String sql = "insert into filamento(idfil, name, total_flux, " + 
-                "mean_dens, mean_temp, ellipticity, contrast, satellite, " + 
-                "instrument) values (" + 
+        String sql = "insert into filamento(idfil, nome, flusso_totale, " + 
+                "dens_media, temp_media, ellitticita, contrasto, satellite, " + 
+                "strumento) values (" + 
                 "" + fil.getIdFil() + ", " + 
-                "'" + fil.getName() + "', " + 
-                "" + fil.getTotalFlux() + ", " + 
-                "" + fil.getMeanDens() + ", " + 
-                "" + fil.getMeanTemp() + ", " + 
-                "" + fil.getEllipticity() + ", " + 
-                "" + fil.getContrast() + ", " + 
+                "'" + fil.getNome()+ "', " + 
+                "" + fil.getFlussoTotale()+ ", " + 
+                "" + fil.getDensMedia()+ ", " + 
+                "" + fil.getTempMedia()+ ", " + 
+                "" + fil.getEllitticita()+ ", " + 
+                "" + fil.getContrasto() + ", " + 
                 "'" + fil.getSatellite() + "', " + 
-                "'" + fil.getInstrument() + "'" + 
+                "'" + fil.getStrumento() + "'" + 
                 ") on conflict (idfil, satellite) do update set " + 
-                "name = excluded.name, " + 
-                "total_flux = excluded.total_flux, " + 
-                "mean_dens = excluded.mean_dens, " + 
-                "mean_temp = excluded.mean_temp, " + 
-                "ellipticity = excluded.ellipticity, " + 
-                "contrast = excluded.contrast, " +
-                "instrument = excluded.instrument;";
+                "nome = excluded.nome, " + 
+                "flusso_totale = excluded.flusso_totale, " + 
+                "dens_media = excluded.dens_media, " + 
+                "temp_media = excluded.temp_media, " + 
+                "ellitticita = excluded.ellitticita, " + 
+                "contrasto = excluded.contrasto, " +
+                "strumento = excluded.strumento;";
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(sql);
@@ -192,17 +192,17 @@ public class FilamentoDao {
      * @param lf 
      */
     public void inserisciFilamentoBatch(Connection conn, List<Filamento> lf) {
-        String sql = "insert into filamento(idfil, name, total_flux, " + 
-                "mean_dens, mean_temp, ellipticity, contrast, satellite, " + 
-                "instrument) values (?, ?, ?, ?, ?, ?, ?, ?, ?) " + 
+        String sql = "insert into filamento(idfil, nome, flusso_totale, " + 
+                "dens_media, temp_media, ellitticita, contrasto, satellite, " + 
+                "strumento) values (?, ?, ?, ?, ?, ?, ?, ?, ?) " + 
                 "on conflict (idfil, satellite) do update set " + 
-                "name = excluded.name, " + 
-                "total_flux = excluded.total_flux, " + 
-                "mean_dens = excluded.mean_dens, " + 
-                "mean_temp = excluded.mean_temp, " + 
-                "ellipticity = excluded.ellipticity, " + 
-                "contrast = excluded.contrast, " +
-                "instrument = excluded.instrument;";
+                "nome = excluded.nome, " + 
+                "flusso_totale = excluded.flusso_totale, " + 
+                "dens_media = excluded.dens_media, " + 
+                "temp_media = excluded.temp_media, " + 
+                "ellitticita = excluded.ellitticita, " + 
+                "contrasto = excluded.contrasto, " +
+                "strumento = excluded.strumento;";
         try {
             conn.setAutoCommit(false);
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -210,14 +210,14 @@ public class FilamentoDao {
             while (i.hasNext()) {
                 Filamento f = i.next();
                 ps.setInt(1, f.getIdFil());
-                ps.setString(2, f.getName());
-                ps.setDouble(3, f.getTotalFlux());
-                ps.setDouble(4, f.getMeanDens());
-                ps.setDouble(5, f.getMeanTemp());
-                ps.setDouble(6, f.getEllipticity());
-                ps.setDouble(7, f.getContrast());
+                ps.setString(2, f.getNome());
+                ps.setDouble(3, f.getFlussoTotale());
+                ps.setDouble(4, f.getDensMedia());
+                ps.setDouble(5, f.getTempMedia());
+                ps.setDouble(6, f.getEllitticita());
+                ps.setDouble(7, f.getContrasto());
                 ps.setString(8, f.getSatellite());
-                ps.setString(9, f.getInstrument());
+                ps.setString(9, f.getStrumento());
                 ps.addBatch();
             }
             ps.executeBatch();

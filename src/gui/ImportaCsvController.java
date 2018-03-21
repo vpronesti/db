@@ -55,11 +55,17 @@ public class ImportaCsvController {
     @FXML
     protected void importa(ActionEvent event) throws Exception {
         BeanRichiestaImport beanRichiestaImport = this.wrapRichiesta();
+        boolean res;
         if (beanRichiestaImport != null) {
             if (beanRichiestaImport.getTipo() == TipoFileCsv.FILAMENTO) {
                 InterfacciaImportCsv boundaryImportCsv = new
                         InterfacciaImportCsv(LogInController.interfacciaUtenteLogin.getUserId());
                 try {
+//                    TaskImport task = new TaskImport(boundaryImportCsv, beanRichiestaImport);
+//                    Thread t = new Thread(task);
+//                    t.start();
+//                    res = task.get();
+//                    if (res) {
                     if (boundaryImportCsv.importaCsv(beanRichiestaImport)) {
                         text.setText("Import effettuato correttamente");
                     } else {

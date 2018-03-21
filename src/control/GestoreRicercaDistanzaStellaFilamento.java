@@ -45,8 +45,8 @@ public class GestoreRicercaDistanzaStellaFilamento {
                 double distanzaMin = Double.POSITIVE_INFINITY;
                 while (iSe.hasNext()) {
                     Segmento se = iSe.next();
-                    if (distanza(st.getgLonSt(), st.getgLatSt(), se.getgLonBr(), se.getgLatBr()) < distanzaMin)
-                        distanzaMin = distanza(st.getgLonSt(), st.getgLatSt(), se.getgLonBr(), se.getgLatBr());
+                    if (distanza(st.getgLonSt(), st.getgLatSt(), se.getgLonSe(), se.getgLatSe()) < distanzaMin)
+                        distanzaMin = distanza(st.getgLonSt(), st.getgLatSt(), se.getgLonSe(), se.getgLatSe());
                 }
                 listaDistanze.add(distanzaMin);
             }

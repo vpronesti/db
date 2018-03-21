@@ -2,12 +2,12 @@ package entity;
 
 public class Segmento {
     private int idFil;
-    private int idBranch;
-    private String type;
-    private double gLonBr;
-    private double gLatBr;
+    private int idSegmento;
+    private String tipo;
+    private double gLonSe;
+    private double gLatSe;
     private int n;
-    private double flux;
+    private double flusso;
     private String satellite;
     
     public Segmento() {
@@ -15,22 +15,22 @@ public class Segmento {
     }
     
     public String toString() {
-        return "idFil: " + this.idFil + "idBranch: " + 
-                this.idBranch + "idLon: " + this.gLonBr + "idLat: " + this.gLatBr;
+        return "idFil: " + this.getIdFil() + "idBranch: " + 
+                this.getIdSegmento() + "idLon: " + this.getgLonSe() + "idLat: " + this.getgLatSe();
     }
     
-    public Segmento(int idFil, String satellite, int idBranch, String type, double gLonBr, 
-            double gLatBr, int n, double flux) {
+    public Segmento(int idFil, String satellite, int idSegmento, String tipo, double gLonSe, 
+            double gLatSe, int n, double flusso) {
         this.idFil = idFil;
         this.satellite = satellite;
-        this.idBranch = idBranch;
-        this.type = type;
-        this.gLonBr = gLonBr;
-        this.gLatBr = gLatBr;
+        this.idSegmento = idSegmento;
+        this.tipo = tipo;
+        this.gLonSe = gLonSe;
+        this.gLatSe = gLatSe;
         this.n = n;
-        this.flux = flux;
+        this.flusso = flusso;
     }
-    
+
     public int getIdFil() {
         return idFil;
     }
@@ -39,36 +39,36 @@ public class Segmento {
         this.idFil = idFil;
     }
 
-    public int getIdBranch() {
-        return idBranch;
+    public int getIdSegmento() {
+        return idSegmento;
     }
 
-    public void setIdBranch(int idBranch) {
-        this.idBranch = idBranch;
+    public void setIdSegmento(int idSegmento) {
+        this.idSegmento = idSegmento;
     }
 
-    public String getType() {
-        return type;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public double getgLonBr() {
-        return gLonBr;
+    public double getgLonSe() {
+        return gLonSe;
     }
 
-    public void setgLonBr(double gLonBr) {
-        this.gLonBr = gLonBr;
+    public void setgLonSe(double gLonSe) {
+        this.gLonSe = gLonSe;
     }
 
-    public double getgLatBr() {
-        return gLatBr;
+    public double getgLatSe() {
+        return gLatSe;
     }
 
-    public void setgLatBr(double gLatBr) {
-        this.gLatBr = gLatBr;
+    public void setgLatSe(double gLatSe) {
+        this.gLatSe = gLatSe;
     }
 
     public int getN() {
@@ -79,12 +79,12 @@ public class Segmento {
         this.n = n;
     }
 
-    public double getFlux() {
-        return flux;
+    public double getFlusso() {
+        return flusso;
     }
 
-    public void setFlux(double flux) {
-        this.flux = flux;
+    public void setFlusso(double flusso) {
+        this.flusso = flusso;
     }
 
     public String getSatellite() {
@@ -93,6 +93,5 @@ public class Segmento {
 
     public void setSatellite(String satellite) {
         this.satellite = satellite;
-    }
-    
+    }    
 }

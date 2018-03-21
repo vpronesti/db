@@ -12,41 +12,36 @@ import util.DBAccess;
 
 public class Filamento {
     private int idFil;
-    private String name;
-    private double totalFlux;
-    private double meanDens;
-    private double meanTemp;
-    private double ellipticity;
-    private double contrast;
+    private String nome;
+    private double flussoTotale;
+    private double densMedia;
+    private double tempMedia;
+    private double ellitticita;
+    private double contrasto;
     private String satellite;
-    private String instrument;
+    private String strumento;
     
     public String toString() {
-        return "Filamento id: " + this.idFil + "\n\tnome: " + this.name;
+        return "Filamento id: " + this.idFil + "\n\tnome: " + this.nome;
     }
     
-    /**
-     * si puo anche togliere
-     * @param idFil 
-     */
-    public Filamento(int idFil, String satellite) {
-        this.idFil = idFil;
-        this.satellite = satellite;
-    }
+//    public Filamento(int idFil, String satellite) {
+//        this.idFil = idFil;
+//        this.satellite = satellite;
+//    }
     
-    public Filamento(int idFil, String name, double totalFlux, 
-            double meanDens, double meanTemp, double ellipticity, 
-            double contrast, String satellite, String instrument) {
+    public Filamento(int idFil, String nome, double flussoTotale, 
+            double densMedia, double tempMedia, double ellitticita, 
+            double contrasto, String satellite, String strumento) {
         this.idFil = idFil;
-        this.name = name;
-        this.totalFlux = totalFlux;
-        this.meanDens = meanDens;
-        this.meanTemp = meanTemp;
-        this.ellipticity = ellipticity;
-        this.contrast = contrast;
-        
+        this.nome = nome;
+        this.flussoTotale = flussoTotale;
+        this.densMedia = densMedia;
+        this.tempMedia = tempMedia;
+        this.ellitticita = ellitticita;
+        this.contrasto = contrasto;
         this.satellite = satellite;
-        this.instrument = instrument;
+        this.strumento = strumento;
     }
     
     public int getIdFil() {
@@ -57,52 +52,52 @@ public class Filamento {
         this.idFil = idFil;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public double getTotalFlux() {
-        return totalFlux;
+    public double getFlussoTotale() {
+        return flussoTotale;
     }
 
-    public void setTotalFlux(double totalFlux) {
-        this.totalFlux = totalFlux;
+    public void setFlussoTotale(double flussoTotale) {
+        this.flussoTotale = flussoTotale;
     }
 
-    public double getMeanDens() {
-        return meanDens;
+    public double getDensMedia() {
+        return densMedia;
     }
 
-    public void setMeanDens(double meanDens) {
-        this.meanDens = meanDens;
+    public void setDensMedia(double densMedia) {
+        this.densMedia = densMedia;
     }
 
-    public double getMeanTemp() {
-        return meanTemp;
+    public double getTempMedia() {
+        return tempMedia;
     }
 
-    public void setMeanTemp(double meanTemp) {
-        this.meanTemp = meanTemp;
+    public void setTempMedia(double tempMedia) {
+        this.tempMedia = tempMedia;
     }
 
-    public double getEllipticity() {
-        return ellipticity;
+    public double getEllitticita() {
+        return ellitticita;
     }
 
-    public void setEllipticity(double ellipticity) {
-        this.ellipticity = ellipticity;
+    public void setEllitticita(double ellitticita) {
+        this.ellitticita = ellitticita;
     }
 
-    public double getContrast() {
-        return contrast;
+    public double getContrasto() {
+        return contrasto;
     }
 
-    public void setContrast(double contrast) {
-        this.contrast = contrast;
+    public void setContrasto(double contrasto) {
+        this.contrasto = contrasto;
     }
 
     public String getSatellite() {
@@ -113,11 +108,11 @@ public class Filamento {
         this.satellite = satellite;
     }
 
-    public String getInstrument() {
-        return instrument;
+    public String getStrumento() {
+        return strumento;
     }
 
-    public void setInstrument(String instrument) {
-        this.instrument = instrument;
+    public void setStrumento(String strumento) {
+        this.strumento = strumento;
     }
 }

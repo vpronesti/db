@@ -50,7 +50,7 @@ public class GestoreRicercaStelleRegione {
         Iterator<Stella> iS = listaStelleRegione.iterator();
         while (iS.hasNext()) {
             Stella s = iS.next();
-            BeanIdStella idStella = new BeanIdStella(s.getIdStar(), s.getSatellite());
+            BeanIdStella idStella = new BeanIdStella(s.getIdStella(), s.getSatellite());
             if (stellaDao.queryStellaAppartieneFilamento(conn, idStella))
                 listaStelleInterne.add(s);
             else
@@ -65,10 +65,10 @@ public class GestoreRicercaStelleRegione {
          */
         while (iS.hasNext()) {
             Stella s = iS.next();
-            if (tipiStelleNumeroInterne.containsKey(s.getType()))
-                tipiStelleNumeroInterne.put(s.getType(), tipiStelleNumeroInterne.get(s.getType()) + 1);
+            if (tipiStelleNumeroInterne.containsKey(s.getTipo()))
+                tipiStelleNumeroInterne.put(s.getTipo(), tipiStelleNumeroInterne.get(s.getTipo()) + 1);
             else
-                tipiStelleNumeroInterne.put(s.getType(), 1);
+                tipiStelleNumeroInterne.put(s.getTipo(), 1);
         }
         iS = listaStelleEsterne.iterator();
         /**
@@ -76,10 +76,10 @@ public class GestoreRicercaStelleRegione {
          */
         while (iS.hasNext()) {
             Stella s = iS.next();
-            if (tipiStelleNumeroEsterne.containsKey(s.getType()))
-                tipiStelleNumeroEsterne.put(s.getType(), tipiStelleNumeroEsterne.get(s.getType()) + 1);
+            if (tipiStelleNumeroEsterne.containsKey(s.getTipo()))
+                tipiStelleNumeroEsterne.put(s.getTipo(), tipiStelleNumeroEsterne.get(s.getTipo()) + 1);
             else
-                tipiStelleNumeroEsterne.put(s.getType(), 1);
+                tipiStelleNumeroEsterne.put(s.getTipo(), 1);
         }
 
         /**

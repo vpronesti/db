@@ -76,8 +76,8 @@ public class GestoreImportCsv {
                     Segmento s = j.next();
                     // il punto di un contorno non puo' sovrapporsi ai punti 
                     // dei segmenti del filamento a cui appartiene
-                    if (s.getgLonBr() == con.getgLonCont() && 
-                            s.getgLatBr() == con.getgLatCont()) {
+                    if (s.getgLonSe() == con.getgLonCont() && 
+                            s.getgLatSe() == con.getgLatCont()) {
                         contornoInseribile = false;
                         break;
                     }
@@ -138,7 +138,7 @@ public class GestoreImportCsv {
                 Filamento fil = i.next();
                 
                 String satellite = fil.getSatellite();
-                String strumento = fil.getInstrument();
+                String strumento = fil.getStrumento();
                 SatelliteStrumento satStr = new SatelliteStrumento(satellite, strumento);
                 if (!listaSatStrOk.contains(satStr)) {
                     if (!strumentoDao.queryEsistenzaSatelliteStrumento(conn, satellite, strumento)) {
@@ -254,7 +254,7 @@ public class GestoreImportCsv {
                  * non si sovrapponga al perimetro del segmento
                  */
                 List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
-                if (puntiContorno.contains(new Contorno(seg.getIdFil(), seg.getSatellite(), seg.getgLonBr(), seg.getgLatBr()))) {
+                if (puntiContorno.contains(new Contorno(seg.getIdFil(), seg.getSatellite(), seg.getgLonSe(), seg.getgLatSe()))) {
                     segmentoInseribile = false;
                     break;
                 }

@@ -13,7 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import util.CoppiaStellaFilamento;
 
 public class StellaDao {
     private static StellaDao instance;
@@ -37,8 +36,8 @@ public class StellaDao {
      */
     public boolean queryStellaAppartieneFilamento(Connection conn, BeanIdStella idStella) {
         boolean res = false;
-        String sql = "select * from stella_filamento where idstar = " + 
-                idStella.getIdStella() + " and satellite_star = '" + 
+        String sql = "select * from stella_filamento where idstella = " + 
+                idStella.getIdStella() + " and satellite_stella = '" + 
                 idStella.getSatellite() + "'";
         try {
             Statement stmt = conn.createStatement();
@@ -66,22 +65,22 @@ public class StellaDao {
      */
     public List<Stella> queryStelleFilamento(Connection conn, BeanIdFilamento idFil) {
         List<Stella> listaStelle = new ArrayList<>();
-        String sql = "select sf.idstar, sf.satellite_star, namestar, glon_st, glat_st, flux_st, type_st " + 
-                "from stella_filamento sf join stella on sf.idstar = stella.idstar and sf.satellite_star = stella.satellite " + 
+        String sql = "select sf.idstella, sf.satellite_stella, nomestella, glon_st, glat_st, flusso_st, tipo_st " + 
+                "from stella_filamento sf join stella on sf.idstella = stella.idstella and sf.satellite_stella = stella.satellite " + 
                 "where sf.idfil = " + idFil.getIdFil() + 
                 " and sf.satellite_filamento = '" + idFil.getSatellite() + "'";
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                int idStar = rs.getInt("idstar");
-                String satelliteStar = rs.getString("satellite_star");
-                String nameStar = rs.getString("namestar");
+                int idStella = rs.getInt("idstella");
+                String satelliteStella = rs.getString("satellite_stella");
+                String nomeStella = rs.getString("nomestella");
                 double gLonSt = rs.getDouble("glon_st");
                 double gLatSt = rs.getDouble("glat_st");
-                double fluxSt = rs.getDouble("flux_st");
-                String typeSt = rs.getString("type_st");
-                Stella s = new Stella(idStar, satelliteStar, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
+                double flussoSt = rs.getDouble("flusso_st");
+                String tipoSt = rs.getString("tiop_st");
+                Stella s = new Stella(idStella, satelliteStella, nomeStella, gLonSt, gLatSt, flussoSt, tipoSt);
                 listaStelle.add(s);
             }
             rs.close();
@@ -106,7 +105,7 @@ public class StellaDao {
         double maxLat = beanRichiesta.getLatiCentr() + beanRichiesta.getLatoB()/2;
         double minLon = beanRichiesta.getLongCentr() - beanRichiesta.getLatoA()/2;
         double minLat = beanRichiesta.getLatiCentr() - beanRichiesta.getLatoB()/2;
-        String sql = "select idstar, satellite, namestar, glon_st, glat_st, flux_st, type_st " + 
+        String sql = "select idstella, satellite, nomestella, glon_st, glat_st, flusso_st, tipo_st " + 
                 "from stella " + 
                 "where glon_st > " + minLon + " and glon_st < " + maxLon + " and " + 
                 "glat_st > " + minLat + " and glat_st < " + maxLat;
@@ -115,14 +114,14 @@ public class StellaDao {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                int idStar = rs.getInt("idstar");
+                int idStella = rs.getInt("idstella");
                 String satellite = rs.getString("satellite");
-                String nameStar = rs.getString("namestar");
+                String nomeStella = rs.getString("nomestella");
                 double gLonSt = rs.getDouble("glon_st");
                 double gLatSt = rs.getDouble("glat_st");
-                double fluxSt = rs.getDouble("flux_st");
-                String typeSt = rs.getString("type_st");
-                Stella s = new Stella(idStar, satellite, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
+                double flussoSt = rs.getDouble("flusso_st");
+                String tipoSt = rs.getString("tipo_st");
+                Stella s = new Stella(idStella, satellite, nomeStella, gLonSt, gLatSt, flussoSt, tipoSt);
                 listaStelle.add(s);
             }
             rs.close();
@@ -283,13 +282,13 @@ public class StellaDao {
      * @return 
      */
     public List<BeanIdStella> queryIdStelleContornoFilamento(Connection conn, List<Contorno> listaPunti) {
-        String sql = "select idstar, satellite, glon_st, glat_st from stella";
+        String sql = "select idstella, satellite, glon_st, glat_st from stella";
         List<BeanIdStella> listaIdStelle = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                int id = rs.getInt("idstar");
+                int id = rs.getInt("idstella");
                 String satellite = rs.getString("satellite");
                 double gLonSt = rs.getDouble("glon_st");
                 double gLatSt = rs.getDouble("glat_st");
@@ -342,14 +341,14 @@ public class StellaDao {
     
     public void inserisciStellaBatch(Connection conn, List<Stella> ls) {
         
-        String sql = "insert into stella(idstar, satellite, namestar, " + 
-                "glon_st, glat_st, flux_st, type_st) values(?, ?, ?, ?, ?, ?, ?) " + 
-                "on conflict (idstar, satellite) do update set " + 
-                "namestar = excluded.namestar, " + 
+        String sql = "insert into stella(idstella, satellite, nomestella, " + 
+                "glon_st, glat_st, flusso_st, tipo_st) values(?, ?, ?, ?, ?, ?, ?) " + 
+                "on conflict (idstella, satellite) do update set " + 
+                "nomestella = excluded.nomestella, " + 
                 "glon_st = excluded.glon_st, " + 
                 "glat_st = excluded.glat_st, " + 
-                "flux_st = excluded.flux_st, " + 
-                "type_st = excluded.type_st " + 
+                "flusso_st = excluded.flusso_st, " + 
+                "tipo_st = excluded.tipo_st " + 
                 ";";
         try {
             conn.setAutoCommit(false);
@@ -357,13 +356,13 @@ public class StellaDao {
             Iterator<Stella> i = ls.iterator();
             while (i.hasNext()) { 
                 Stella s = i.next();
-                ps.setInt(1, s.getIdStar());
+                ps.setInt(1, s.getIdStella());
                 ps.setString(2, s.getSatellite());
-                ps.setString(3, s.getName());
+                ps.setString(3, s.getNome());
                 ps.setDouble(4, s.getgLonSt());
                 ps.setDouble(5, s.getgLatSt());
-                ps.setDouble(6, s.getFluxSt());
-                ps.setString(7, s.getType());
+                ps.setDouble(6, s.getFlussoSt());
+                ps.setString(7, s.getTipo());
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -376,21 +375,21 @@ public class StellaDao {
     
     public void inserisciStella(Connection conn, Stella st) {
         Statement stmt = null;
-        String sql = "insert into stella(idstar, satellite, namestar, " + 
-                "glon_st, glat_st, flux_st, type_st) values(" + 
-                st.getIdStar() + ", " + 
+        String sql = "insert into stella(idstella, satellite, nomestella, " + 
+                "glon_st, glat_st, flusso_st, tipo_st) values(" + 
+                st.getIdStella()+ ", " + 
                 "'" + st.getSatellite()+ "', " + 
-                "'" + st.getName() + "', " + 
+                "'" + st.getNome() + "', " + 
                 st.getgLonSt() + ", " +
                 st.getgLatSt() + ", " + 
-                st.getFluxSt() + ", " + 
-                "'" + st.getType() + "'" + 
-                ") on conflict (idstar, satellite) do update set " + 
-                "namestar = excluded.namestar, " + 
+                st.getFlussoSt()+ ", " + 
+                "'" + st.getTipo()+ "'" + 
+                ") on conflict (idstella, satellite) do update set " + 
+                "nomestella = excluded.nomestella, " + 
                 "glon_st = excluded.glon_st, " + 
                 "glat_st = excluded.glat_st, " + 
-                "flux_st = excluded.flux_st, " + 
-                "type_st = excluded.type_st " + 
+                "flusso_st = excluded.flusso_st, " + 
+                "tipo_st = excluded.tipo_st " + 
                 ";";
         try {
             stmt = conn.createStatement();

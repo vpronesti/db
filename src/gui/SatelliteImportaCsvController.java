@@ -3,10 +3,8 @@ package gui;
 import bean.BeanRichiestaImport;
 import boundary.InterfacciaImportCsv;
 import dao.SatelliteDao;
-import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
 import exception.ImpossibileAprireFileException;
-import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -45,6 +43,48 @@ public class SatelliteImportaCsvController implements Initializable {
             InterfacciaImportCsv boundaryImportCsv = new
                     InterfacciaImportCsv(LogInController.interfacciaUtenteLogin.getUserId());
             try {
+//                Service<Boolean> service = new Service<Boolean>(){
+//                    @Override
+//                    protected Task<Boolean> createTask() {
+//                    return new Task<Boolean>() {
+//                       @Override
+//                       protected Boolean call() throws Exception {
+//                            return boundaryImportCsv.importaCsv(beanRichiestaImport);                      
+//                       }
+//                       };
+//                   }
+//                 };
+//                 service.setOnSucceeded(e -> {
+//                     text.setText("Import effettuato correttamente");
+//                 });
+//                 service.setOnFailed(e -> {
+//                     text.setText("Impossibilile importare il file");
+//                 });              
+//                 ProgressDialog pd = new ProgressDialog(service);
+//                 pd.setContentText("Please wait while the window loads...");
+//                 pd.initModality(Modality.WINDOW_MODAL);
+//                 pd.initOwner(stage);
+//                 service.start();
+                
+                
+//                TaskImport task = new TaskImport(boundaryImportCsv, beanRichiestaImport);
+//                task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+//                    @Override
+//                    public void handle(WorkerStateEvent t)
+//                    {
+//                        // Code to run once runFactory() is completed **successfully**
+//                        text.setText("Import effettuato correttamente");
+//                    }
+//                });
+//                task.setOnFailed(new EventHandler<WorkerStateEvent>() {
+//                    @Override
+//                    public void handle(WorkerStateEvent t)
+//                    {
+//                        text.setText("Impossibilile importare il file");
+//                    }
+//                });
+//                new Thread(task).start();
+
                 if (boundaryImportCsv.importaCsv(beanRichiestaImport)) {
                     text.setText("Import effettuato correttamente");
                 } else {

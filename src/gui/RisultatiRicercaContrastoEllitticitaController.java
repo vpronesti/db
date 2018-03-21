@@ -42,10 +42,10 @@ public class RisultatiRicercaContrastoEllitticitaController implements Initializ
         Iterator<Filamento> i = listaFilamenti.iterator();
         while (i.hasNext()) {
             Filamento f = i.next();
-            FilamentoGr p = new FilamentoGr(f.getIdFil(), f.getName(), 
-                    f.getTotalFlux(), f.getMeanDens(), f.getMeanTemp(), 
-                    f.getEllipticity(), f.getContrast(), 
-                    f.getSatellite(), f.getInstrument());
+            FilamentoGr p = new FilamentoGr(f.getIdFil(), f.getNome(), 
+                    f.getFlussoTotale(), f.getDensMedia(), f.getTempMedia(), 
+                    f.getEllitticita(), f.getContrasto(), 
+                    f.getSatellite(), f.getStrumento());
             lp.add(p);
         }
         return FXCollections.observableArrayList(lp);

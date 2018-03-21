@@ -5,28 +5,28 @@ import static java.lang.Math.atan;
 import java.util.List;
 
 public class Stella {
-    private int idStar;
+    private int idStella;
     private String satellite;
-    private String name;
+    private String nome;
     private double gLonSt;
     private double gLatSt;
-    private double fluxSt;
-    private String type;
-    
-    public Stella(int idStar, String satellite, String name, 
-            double gLonSt, double gLatSt, double fluxSt, String type) {
-        this.idStar = idStar;
+    private double flussoSt;
+    private String tipo;
+
+    public Stella(int idStella, String satellite, String nome, double gLonSt, double gLatSt, double flussoSt, String tipo) {
+        this.idStella = idStella;
         this.satellite = satellite;
-        this.name = name;
+        this.nome = nome;
         this.gLonSt = gLonSt;
         this.gLatSt = gLatSt;
-        this.fluxSt = fluxSt;
-        this.type = type;
-        
+        this.flussoSt = flussoSt;
+        this.tipo = tipo;
     }
+    
 
-    public Stella(int idStar, String satellite, double gLonSt, double gLatSt) {
-        this.idStar = idStar;
+
+    public Stella(int idStella, String satellite, double gLonSt, double gLatSt) {
+        this.idStella = idStella;
         this.satellite = satellite;
         this.gLonSt = gLonSt;
         this.gLatSt = gLatSt;
@@ -53,20 +53,28 @@ public class Stella {
         return abs(sum) >= 0.01;
     }
 
-    public int getIdStar() {
-        return idStar;
+    public int getIdStella() {
+        return idStella;
     }
 
-    public void setIdStar(int idStar) {
-        this.idStar = idStar;
+    public void setIdStella(int idStella) {
+        this.idStella = idStella;
     }
 
-    public String getName() {
-        return name;
+    public String getSatellite() {
+        return satellite;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSatellite(String satellite) {
+        this.satellite = satellite;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public double getgLonSt() {
@@ -85,27 +93,19 @@ public class Stella {
         this.gLatSt = gLatSt;
     }
 
-    public double getFluxSt() {
-        return fluxSt;
+    public double getFlussoSt() {
+        return flussoSt;
     }
 
-    public void setFluxSt(double fluxSt) {
-        this.fluxSt = fluxSt;
+    public void setFlussoSt(double flussoSt) {
+        this.flussoSt = flussoSt;
     }
 
-    public String getType() {
-        return type;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getSatellite() {
-        return satellite;
-    }
-
-    public void setSatellite(String satellite) {
-        this.satellite = satellite;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

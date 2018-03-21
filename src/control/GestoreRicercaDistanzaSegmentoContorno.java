@@ -39,11 +39,11 @@ public class GestoreRicercaDistanzaSegmentoContorno {
             while (i.hasNext()) {
                 Contorno c = i.next();
                 calc = DistanzaEuclidea.distanza(c.getgLonCont(), c.getgLatCont(), 
-                        verticeMax.getgLonBr(), verticeMax.getgLatBr());
+                        verticeMax.getgLonSe(), verticeMax.getgLatSe());
                 if (calc < distanzaVerticeMax)
                     distanzaVerticeMax = calc;
                 calc = DistanzaEuclidea.distanza(c.getgLonCont(), c.getgLatCont(), 
-                        verticeMin.getgLonBr(), verticeMin.getgLatBr());
+                        verticeMin.getgLonSe(), verticeMin.getgLatSe());
                 if (calc < distanzaVerticeMin)
                     distanzaVerticeMin = calc;
             }

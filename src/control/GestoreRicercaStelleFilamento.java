@@ -44,10 +44,10 @@ public class GestoreRicercaStelleFilamento {
             Iterator<Stella> i = listaStelle.iterator();
             while (i.hasNext()) {
                 Stella s = i.next();
-                if (tipoStellaNumero.containsKey(s.getType()))
-                    tipoStellaNumero.put(s.getType(), tipoStellaNumero.get(s.getType()) + 1);
+                if (tipoStellaNumero.containsKey(s.getTipo()))
+                    tipoStellaNumero.put(s.getTipo(), tipoStellaNumero.get(s.getTipo()) + 1);
                 else
-                    tipoStellaNumero.put(s.getType(), 1);
+                    tipoStellaNumero.put(s.getTipo(), 1);
             }
             Set<String> tipiStella = tipoStellaNumero.keySet();
             Map<String, Double> tipiStellaPercentuale = new HashMap<>();
