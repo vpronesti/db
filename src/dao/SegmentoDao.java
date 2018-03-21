@@ -65,7 +65,7 @@ public class SegmentoDao {
         boolean res = false;
         String sql = "select * from segmento where (idfil <> " + 
                 s.getIdFil() + " or satellite <> '" + s.getSatellite() + "') and " + 
-                "glon_br = " + s.getgLonSe() + " and glat_br = " + s.getgLatSe();
+                "glon_se = " + s.getgLonSe() + " and glat_se = " + s.getgLatSe();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -331,7 +331,7 @@ public class SegmentoDao {
     }
     
     public void inserisciSegmentoBatch(Connection conn, List<Segmento> ls) {
-        String sql = "insert into segmento(idfil, satellite, id_semgneo, tipo, " + 
+        String sql = "insert into segmento(idfil, satellite, id_segmento, tipo, " + 
                 "glon_se, glat_se, n, flusso) values (?, ?, ?, ?, ?, ?, ?, ?) " + 
                 "on conflict (idfil, satellite, id_segmento, glon_se, glat_se) do update set " + 
                 "tipo = excluded.tipo, " + 
