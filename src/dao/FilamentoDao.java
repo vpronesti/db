@@ -121,8 +121,8 @@ public class FilamentoDao {
     }
     
     /**
-     * utilizzato nell'import dei contorni per controllare il reference
-     * utilizzato nell'import dei segmenti per controllare il reference
+     * utilizzato nell'import dei contorni per controllare il riferimento
+     * utilizzato nell'import dei segmenti per controllare il riferimento
      * utilizzato per recupero informazioni su filamento
      * utilizzato per la distanza delle stelle interne ad un filamento
      * @param conn
@@ -188,6 +188,13 @@ public class FilamentoDao {
     
     /**
      * utilizzato per l'import
+     * questo metodo viene chiamato piu' volte dal controller perche' i 
+     * dati letti dal file potrebbero eccedere la memoria assegnata 
+     * al programma
+     * 
+     * sara' il controller a fare il commit dell'inserimento 
+     * dopo l'ultimo blocco
+     * 
      * @param conn
      * @param lf 
      */
@@ -204,7 +211,7 @@ public class FilamentoDao {
                 "contrasto = excluded.contrasto, " +
                 "strumento = excluded.strumento;";
         try {
-            conn.setAutoCommit(false);
+//            conn.setAutoCommit(false);
             PreparedStatement ps = conn.prepareStatement(sql);
             Iterator<Filamento> i = lf.iterator();
             while (i.hasNext()) {
@@ -222,7 +229,7 @@ public class FilamentoDao {
             }
             ps.executeBatch();
             ps.close();
-            conn.commit();
+//            conn.commit();
         } catch (SQLException e) {
             System.out.println("");
             e.printStackTrace();

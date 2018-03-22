@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBAccess {
-    public static final String DBNAME="progDB";
-    public static final String DBOWNER="postgres";
-    public static final String DBPASSW="admin";
+    public static final String DBNAME = "progDB";
+    public static final String DBOWNER = "postgres";
+    public static final String DBPASSW = "admin";
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/progDB";
     private static DBAccess instance;
     
@@ -32,6 +32,22 @@ public class DBAccess {
             e.printStackTrace();
         }
         return conn;
+    }
+    
+    public void disableAutoCommit(Connection conn) {
+        try {
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void commit(Connection conn) {
+        try {
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     public void closeConnection(Connection conn) {

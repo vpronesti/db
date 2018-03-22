@@ -25,27 +25,41 @@ public class ContornoDao {
         return instance;
     }
     
+    /**
+     * questo metodo serve per aggiornare la tabella che rappresenta la 
+     * relazione di appartenenza tra le stelle e i filamenti 
+     * 
+     * prima cerca quali sono gli id dei filamenti nel DB
+     * poi per ciascuno di questi filamenti prende i punti del contorno e 
+     * itera sulle stelle del DB per decidere se sono interne o esterne
+     * 
+     * il commit della transazione viene fatto dal metodo che ne ha 
+     * invocato l'esecuzione (importContorni o importStelle) che comunque 
+     * devono ancora fare il commit per gli inserimenti sulla stessa tranzazione 
+     * 
+     * @param conn 
+     */
     public void aggiornamentoStellaFilamento(Connection conn) {
         List<BeanIdFilamento> listaId = this.queryIdFilamentiContorno(conn);
-System.out.println("numId: " + listaId.size());
-        String sql = "insert into stella_filamento(idstar, satellite_star, idfil, satellite_filamento) values (?, ?, ?, ?) " + 
-                "on conflict (idstar, satellite_star, idfil, satellite_filamento) do update set " + 
-                "idstar = excluded.idstar, " + 
-                "satellite_star = excluded.satellite_star, " + 
+//System.out.println("numId: " + listaId.size());
+        String sql = "insert into stella_filamento(idstella, satellite_stella, idfil, satellite_filamento) values (?, ?, ?, ?) " + 
+                "on conflict (idstella, satellite_stella, idfil, satellite_filamento) do update set " + 
+                "idstella = excluded.idstella, " + 
+                "satellite_stella = excluded.satellite_stella, " + 
                 "idfil = excluded.idfil, " + 
                 "satellite_filamento = excluded.satellite_filamento";
         Iterator<BeanIdFilamento> i = listaId.iterator();
         try {
-            conn.setAutoCommit(false);
-            Connection conn2 = DBAccess.getInstance().getConnection();
+//            conn.setAutoCommit(false);
+//            Connection conn2 = DBAccess.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             while (i.hasNext()) {
                 BeanIdFilamento idFil = i.next();
-                List<Contorno> puntiContorno = this.queryPuntiContornoFilamento(conn2, idFil);
-System.out.println("listCon: " + puntiContorno.size());
+                List<Contorno> puntiContorno = this.queryPuntiContornoFilamento(conn, idFil);
+//System.out.println("listCon: " + puntiContorno.size());
                 StellaDao stellaDao = StellaDao.getInstance();
-                List<BeanIdStella> listaIdStelle = stellaDao.queryIdStelleContornoFilamento(conn2, puntiContorno);
-System.out.println("idStelle: " + listaIdStelle.size());
+                List<BeanIdStella> listaIdStelle = stellaDao.queryIdStelleContornoFilamento(conn, puntiContorno);
+//System.out.println("idStelle: " + listaIdStelle.size());
                 Iterator<BeanIdStella> iS = listaIdStelle.iterator();
                 while (iS.hasNext()) {
                     BeanIdStella idS = iS.next();
@@ -58,8 +72,8 @@ System.out.println("idStelle: " + listaIdStelle.size());
             }
             ps.executeBatch();
             ps.close();
-            conn.commit();
-            DBAccess.getInstance().closeConnection(conn2);
+//            conn.commit();
+//            DBAccess.getInstance().closeConnection(conn2);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -181,7 +195,14 @@ System.out.println("idStelle: " + listaIdStelle.size());
     }
     
     /**
+     * utilizzato per l'aggiornamento della tabella stella-filamento invocata quando si fa l'import di file di contorni oppure stelle
      * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
+     * 
+     * ricerca quali sono gli id dei filamenti nel DB che hanno dei contorni 
+     * gli id vengono ricercati nella tabella dei contorni piuttosto che in quella dei filamenti perche' 
+     * potrebbero esistere dei filamenti per i quali non e' ancora stato inserito nel DB il corrispettivo contorno e
+     * per i filamenti di cui non si conosce il contorno non ha senso cercare quali siano le stelle interne 
+     * 
      * @param conn
      * @return 
      */
@@ -210,6 +231,9 @@ System.out.println("idStelle: " + listaIdStelle.size());
      * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
      * utilizzato per la distanza tra segmento e contorno 
      * utilizzato per la distanza delle stelle interne ad un filamento
+     * 
+     * ricerca quali sono i punti che formano il contorno di un filamento
+     * 
      * @param conn
      * @param idFil
      * @return 
@@ -317,6 +341,18 @@ System.out.println("idStelle: " + listaIdStelle.size());
         }
     }
     
+    /**
+     * utilizzato per l'import
+     * questo metodo viene chiamato piu' volte dal controller perche' i 
+     * dati letti dal file potrebbero eccedere la memoria assegnata 
+     * al programma
+     * 
+     * sara' il controller a fare il commit dell'inserimento 
+     * dopo l'ultimo blocco
+     * 
+     * @param conn
+     * @param lc 
+     */
     public void inserisciContornoBatch(Connection conn, List<Contorno> lc) {
         String sql = "insert into contorno(idfil, satellite, glog_cont, glat_cont) " + 
                 "values(?, ?, ?, ?)" +
@@ -326,7 +362,7 @@ System.out.println("idStelle: " + listaIdStelle.size());
                 "glog_cont = excluded.glog_cont, " + 
                 "glat_cont = excluded.glat_cont;";
         try {
-            conn.setAutoCommit(false);
+//            conn.setAutoCommit(false);
             PreparedStatement ps = conn.prepareStatement(sql);
             Iterator<Contorno> i = lc.iterator();
             while (i.hasNext()) {
@@ -339,7 +375,7 @@ System.out.println("idStelle: " + listaIdStelle.size());
             }
             ps.executeBatch();
             ps.close();
-            conn.commit();
+//            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

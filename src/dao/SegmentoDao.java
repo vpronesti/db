@@ -82,6 +82,9 @@ public class SegmentoDao {
     
     /**
      * utilizzato per l'import dei file
+     * 
+     * cerca quali sono i punti dei segmenti di un determinato filamento
+     * 
      * @param conn
      * @param idFil
      * @return 

@@ -276,10 +276,14 @@ public class StellaDao {
     
 
     /**
-     * ????
+     * utilizzato per l'aggiornamento della tabella stella-filamento invocata quando si fa l'import di file di contorni oppure stelle
+     * 
+     * questo metodo viene invocato per ogni filamento, scandisce tutte le 
+     * stelle presenti nel DB per vedere se sono interne o esterne
+     * 
      * @param conn
-     * @param con
-     * @return 
+     * @param listaPunti insieme di punti che costituiscono il contorno di un singolo filamento
+     * @return lista di id delle stelle interne la filamento
      */
     public List<BeanIdStella> queryIdStelleContornoFilamento(Connection conn, List<Contorno> listaPunti) {
         String sql = "select idstella, satellite, glon_st, glat_st from stella";
@@ -339,6 +343,18 @@ public class StellaDao {
 //        return listaStelle;
 //    }
     
+    /**
+     * utilizzato per l'import
+     * questo metodo viene chiamato piu' volte dal controller perche' i 
+     * dati letti dal file potrebbero eccedere la memoria assegnata 
+     * al programma
+     * 
+     * sara' il controller a fare il commit dell'inserimento 
+     * dopo l'ultimo blocco
+     * 
+     * @param conn
+     * @param ls 
+     */
     public void inserisciStellaBatch(Connection conn, List<Stella> ls) {
         
         String sql = "insert into stella(idstella, satellite, nomestella, " + 
@@ -351,7 +367,7 @@ public class StellaDao {
                 "tipo_st = excluded.tipo_st " + 
                 ";";
         try {
-            conn.setAutoCommit(false);
+//            conn.setAutoCommit(false);
             PreparedStatement ps = conn.prepareStatement(sql);
             Iterator<Stella> i = ls.iterator();
             while (i.hasNext()) { 
@@ -367,7 +383,7 @@ public class StellaDao {
             }
             ps.executeBatch();
             ps.close();
-            conn.commit();
+//            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

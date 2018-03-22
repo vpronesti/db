@@ -22,6 +22,13 @@ public class InterfacciaImportCsv {
         this.userId = userId;
     }
     
+    /**
+     * contolla i dati passati in input perche' quando si vuole importare 
+     * un file di tipo SEGMENTO, CONTORNO oppure STELLA occorre specificare 
+     * anche il satellite a cui i dati si riferiscono
+     * @param beanRichiesta
+     * @return 
+     */
     private boolean controllaBean(BeanRichiestaImport beanRichiesta) {
         boolean res = true;
         if (beanRichiesta.getFileSelezionato() == null || beanRichiesta.getFileSelezionato().toString().isEmpty())

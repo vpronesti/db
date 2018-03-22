@@ -19,6 +19,7 @@ import exception.FormatoFileNonSupportatoException;
 import exception.ImpossibileAprireFileException;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +40,29 @@ public class GestoreImportCsv {
         this.csvReader = new CSVReader();
     }
     
+    /**
+     * la lettura del file avviene in blocchi di dimensione MAXRIGHE 
+     * per ciascuna delle righe lette si controlla che i vincoli del 
+     * DB siano rispettati 
+     * 
+     * se una riga fa riferimento ad un filamento non presente nel DB oppure 
+     * uno dei punti dei contorni che si vogliono inserire si sovrappone 
+     * ai punti dei segmenti del filmento
+     * allora l'import viene rifiutato
+     * 
+     * se i vincoli sono rispettati da tutte le righe si esegue 
+     * nuovamente una lettura a blocchi e le righe 
+     * vengono inserite in modalita' batch 
+     * 
+     * prima di fare il commit si aggiorna la tabella delle 
+     * relazioni tra stelle e filamenti 
+     * 
+     * @param file
+     * @param satellite
+     * @return
+     * @throws FormatoFileNonSupportatoException
+     * @throws ImpossibileAprireFileException 
+     */
     public boolean importContorni(File file, String satellite) 
             throws FormatoFileNonSupportatoException, 
             ImpossibileAprireFileException {
@@ -46,6 +70,7 @@ public class GestoreImportCsv {
         ContornoDao contornoDao = ContornoDao.getInstance();
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
         while (rigaInizioLettura < totaleRighe) {
@@ -56,6 +81,7 @@ public class GestoreImportCsv {
 
             List<BeanIdFilamento> filamentiOk = new ArrayList<>();
 
+            List<Segmento> listaPuntiUltimoSegmento = new ArrayList<>();
             Iterator<Contorno> i = listaContorni.iterator();
             while (i.hasNext()) {
                 Contorno con = i.next();
@@ -69,9 +95,17 @@ public class GestoreImportCsv {
                         filamentiOk.add(idFil);
                     }
                 }
+                /**
+                 * si interroga il DB per cercare i punti del segmento con cui 
+                 * fare i confronti per trovare sovrapposizioni (segmento-contorno) solo se si 
+                 * tratta di un segmento mai letto prima
+                 */
                 SegmentoDao segmentoDao = SegmentoDao.getInstance();
-                List<Segmento> listaSegmenti = segmentoDao.queryPuntiSegmento(conn, idFil);
-                Iterator<Segmento> j = listaSegmenti.iterator();
+                if (listaPuntiUltimoSegmento.size() == 0 || !(new BeanIdFilamento(listaPuntiUltimoSegmento.get(0).getIdFil(), listaPuntiUltimoSegmento.get(0).getSatellite()).equals(idFil))) {
+                    listaPuntiUltimoSegmento = segmentoDao.queryPuntiSegmento(conn, idFil);
+                }
+//                List<Segmento> listaSegmenti = segmentoDao.queryPuntiSegmento(conn, idFil);
+                Iterator<Segmento> j = listaPuntiUltimoSegmento.iterator();
                 while (j.hasNext()) {
                     Segmento s = j.next();
                     // il punto di un contorno non puo' sovrapporsi ai punti 
@@ -104,15 +138,37 @@ public class GestoreImportCsv {
             ContornoDao.getInstance().aggiornamentoStellaFilamento(conn);
 
         }
-        
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return contornoInseribile;
     }
 
+    /**
+     * la lettura del file avviene in blocchi di dimensione MAXRIGHE 
+     * per ciascuna delle righe lette si controlla che i vincoli del 
+     * DB siano rispettati 
+     * 
+     * se una riga non rispetta le foreign key verso satellite-strumento 
+     * allora l'import viene rifiutato
+     * 
+     * se i vincoli sono rispettati da tutte le righe si esegue 
+     * nuovamente una lettura a blocchi e le righe 
+     * vengono inserite in modalita' batch 
+     * 
+     * @param file
+     * @return
+     * @throws FormatoFileNonSupportatoException
+     * @throws ImpossibileAprireFileException 
+     */
     public boolean importFilamenti(File file) 
             throws FormatoFileNonSupportatoException, 
             ImpossibileAprireFileException {
         Connection conn = DBAccess.getInstance().getConnection();
+        try {
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
         boolean filamentoInseribile = true;
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         SatelliteDao satelliteDao = SatelliteDao.getInstance();
@@ -201,11 +257,23 @@ public class GestoreImportCsv {
                  */
             }
         }
-        
+        try {
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         DBAccess.getInstance().closeConnection(conn);
         return filamentoInseribile;
     }
     
+    /**
+     * 
+     * @param file
+     * @param satellite
+     * @return
+     * @throws FormatoFileNonSupportatoException
+     * @throws ImpossibileAprireFileException 
+     */
     public boolean importSegmenti(File file, String satellite) 
             throws FormatoFileNonSupportatoException, 
             ImpossibileAprireFileException {
@@ -214,6 +282,7 @@ public class GestoreImportCsv {
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         SatelliteDao satelliteDao = SatelliteDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         boolean segmentoInseribile = true;
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
@@ -271,16 +340,41 @@ public class GestoreImportCsv {
                 segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti);
             }
         }
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return segmentoInseribile;
     }
-        
+    
+
+    /**
+     * la lettura del file avviene in blocchi di dimensione MAXRIGHE 
+     * per ciascuna delle righe lette si controlla che i vincoli del 
+     * DB siano rispettati 
+     * 
+     * se una riga fa riferimento ad un satellite non presente nel DB 
+     * allora l'import viene rifiutato
+     * 
+     * se il vincolo e' rispettato da tutte le righe si esegue 
+     * nuovamente una lettura a blocchi e le righe 
+     * vengono inserite in modalita' batch 
+     * 
+     * prima di fare il commit si aggiorna la tabella delle 
+     * relazioni tra stelle e filamenti 
+     * 
+     * 
+     * @param file
+     * @param satellite
+     * @return
+     * @throws FormatoFileNonSupportatoException
+     * @throws ImpossibileAprireFileException 
+     */
     public boolean importStelle(File file, String satellite) 
             throws FormatoFileNonSupportatoException, 
             ImpossibileAprireFileException {
         boolean stellaInseribile = true;
         StellaDao stellaDao = StellaDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
         if (SatelliteDao.getInstance().queryEsistenzaSatellite(conn, new BeanSatellite(satellite))) {
@@ -301,7 +395,7 @@ public class GestoreImportCsv {
         } else {
             stellaInseribile = false;
         }
-        
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return stellaInseribile;
     }
@@ -311,7 +405,7 @@ public class GestoreImportCsv {
             ImpossibileAprireFileException {
         TipoFileCsv tipoFile = beanRichiesta.getTipo();
         String satellite = beanRichiesta.getSatellite();
-        boolean res = true;
+        boolean res;
         if (tipoFile == TipoFileCsv.CONTORNO) {
             res = this.importContorni(beanRichiesta.getFileSelezionato(), satellite);
         } else if (tipoFile == TipoFileCsv.FILAMENTO) {
@@ -326,6 +420,14 @@ public class GestoreImportCsv {
         return res; 
     }
     
+    /**
+     * serve a rappresentare la coppia satellite-strumento relativa ad un 
+     * filamento perche' quando si importa il file dei filamenti occorre 
+     * verificare che le coppie satellite-strumento esistano nel DB 
+     * 
+     * questa classe serve per mantenere una lista delle coppie gia' 
+     * lette dal DB ed evitare di fare sempre la stella lettura
+     */
     public static class SatelliteStrumento {
         private String satellite;
         private String strumento;

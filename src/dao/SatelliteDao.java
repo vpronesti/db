@@ -48,6 +48,7 @@ public class SatelliteDao {
     }
     
     /**
+     * utilizzato per l'import delle stelle
      * utilizzato per l'inserimento di un sattelite nel db 
      * utilizzate per l'inserimento di un filamento 
      * @param satellite

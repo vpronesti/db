@@ -35,10 +35,10 @@ public class InterfacciaImportCsvTest {
 //            {true, AMMINISTRATORE, new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
 //            {true, AMMINISTRATORE, new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO, null},
             
-//            {true, AMMINISTRATORE, new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
+            {true, AMMINISTRATORE, new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
 //            {true, AMMINISTRATORE, new File("contorni_filamenti_Spitzer.csv"), TipoFileCsv.CONTORNO, "Spitzer"},
             
-            {true, AMMINISTRATORE, new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel"},
+//            {true, AMMINISTRATORE, new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel"},
 //            {true, AMMINISTRATORE, new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
             
 //            {true, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel"},
@@ -56,6 +56,10 @@ public class InterfacciaImportCsvTest {
     }
     
     @Test
+    /**
+     * controlla che gli inserimenti siano consentiti solo ad utenti registrati 
+     * e che i file siano nel formato corretto
+     */
     public void testImport() {
         InterfacciaImportCsv interfacciaImportCsv = 
                 new InterfacciaImportCsv(userId);
