@@ -2,6 +2,9 @@ package boundary;
 
 import control.GestoreLogin;
 
+/**
+ * REQ-1
+ */
 public class InterfacciaUtenteLogin {
     private String userId;
     private String password;

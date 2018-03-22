@@ -42,6 +42,11 @@ public class InterfacciaUtenteLoginTest {
         this.password = password;       
     }
     
+    
+    /**
+     * controlla se agli utenti di tipo amministratore, 
+     * registrato o non registato e' consentito o meno l'accesso
+     */
     @Test
     public void testLogin() {
         InterfacciaUtenteLogin interfacciaUtenteLogin = 

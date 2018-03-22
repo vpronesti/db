@@ -111,16 +111,19 @@ public class UtenteDao {
     }
     
     /**
-     * controllare inserimento dello stesso utente
+     * utilizzato nel REQ-2
      * @param conn
      * @param utente
      * @return 
      */
     public boolean inserisciUtente(Connection conn, BeanUtente utente) { 
         Statement stmt = null;
+        boolean res = true;
         try {
             stmt = conn.createStatement();
-           
+//        } catch (SQLException se) {
+//            se.printStackTrace();
+//        }   
             String sql = "insert into utente(nome, cognome, userid, " + 
                     "password, email, tipo) values ('" +  utente.getNome() + 
                     "', '" + utente.getCognome() + 
@@ -129,11 +132,18 @@ public class UtenteDao {
                     "', '" + utente.getEmail() + 
                     "', '" + utente.getTipo() + "')";
             
-            stmt.executeUpdate(sql);
+//            try {
+                stmt.executeUpdate(sql);
+//            } catch (SQLException e) {
+//                res = false;
+//                System.out.println("return " + res);
+////                e.printStackTrace();
+//            }
+//        try {
             stmt.close();
         } catch (SQLException se) {
             se.printStackTrace();
         }
-        return true;
+        return res;
     }
 }

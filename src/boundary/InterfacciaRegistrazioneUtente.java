@@ -15,6 +15,12 @@ public class InterfacciaRegistrazioneUtente {
         this.userId = userId;
     }
     
+    /**
+     * controlla che i valori nel bean siano validi e che i 
+     * vincoli sulla lunghezza minima di userId e password siano rispettati
+     * @param beanUtente
+     * @return
+     */
     private boolean controlloBean(BeanUtente beanUtente) {
         boolean res = true;
         if (beanUtente.getUserId() == null || 

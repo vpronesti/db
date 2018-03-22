@@ -5,6 +5,9 @@ import entity.Utente;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-1
+ */
 public class GestoreLogin {
     private static GestoreLogin instance;
 

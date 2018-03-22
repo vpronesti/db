@@ -13,7 +13,7 @@ import static util.UserId.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 2 e 3.2
- * per eseguire piu' di una volta il test occore rimuovere l'utente creato
+ * per eseguire piu' di una volta il test occorre rimuovere l'utente creato
  */
 @RunWith(value = Parameterized.class)
 public class InterfacciaRegistrazioneUtenteTest {
@@ -107,16 +107,6 @@ public class InterfacciaRegistrazioneUtenteTest {
                 new InterfacciaRegistrazioneUtente(userIdAmministratore);
         BeanUtente beanUtente = new BeanUtente(nome, cognome, userId, password, email, tipo);
         boolean res = interfacciaRegistrazioneUtente.definizioneUtente(beanUtente);
-//        if (res) {
-//            this.rimuoviModifica();
-//        }
         assertEquals("errore", res, expected);
     }
-    
-//    private void rimuoviModifica() {
-//        Connection conn = DBAccess.getInstance().getConnection();
-//        UtenteDao.getInstance().rimuoviUtente(conn, 
-//                new BeanUtente(nome, cognome, userId, password, email, tipo));
-//        DBAccess.getInstance().closeConnection(conn);
-//    }
 }

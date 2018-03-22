@@ -26,5 +26,8 @@ import org.junit.runners.Suite.SuiteClasses;
     InterfacciaRicercaDistanzaStellaFilamentoTest.class // REQ-12
 })
 public class TestSuite {
-    
+    /**
+     * per eseguire piu' di una volta il test occorre rimuovere 
+     * l'utente creato nel test del REQ-2
+     */
 }
