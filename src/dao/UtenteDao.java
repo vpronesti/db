@@ -66,17 +66,25 @@ public class UtenteDao {
         return res;
     }
     
+    /**
+     * controlla se l'utente con userId e password dati in input esiste, 
+     * se esiste restituisce il tipo di utente
+     * @param conn 
+     * @param userId
+     * @param password
+     * @return Utente che puo' essere registrato o 
+     * amministratore, null se non esiste
+     */
     public Utente queryUtente(Connection conn, String userId, String password) {
         Statement stmt = null;
         Utente utente = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT  nome, cognome, userid, password, email, tipo FROM utente where userid = '"
-                    + userId + "' AND password = '" + password + "' ;";
+            String sql = "select  nome, cognome, userid, password, email, tipo from utente where userid = '"
+                    + userId + "' and password = '" + password + "' ;";
             ResultSet rs = stmt.executeQuery(sql);
 
-            if (!rs.next()) { // rs is empty
-
+            if (!rs.next()) {
                 return null;
             }
 

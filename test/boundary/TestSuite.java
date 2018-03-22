@@ -8,9 +8,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(value = Suite.class)
 @SuiteClasses(value = {
     InterfacciaUtenteLoginTest.class, // REQ-1
-        // REQ-2
 //    InterfacciaImportCsvTest.class, // REQ-3.1 4
-    InterfacciaRegistrazioneUtenteTest.class, // REQ-3.2
+    InterfacciaRegistrazioneUtenteTest.class, // REQ-2 REQ-3.2
     InterfacciaInserimentoSatelliteTest.class, // REQ-3.3
     InterfacciaInserimentoNomeStrumentoTest.class, // REQ-3.4
     InterfacciaInserimentoBandaStrumentoTest.class, // REQ-3.4
