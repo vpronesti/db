@@ -13,6 +13,9 @@ public class DBAccess {
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/progDB";
     private static DBAccess instance;
     
+    public static final String UNIQUE_VIOLATION = "23505";
+    public static final String FOREIGN_KEY_VIOLATION = "23503";
+    
     public static synchronized DBAccess getInstance() {
         if(instance == null)
             instance = new DBAccess();

@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import static util.DBAccess.FOREIGN_KEY_VIOLATION;
 
 public class FilamentoDao {
     private static FilamentoDao instance;
@@ -198,7 +199,8 @@ public class FilamentoDao {
      * @param conn
      * @param lf 
      */
-    public void inserisciFilamentoBatch(Connection conn, List<Filamento> lf) {
+    public boolean inserisciFilamentoBatch(Connection conn, List<Filamento> lf) {
+        boolean res = true;
         String sql = "insert into filamento(idfil, nome, flusso_totale, " + 
                 "dens_media, temp_media, ellitticita, contrasto, satellite, " + 
                 "strumento) values (?, ?, ?, ?, ?, ?, ?, ?, ?) " + 
@@ -231,8 +233,13 @@ public class FilamentoDao {
             ps.close();
 //            conn.commit();
         } catch (SQLException e) {
-            System.out.println("");
-            e.printStackTrace();
+            if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
+                res = false;
+                System.out.println("eccezione lanciata in dao");
+            }
+            else
+                e.printStackTrace();
         }
+        return res;
     }
 }

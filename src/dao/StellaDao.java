@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import static util.DBAccess.FOREIGN_KEY_VIOLATION;
 
 public class StellaDao {
     private static StellaDao instance;
@@ -355,8 +356,8 @@ public class StellaDao {
      * @param conn
      * @param ls 
      */
-    public void inserisciStellaBatch(Connection conn, List<Stella> ls) {
-        
+    public boolean inserisciStellaBatch(Connection conn, List<Stella> ls) {
+        boolean res = true;
         String sql = "insert into stella(idstella, satellite, nomestella, " + 
                 "glon_st, glat_st, flusso_st, tipo_st) values(?, ?, ?, ?, ?, ?, ?) " + 
                 "on conflict (idstella, satellite) do update set " + 
@@ -385,8 +386,13 @@ public class StellaDao {
             ps.close();
 //            conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
+                System.out.println("fk violation in stellaDao batch");
+                res = false;
+            } else
+                e.printStackTrace();
         }
+        return res;
     }
     
     public void inserisciStella(Connection conn, Stella st) {

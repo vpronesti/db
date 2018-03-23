@@ -1,10 +1,10 @@
 package dao;
 
 import bean.BeanUtente;
-import util.DBAccess;
 import entity.*;
 
 import java.sql.*;
+import static util.DBAccess.UNIQUE_VIOLATION;
 
 public class UtenteDao {
     private static UtenteDao instance;
@@ -121,9 +121,9 @@ public class UtenteDao {
         boolean res = true;
         try {
             stmt = conn.createStatement();
-//        } catch (SQLException se) {
-//            se.printStackTrace();
-//        }   
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }   
             String sql = "insert into utente(nome, cognome, userid, " + 
                     "password, email, tipo) values ('" +  utente.getNome() + 
                     "', '" + utente.getCognome() + 
@@ -132,14 +132,15 @@ public class UtenteDao {
                     "', '" + utente.getEmail() + 
                     "', '" + utente.getTipo() + "')";
             
-//            try {
+            try {
                 stmt.executeUpdate(sql);
-//            } catch (SQLException e) {
-//                res = false;
-//                System.out.println("return " + res);
-////                e.printStackTrace();
-//            }
-//        try {
+            } catch (SQLException e) {
+                if (e.getSQLState().equals(UNIQUE_VIOLATION))
+                    res = false;
+                else
+                    e.printStackTrace();
+            }
+        try {
             stmt.close();
         } catch (SQLException se) {
             se.printStackTrace();

@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import util.DBAccess;
+import static util.DBAccess.FOREIGN_KEY_VIOLATION;
 
 public class ContornoDao {
     private static ContornoDao instance;
@@ -353,7 +353,8 @@ public class ContornoDao {
      * @param conn
      * @param lc 
      */
-    public void inserisciContornoBatch(Connection conn, List<Contorno> lc) {
+    public boolean inserisciContornoBatch(Connection conn, List<Contorno> lc) {
+        boolean res = true;
         String sql = "insert into contorno(idfil, satellite, glog_cont, glat_cont) " + 
                 "values(?, ?, ?, ?)" +
                 " on conflict (idfil, satellite, glog_cont, glat_cont) do update set " + 
@@ -377,7 +378,13 @@ public class ContornoDao {
             ps.close();
 //            conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
+                System.out.println("fk violation in contornoDao batch");
+                res = false;
+            } else {
+                e.printStackTrace();
+            }
         }
+        return res;
     }
 }

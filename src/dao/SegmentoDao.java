@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import static util.DBAccess.FOREIGN_KEY_VIOLATION;
 
 public class SegmentoDao {
     private static SegmentoDao istance;
@@ -333,7 +334,8 @@ public class SegmentoDao {
         }
     }
     
-    public void inserisciSegmentoBatch(Connection conn, List<Segmento> ls) {
+    public boolean inserisciSegmentoBatch(Connection conn, List<Segmento> ls) {
+        boolean res = true;
         String sql = "insert into segmento(idfil, satellite, id_segmento, tipo, " + 
                 "glon_se, glat_se, n, flusso) values (?, ?, ?, ?, ?, ?, ?, ?) " + 
                 "on conflict (idfil, satellite, id_segmento, glon_se, glat_se) do update set " + 
@@ -360,7 +362,13 @@ public class SegmentoDao {
             ps.close();
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
+                res = false;
+                System.out.println("fk violation in segmento dao batch");
+            } else {
+                e.printStackTrace();
+            }
         }
+        return res;
     }
 }

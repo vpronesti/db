@@ -25,19 +25,19 @@ public class GestoreRegistrazioneUtente {
     public boolean gestioneRegistrazioneUtente(BeanUtente beanUtente) {
         Connection conn = DBAccess.getInstance().getConnection();
         UtenteDao utenteDao = UtenteDao.getInstance();
-        try {
-            conn.setAutoCommit(false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            conn.setAutoCommit(false);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         boolean res = false;
-        if (!utenteDao.queryEsistenzaUtente(conn, beanUtente))
+//        if (!utenteDao.queryEsistenzaUtente(conn, beanUtente))
             res = utenteDao.inserisciUtente(conn, beanUtente);
-        try {
-            conn.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            conn.commit();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }

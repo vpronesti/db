@@ -32,7 +32,7 @@ public class InterfacciaImportCsvTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-//            {true, AMMINISTRATORE, new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
+            {true, AMMINISTRATORE, new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
 //            {true, AMMINISTRATORE, new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO, null},
             
             {true, AMMINISTRATORE, new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
@@ -42,7 +42,8 @@ public class InterfacciaImportCsvTest {
 //            {true, AMMINISTRATORE, new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
             
 //            {true, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel"},
-//            {false, AMMINISTRATORE, new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA, null} // gestire meglio il caso di file non esistente
+//            {false, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel!!!"},
+//            {false, AMMINISTRATORE, new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA, null}
         });
     }
     

@@ -31,14 +31,16 @@ public class InterfacciaImportCsv {
      */
     private boolean controllaBean(BeanRichiestaImport beanRichiesta) {
         boolean res = true;
-        if (beanRichiesta.getFileSelezionato() == null || beanRichiesta.getFileSelezionato().toString().isEmpty())
+        if (beanRichiesta.getFileSelezionato() == null || 
+                beanRichiesta.getFileSelezionato().toString().isEmpty())
             res = false;
         if (beanRichiesta.getTipo() == null)
             res = false;
         if ((beanRichiesta.getTipo() == TipoFileCsv.SEGMENTO || 
                 beanRichiesta.getTipo() == TipoFileCsv.CONTORNO || 
                 beanRichiesta.getTipo() == TipoFileCsv.STELLA) && 
-                (beanRichiesta.getSatellite() == null || beanRichiesta.getSatellite().isEmpty()))
+                (beanRichiesta.getSatellite() == null || 
+                beanRichiesta.getSatellite().isEmpty()))
             res = false;
         return res;
     }
