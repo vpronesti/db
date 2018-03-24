@@ -22,6 +22,8 @@ public class InterfacciaRecuperoInformazioniDerivateFilamento {
         boolean res = true;
         if (beanFil.getSatellite() == null || beanFil.getSatellite().isEmpty())
             res = false;
+        if (!beanFil.isRicercaId() && (beanFil.getNome() == null || beanFil.getNome().isEmpty()))
+            res = false;
         return res;
     }
     

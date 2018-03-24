@@ -272,7 +272,6 @@ public class ContornoDao {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-System.out.println("querying info");
                 double minLonEstensione = rs.getDouble("min_glon_estensione");
                 double maxLonEstensione = rs.getDouble("max_glon_estensione");
                 double minLatEstensione = rs.getDouble("min_glat_estensione");
@@ -286,6 +285,8 @@ System.out.println("querying info");
                 beanFil.setgLonCentroide(lonCentroide);
                 beanFil.setgLatCentroide(latCentroide);
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package dao;
 
 import bean.BeanIdFilamento;
+import bean.BeanInformazioniFilamento;
 import bean.BeanRichiestaContrastoEllitticita;
 import entity.Filamento;
 import java.sql.Connection;
@@ -119,6 +120,27 @@ public class FilamentoDao {
         }
         
         return listaFilamenti;
+    }
+    
+    public boolean queryIdFilamento(Connection conn, BeanInformazioniFilamento beanFil) {
+        String sql = "select idfil from filamento where nome = '" + beanFil.getNome() + 
+                "' and satellite = '" + beanFil.getSatellite() + "'";
+        boolean res = true;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                beanFil.setIdFil(id);
+            } else {
+                res = false;
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
     
     /**

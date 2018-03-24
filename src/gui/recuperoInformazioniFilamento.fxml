@@ -8,12 +8,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RecuperoInformazioniFilamentoController">
    <children>
-      <Text layoutX="32.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id filamento" />
-      <TextField fx:id="idFilamentoText" layoutX="142.0" layoutY="28.0" />
-      <Button layoutX="363.0" layoutY="66.0" mnemonicParsing="false" onAction="#cerca" text="Cerca" />
+      <Text layoutX="31.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id/nome filamento" />
+      <TextField fx:id="idFilamentoText" layoutX="165.0" layoutY="65.0" />
+      <Button layoutX="385.0" layoutY="108.0" mnemonicParsing="false" onAction="#cerca" text="Cerca" />
       <Button layoutX="512.0" layoutY="350.0" mnemonicParsing="false" onAction="#indietro" text="Indietro" />
-      <Text layoutX="32.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Satellite" />
-      <ComboBox fx:id="satelliteComboBox" layoutX="142.0" layoutY="66.0" prefWidth="150.0" />
-      <Text fx:id="text" layoutX="32.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text layoutX="32.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Satellite" />
+      <ComboBox fx:id="satelliteComboBox" layoutX="165.0" layoutY="101.0" prefWidth="150.0" />
+      <ComboBox fx:id="tipoRicercaComboBox" layoutX="165.0" layoutY="27.0" prefWidth="150.0" />
+      <Text layoutX="32.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo ricerca" />
+      <Text fx:id="text" layoutX="32.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

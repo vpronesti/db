@@ -21,8 +21,15 @@ public class GestoreRecuperoInformazioniFilamento {
         DBAccess.getInstance().disableAutoCommit(conn);
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         boolean res = true;
+        if (!beanFil.isRicercaId()) {
+            // inserisce l'id del filamento nel bean
+            res = filamentoDao.queryIdFilamento(conn, beanFil);
+        } else {
+            res = filamentoDao.queryEsistenzaFilamento(conn, new BeanIdFilamento(beanFil.getIdFil(), beanFil.getSatellite()));
+        }
+        
         BeanIdFilamento idFil = new BeanIdFilamento(beanFil.getIdFil(), beanFil.getSatellite());
-        if (filamentoDao.queryEsistenzaFilamento(conn, idFil)) {
+        if (res) { // se il filamento esiste
             SegmentoDao segmentoDao = SegmentoDao.getInstance();
             int numSegmenti = segmentoDao.queryNumeroSegmentiFilamento(conn, idFil);
             beanFil.setNumSegmenti(numSegmenti);
@@ -30,9 +37,10 @@ public class GestoreRecuperoInformazioniFilamento {
             contornoDao.queryInfoContornoFilamento(conn, beanFil);
 //            contornoDao.queryPosizioneCentroide(conn, beanFil);
 //            contornoDao.queryEstensioneContorno(conn, beanFil);
-        } else {
-            res = false; // segmento non esistente
         }
+//        else {
+//            res = false; // segmento non esistente
+//        }
         DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return res;

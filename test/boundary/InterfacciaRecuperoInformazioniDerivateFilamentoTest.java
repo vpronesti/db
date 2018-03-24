@@ -28,25 +28,43 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
     private boolean expected;
     private String userId;
     private int id;
+    private String nome;
     private String satellite;
+    private boolean ricercaId;
     
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-            {true, REGISTRATO, 45, "Herschel"},
-            {true, AMMINISTRATORE, 45, "Herschel"},
-            {false, NONREGISTRATO, 45, "Herschel"}
+            // valore atteso, tipo utente, idfil, nome filamento (ignorato) perche' la ricerca e' per id, satellite, ricerca per id
+            {true, REGISTRATO, 45, "", "Herschel", true},
+            // filamento non esistente
+            {false, REGISTRATO, 1, "", "Herschel", true},
+            // satellite non esistente
+            {false, REGISTRATO, 45, "", "Herchel!!!", true},
+            {true, AMMINISTRATORE, 45, "", "Herschel", true},
+            {false, NONREGISTRATO, 45, "", "Herschel", true},
+            
+            // valore atteso, tipo utente, idfil (ignorato) perche' la ricerca e' per nome, nome filamento, satellite, ricerca per nome
+            {true, REGISTRATO, 0, "HiGALFil013.9201-1.2385", "Herschel", false},
+            // filamento non esistente
+            {false, REGISTRATO, 0, "abc", "Herschel", false},
+            // satellite non esistente
+            {false, REGISTRATO, 0, "HiGALFil013.9201-1.2385", "Herchel!!!", false},
+            {true, AMMINISTRATORE, 0, "HiGALFil013.9201-1.2385", "Herschel", false},
+            {false, NONREGISTRATO, 0, "HiGALFil013.9201-1.2385", "Herschel", false}
         });
     }
     
     public InterfacciaRecuperoInformazioniDerivateFilamentoTest(boolean expected,
-                String userId, int id, String satellite) {
+                String userId, int id, String nome, String satellite, boolean ricercaId) {
         this.expected = expected;
         this.userId = userId;
         this.id = id;
+        this.nome = nome;
         this.satellite = satellite;
+        this.ricercaId = ricercaId;
     }
-    
+        
     private boolean controllaFilamento(BeanInformazioniFilamento beanFil) {
         boolean res = true;
         Connection conn = DBAccess.getInstance().getConnection();
@@ -72,7 +90,7 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
         }
         // se il centroide e' ok si fa il controllo per l'estensione
         if (res) {
-            BeanInformazioniFilamento bIF = new BeanInformazioniFilamento(id, satellite);
+            BeanInformazioniFilamento bIF = new BeanInformazioniFilamento(beanFil.getIdFil(), beanFil.getSatellite());
             contornoDao.queryEstensioneContorno(conn, bIF);
             if (bIF.getMaxGLatContorno() != beanFil.getMaxGLatContorno() || 
                     bIF.getMinGLatContorno() != beanFil.getMinGLatContorno() || 
@@ -89,8 +107,14 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
     public void testRicercaFilamenti() {
         InterfacciaRecuperoInformazioniDerivateFilamento interfacciaFilamento = 
                 new InterfacciaRecuperoInformazioniDerivateFilamento(userId);
-        BeanInformazioniFilamento beanRichiesta = new
-         BeanInformazioniFilamento(id, satellite);
+//        BeanInformazioniFilamento beanRichiesta = new
+//         BeanInformazioniFilamento(id, satellite);
+        BeanInformazioniFilamento beanRichiesta;
+        if (ricercaId) {
+            beanRichiesta = new BeanInformazioniFilamento(id, satellite);
+        } else {
+            beanRichiesta = new BeanInformazioniFilamento(nome, satellite);
+        }
         Connection conn = DBAccess.getInstance().getConnection();
         boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
         DBAccess.getInstance().closeConnection(conn);

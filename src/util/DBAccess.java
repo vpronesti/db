@@ -31,7 +31,7 @@ public class DBAccess {
             System.err.println("Impossibile caricare i driver per il db");
             e.printStackTrace();
         } catch (SQLException e) {
-            System.out.println("Impossibile stabilire la connessione");
+            System.err.println("Impossibile stabilire la connessione");
             e.printStackTrace();
         }
         return conn;
@@ -41,6 +41,7 @@ public class DBAccess {
         try {
             conn.setAutoCommit(false);
         } catch (SQLException e) {
+            System.err.println("Impossibile disabilitare l'autocommit");
             e.printStackTrace();
         }
     }
@@ -49,6 +50,7 @@ public class DBAccess {
         try {
             conn.commit();
         } catch (SQLException e) {
+            System.err.println("Impossibilie eseguire il commit");
             e.printStackTrace();
         }
     }
