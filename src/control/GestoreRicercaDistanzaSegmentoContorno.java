@@ -24,6 +24,7 @@ public class GestoreRicercaDistanzaSegmentoContorno {
     public BeanRispostaSegmentoContorno ricercaDistanzaSegmentoContorno(BeanRichiestaSegmentoContorno beanRichiesta) {
         BeanRispostaSegmentoContorno beanRisposta;
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
         boolean segmentoEsiste = segmentoDao.queryEsistenzaSegmento(conn, beanRichiesta.getIdFil(), beanRichiesta.getSatellite(), beanRichiesta.getIdSeg());
         if (segmentoEsiste) {
@@ -52,6 +53,7 @@ public class GestoreRicercaDistanzaSegmentoContorno {
         } else {
             beanRisposta = new BeanRispostaSegmentoContorno(false, true);
         }
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }       

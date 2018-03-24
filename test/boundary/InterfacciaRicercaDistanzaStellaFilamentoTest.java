@@ -27,7 +27,7 @@ public class InterfacciaRicercaDistanzaStellaFilamentoTest {
             {true, REGISTRATO, 4178, "Herschel"},
             {true, REGISTRATO, 45, "Herschel"},
             // filamento non esistente
-//            {false, REGISTRATO, 45, "Spitzer"},
+            {false, REGISTRATO, 45, "Spitzer"},
         });
     }
 

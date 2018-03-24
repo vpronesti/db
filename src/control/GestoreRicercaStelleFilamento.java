@@ -29,6 +29,7 @@ public class GestoreRicercaStelleFilamento {
     
     public BeanRispostaStelleFilamento ricercaStelleFilamento(BeanIdFilamento idFil) {
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         BeanRispostaStelleFilamento beanRisposta;
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         if (filamentoDao.queryEsistenzaFilamento(conn, idFil)) {
@@ -94,6 +95,7 @@ public class GestoreRicercaStelleFilamento {
         } else {
             beanRisposta = new BeanRispostaStelleFilamento(false, true); // filamento non esiste
         }
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }    

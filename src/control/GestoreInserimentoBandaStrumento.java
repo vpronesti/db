@@ -27,6 +27,7 @@ public class GestoreInserimentoBandaStrumento {
      */
     public boolean inserisciBandaStrumento(BeanStrumento beanStrumento) {
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         boolean res;
         StrumentoDao strumentoDao = StrumentoDao.getInstance();
 //        if (strumentoDao.queryEsistenzaStrumento(conn, beanStrumento.getNome())) {
@@ -42,6 +43,7 @@ public class GestoreInserimentoBandaStrumento {
 //        } else {
 //            res = false;
 //        }
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }

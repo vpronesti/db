@@ -32,6 +32,7 @@ public class GestoreRicercaStelleRegione {
     
     public BeanRispostaStelleRegione ricercaStelleRegione(BeanRichiestaStelleRegione beanRichiesta) {
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         StellaDao stellaDao = StellaDao.getInstance();
         List<Stella> listaStelleRegione = stellaDao.queryStelleRegione(conn, beanRichiesta);
         
@@ -109,6 +110,7 @@ public class GestoreRicercaStelleRegione {
                         percentualeStelleEsterne, tipiStellePercentualeInterne, 
                         tipiStellePercentualeEsterne, true);
 
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }

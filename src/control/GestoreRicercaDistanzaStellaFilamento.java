@@ -27,6 +27,7 @@ public class GestoreRicercaDistanzaStellaFilamento {
     public BeanRispostaStellaFilamento ricercaDistanzaStellaFilamento(BeanIdFilamento idFil) {
         BeanRispostaStellaFilamento beanRisposta;
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         boolean filamentoEsiste = filamentoDao.queryEsistenzaFilamento(conn, idFil);
         if (filamentoEsiste) {
@@ -55,6 +56,7 @@ public class GestoreRicercaDistanzaStellaFilamento {
         } else {
             beanRisposta = new BeanRispostaStellaFilamento(false, true);
         }
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     } 

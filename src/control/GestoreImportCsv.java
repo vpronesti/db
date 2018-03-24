@@ -138,8 +138,8 @@ public class GestoreImportCsv {
              * aggiornare la tabella stella_filamento perche' qualche 
              * stella potrebbe entrare o uscire da un filamento
              */
-//        if (contornoInseribile)
-//            ContornoDao.getInstance().aggiornamentoStellaFilamento(conn);
+        if (contornoInseribile)
+            ContornoDao.getInstance().aggiornamentoStellaFilamento(conn);
         
         DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);

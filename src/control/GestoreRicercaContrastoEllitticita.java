@@ -18,11 +18,13 @@ public class GestoreRicercaContrastoEllitticita {
     
     public BeanRispostaContrastoEllitticita ricercaContrastoEllitticita(BeanRichiestaContrastoEllitticita beanRichiesta) {
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         List<Filamento> filamenti = filamentoDao.queryFilamentoContrastoEllitticita(conn, beanRichiesta);
         int totaleFilamenti = filamentoDao.queryNumeroFilamenti(conn);
         double percentuale = (100 * filamenti.size()) / totaleFilamenti;
         BeanRispostaContrastoEllitticita beanRisposta = new BeanRispostaContrastoEllitticita(filamenti, percentuale, true, true);
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return beanRisposta;
     }

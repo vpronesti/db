@@ -31,6 +31,7 @@ public class GestoreInserimentoNomeStrumento {
     public boolean inserisciNomeStrumento(BeanStrumentoSatellite beanStrumento) {
         boolean res;
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         SatelliteDao satelliteDao = SatelliteDao.getInstance();
         StrumentoDao strumentoDao = StrumentoDao.getInstance();
 //        if (satelliteDao.queryEsistenzaSatellite(conn, new BeanSatellite(beanStrumento.getSatellite()))){
@@ -45,6 +46,7 @@ public class GestoreInserimentoNomeStrumento {
 //        } else {
 //            res = false;
 //        }
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }
