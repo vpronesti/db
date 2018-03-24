@@ -18,6 +18,7 @@ public class GestoreRecuperoInformazioniFilamento {
     
     public boolean recuperaInfoFilamento(BeanInformazioniFilamento beanFil) {
         Connection conn = DBAccess.getInstance().getConnection();
+        DBAccess.getInstance().disableAutoCommit(conn);
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         boolean res = true;
         BeanIdFilamento idFil = new BeanIdFilamento(beanFil.getIdFil(), beanFil.getSatellite());
@@ -32,6 +33,7 @@ public class GestoreRecuperoInformazioniFilamento {
         } else {
             res = false; // segmento non esistente
         }
+        DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }

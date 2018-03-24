@@ -291,20 +291,22 @@ public class SegmentoDao {
      * @return 
      */
     public int queryNumeroSegmentiFilamento(Connection conn, BeanIdFilamento idFil) {
-//        String sql = "select numsegmenti " + 
-//                "from filamento_numero_segmenti " + 
-//                "where idfil = " + idFil.getIdFil() + " and satellite = '" + 
-//                idFil.getSatellite() + "'";
-        String sql = "select count(distinct id_segmento) " + 
-                "from segmento " + 
-                "where idFil = " + idFil.getIdFil() + " and satellite = '" + 
+        String sql = "select numsegmenti " + 
+                "from filamento_numero_segmenti " + 
+                "where idfil = " + idFil.getIdFil() + " and satellite = '" + 
                 idFil.getSatellite() + "'";
+//        String sql = "select count(distinct id_segmento) " + 
+//                "from segmento " + 
+//                "where idFil = " + idFil.getIdFil() + " and satellite = '" + 
+//                idFil.getSatellite() + "'";
         Integer res = null;
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next())
                 res = rs.getInt(1);
+            else 
+                res = 0;
             rs.close();
             stmt.close();
         } catch (SQLException e) {
