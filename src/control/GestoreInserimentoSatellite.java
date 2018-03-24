@@ -18,9 +18,9 @@ public class GestoreInserimentoSatellite {
         boolean res = false;
         Connection conn = DBAccess.getInstance().getConnection();
         SatelliteDao satelliteDao = SatelliteDao.getInstance();
-        if (!satelliteDao.queryEsistenzaSatellite(conn, beanSatellite)) {
+//        if (!satelliteDao.queryEsistenzaSatellite(conn, beanSatellite)) {
             res = satelliteDao.inserisciSatellite(conn, beanSatellite);
-        }
+//        }
         return res;
     }    
 }

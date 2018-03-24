@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import static util.DBAccess.UNIQUE_VIOLATION;
 
 public class SatelliteDao {
     private static SatelliteDao instance;
@@ -101,12 +102,10 @@ public class SatelliteDao {
             stmt.executeUpdate(sql);
             stmt.close();
         } catch (SQLException e) {
-            res = false;
-        } finally {
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException e) {
+            if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                res = false;
+                System.out.println("doppia chiave primaria in inserimento satellite");
+            } else {
                 e.printStackTrace();
             }
         }
