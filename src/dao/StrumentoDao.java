@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import static util.DBAccess.FOREIGN_KEY_VIOLATION;
+import static util.DBAccess.UNIQUE_VIOLATION;
 
 public class StrumentoDao {
     private static StrumentoDao instance;
@@ -53,7 +55,8 @@ public class StrumentoDao {
         }
     }
     
-    public void inserisciSatelliteStrumento(Connection conn, BeanStrumentoSatellite beanS) {
+    public boolean inserisciSatelliteStrumento(Connection conn, BeanStrumentoSatellite beanS) {
+        boolean res = true;
         String sql = "insert into strumento_satellite(strumento, satellite) values ('" + 
                 beanS.getNome() + "', '" + beanS.getSatellite() + "')";
         try {
@@ -61,8 +64,20 @@ public class StrumentoDao {
         stmt.executeUpdate(sql);
         stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
+                // se il satellite o lo strumento non esistono, l'inserimento viene rifiutato
+                res = false;
+                System.out.println("fk exc in inserisciSatelliteStrumento");
+            } else if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                // se la coppia satellite-strumento esiste gia' si segnala 
+                // che non e' possibile inserirla nuovamente
+                res = false;
+                System.out.println("doppia chiave primaria in satellite strumento");
+            } else {
+                e.printStackTrace();
+            }
         }
+        return res;
     }
     
     public boolean queryEsistenzaSatelliteStrumento(Connection conn, String sat, String str) {
@@ -160,7 +175,8 @@ public class StrumentoDao {
      * @param conn
      * @param nomeStrumento 
      */
-    public void inserisciNomeStrumento(Connection conn, String nomeStrumento) {
+    public boolean inserisciNomeStrumento(Connection conn, String nomeStrumento) {
+        boolean res = true;
         String sql = "insert into strumento(nome) values('" + 
                 nomeStrumento + "')";
         try {
@@ -168,8 +184,13 @@ public class StrumentoDao {
             stmt.executeUpdate(sql);
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                res = false;
+            } else {
+                e.printStackTrace();
+            }
         }
+        return res;
     }
     
     /**
