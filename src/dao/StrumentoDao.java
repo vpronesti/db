@@ -98,15 +98,21 @@ public class StrumentoDao {
         return res;
     }
     
-    public void inserisciBanda(Connection conn, double banda) {
+    public boolean inserisciBanda(Connection conn, double banda) {
+        boolean res = true;
         String sql = "insert into banda(banda) values(" + banda + ")";
         try {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                res = false;
+            } else {
+                e.printStackTrace();
+            }
         }
+        return res;
     }
 
     public boolean queryEsistenzaStrumentoBanda(Connection conn, BeanStrumento beanS) {
@@ -218,8 +224,9 @@ public class StrumentoDao {
      * utilizzato per l'assegnamento di bande ad uno strumento
      * @param banda 
      */
-    public void inserisciStrumentoBanda(Connection conn, String strumento, 
+    public boolean inserisciStrumentoBanda(Connection conn, String strumento, 
             double banda) {
+        boolean res = true;
         String sql = "insert into strumento_banda(strumento, banda) values('" 
                 + strumento + "', " + banda 
                 + ")";
@@ -230,7 +237,16 @@ public class StrumentoDao {
             stmt.close();
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                res = false;
+                System.out.println("doppia pk in strumento banda");
+            } else if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
+                res = false;
+                System.out.println("fk exc in strumento banda");
+            } else {
+                e.printStackTrace();
+            }
         }
+        return res;
     }
 }
