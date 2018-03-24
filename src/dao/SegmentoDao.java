@@ -216,34 +216,34 @@ public class SegmentoDao {
         return s;
     }
     
-    /**
-     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
-     * @param conn
-     * @param beanRichiesta 
-     */
-    public List<BeanIdFilamento> queryIdFilamentiConNSegmenti(Connection conn, BeanRichiestaNumeroSegmenti beanRichiesta) {
-        String sql = "select idfil, satellite " + 
-                "from filamento_numero_segmenti " + 
-                "where numsegmenti >= " + beanRichiesta.getInizioIntervallo() + 
-                " and numsegmenti <= " + beanRichiesta.getFineIntervallo();
-        List<BeanIdFilamento> idFilamenti = new ArrayList<>();
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                int id = rs.getInt("idfil");
-                String satellite = rs.getString("satellite");
-                BeanIdFilamento idFil = new BeanIdFilamento(id, satellite);
-                idFilamenti.add(idFil);   
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return idFilamenti;
-    }
+//    /**
+//     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
+//     * @param conn
+//     * @param beanRichiesta 
+//     */
+//    public List<BeanIdFilamento> queryIdFilamentiConNSegmenti(Connection conn, BeanRichiestaNumeroSegmenti beanRichiesta) {
+//        String sql = "select idfil, satellite " + 
+//                "from filamento_numero_segmenti " + 
+//                "where numsegmenti >= " + beanRichiesta.getInizioIntervallo() + 
+//                " and numsegmenti <= " + beanRichiesta.getFineIntervallo();
+//        List<BeanIdFilamento> idFilamenti = new ArrayList<>();
+//        try {
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(sql);
+//
+//            while (rs.next()) {
+//                int id = rs.getInt("idfil");
+//                String satellite = rs.getString("satellite");
+//                BeanIdFilamento idFil = new BeanIdFilamento(id, satellite);
+//                idFilamenti.add(idFil);   
+//            }
+//            rs.close();
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return idFilamenti;
+//    }
     
     /**
      * utilizzato per la ricerca dei filamenti in base al numero di segmenti
@@ -291,6 +291,10 @@ public class SegmentoDao {
      * @return 
      */
     public int queryNumeroSegmentiFilamento(Connection conn, BeanIdFilamento idFil) {
+//        String sql = "select numsegmenti " + 
+//                "from filamento_numero_segmenti " + 
+//                "where idfil = " + idFil.getIdFil() + " and satellite = '" + 
+//                idFil.getSatellite() + "'";
         String sql = "select count(distinct id_segmento) " + 
                 "from segmento " + 
                 "where idFil = " + idFil.getIdFil() + " and satellite = '" + 

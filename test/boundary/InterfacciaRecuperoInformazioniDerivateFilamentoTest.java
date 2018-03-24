@@ -21,7 +21,7 @@ import static util.UserId.NONREGISTRATO;
 import static util.UserId.REGISTRATO;
 
 /**
- * test per il requisito funzionale n. 8
+ * test per il requisito funzionale n. 5
  */
 @RunWith(value = Parameterized.class)
 public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
@@ -51,6 +51,7 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
         boolean res = true;
         Connection conn = DBAccess.getInstance().getConnection();
         ContornoDao contornoDao = ContornoDao.getInstance();
+        // controllo per il centroide
         double longMedia = 0;
         double latiMedia = 0;
         List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, new BeanIdFilamento(beanFil.getIdFil(), beanFil.getSatellite()));
@@ -58,7 +59,6 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
             if (beanFil.getMaxGLatContorno() != 0 || beanFil.getMaxGLonContorno() != 0)
                 res = false;
         } else {
-
             Iterator<Contorno> i = puntiContorno.iterator();
             while (i.hasNext()) {
                 Contorno c = i.next();
@@ -68,6 +68,16 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
             longMedia /= (double) puntiContorno.size();
             latiMedia /= (double) puntiContorno.size();
             if (beanFil.getgLatCentroide() != latiMedia || beanFil.getgLonCentroide()!= longMedia)
+                res = false;
+        }
+        // se il centroide e' ok si fa il controllo per l'estensione
+        if (res) {
+            BeanInformazioniFilamento bIF = new BeanInformazioniFilamento(id, satellite);
+            contornoDao.queryEstensioneContorno(conn, bIF);
+            if (bIF.getMaxGLatContorno() != beanFil.getMaxGLatContorno() || 
+                    bIF.getMinGLatContorno() != beanFil.getMinGLatContorno() || 
+                    bIF.getMaxGLonContorno() != beanFil.getMaxGLonContorno() || 
+                    bIF.getMinGLonContorno() != beanFil.getMinGLonContorno())
                 res = false;
         }
         

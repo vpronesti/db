@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import util.DBAccess;
 
+/**
+ * REQ-7
+ */
 public class GestoreRicercaNumeroSegmenti {
     private InterfacciaRicercaNumeroSegmenti amministratore;
     

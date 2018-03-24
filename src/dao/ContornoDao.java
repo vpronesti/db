@@ -263,6 +263,34 @@ public class ContornoDao {
         return listaContorni;
     }
     
+    public void queryInfoContornoFilamento(Connection conn, BeanInformazioniFilamento beanFil) {
+        String sql = "select min_glon_estensione, max_glon_estensione, " + 
+                        "min_glat_estensione, max_glat_estensione, glon_centroide, glat_centroide " + 
+                "from contorno_estensione_centroide " + 
+                "where idfil = " + beanFil.getIdFil() + " and satellite = '" + beanFil.getSatellite() + "'";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+System.out.println("querying info");
+                double minLonEstensione = rs.getDouble("min_glon_estensione");
+                double maxLonEstensione = rs.getDouble("max_glon_estensione");
+                double minLatEstensione = rs.getDouble("min_glat_estensione");
+                double maxLatEstensione = rs.getDouble("max_glat_estensione");
+                double lonCentroide = rs.getDouble("glon_centroide");
+                double latCentroide = rs.getDouble("glat_centroide");
+                beanFil.setMinGLonContorno(minLonEstensione);
+                beanFil.setMaxGLonContorno(maxLonEstensione);
+                beanFil.setMinGLatContorno(minLatEstensione);
+                beanFil.setMaxGLatContorno(maxLatEstensione);
+                beanFil.setgLonCentroide(lonCentroide);
+                beanFil.setgLatCentroide(latCentroide);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * utilizzato per recupero informazioni filamento
      * @param conn

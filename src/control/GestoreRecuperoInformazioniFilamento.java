@@ -26,8 +26,9 @@ public class GestoreRecuperoInformazioniFilamento {
             int numSegmenti = segmentoDao.queryNumeroSegmentiFilamento(conn, idFil);
             beanFil.setNumSegmenti(numSegmenti);
             ContornoDao contornoDao = ContornoDao.getInstance();
-            contornoDao.queryPosizioneCentroide(conn, beanFil);
-            contornoDao.queryEstensioneContorno(conn, beanFil);
+            contornoDao.queryInfoContornoFilamento(conn, beanFil);
+//            contornoDao.queryPosizioneCentroide(conn, beanFil);
+//            contornoDao.queryEstensioneContorno(conn, beanFil);
         } else {
             res = false; // segmento non esistente
         }
