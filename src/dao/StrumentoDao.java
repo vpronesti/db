@@ -72,7 +72,7 @@ public class StrumentoDao {
                 // se la coppia satellite-strumento esiste gia' si segnala 
                 // che non e' possibile inserirla nuovamente
                 res = false;
-                System.out.println("doppia chiave primaria in satellite strumento");
+                System.out.println("doppia pk in satellite strumento");
             } else {
                 e.printStackTrace();
             }
@@ -192,6 +192,7 @@ public class StrumentoDao {
         } catch (SQLException e) {
             if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
                 res = false;
+System.out.println("doppia pk in strumento");
             } else {
                 e.printStackTrace();
             }

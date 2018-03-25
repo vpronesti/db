@@ -66,6 +66,7 @@ public class InterfacciaInserimentoNomeStrumentoTest {
         boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaUtente(conn, new BeanUtente(this.userId));
         DBAccess.getInstance().closeConnection(conn);
         boolean res = interfacciaInserimentoStrumento.inserisciNomeStrumento(beanStrumento);
+//System.out.println(res);
         if (res) {
             this.rimuoviModifica();
         }

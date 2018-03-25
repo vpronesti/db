@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses(value = {
     InterfacciaUtenteLoginTest.class, // REQ-1
     InterfacciaRegistrazioneUtenteTest.class, // REQ-2 REQ-3.2
-    InterfacciaImportCsvTest.class, // REQ-3.1 4
+//    InterfacciaImportCsvTest.class, // REQ-3.1 4
     InterfacciaInserimentoSatelliteTest.class, // REQ-3.3
     InterfacciaInserimentoNomeStrumentoTest.class, // REQ-3.4
     InterfacciaInserimentoBandaStrumentoTest.class, // REQ-3.4

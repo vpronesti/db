@@ -55,6 +55,15 @@ public class DBAccess {
         }
     }
     
+    public void rollback(Connection conn) {
+        try {
+            conn.rollback();
+        } catch (SQLException e) {
+            System.err.println("Errore in rollback");
+            e.printStackTrace();
+        }
+    }
+    
     public void closeConnection(Connection conn) {
         try {
             if (conn != null) {

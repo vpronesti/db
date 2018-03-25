@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import static util.DBAccess.FOREIGN_KEY_VIOLATION;
+import static util.DBAccess.UNIQUE_VIOLATION;
 
 public class SegmentoDao {
     private static SegmentoDao istance;
@@ -57,7 +58,12 @@ public class SegmentoDao {
     
     /**
      * utilizzato per gli import
-     * controlla che il punto di un segmento non faccia parte di altri segmenti
+     * controlla che il punto di un segmento non faccia parte di segmenti di altri filamenti 
+     * 
+     * la tabella per come definita ha un vincolo unique su 
+     * latitudine e longitudine quindi l'inserimento verrebbe 
+     * rifiutato e non c'e' bisogno di un controllo esplicito
+     * 
      * @param conn
      * @param s
      * @return 
@@ -344,10 +350,17 @@ public class SegmentoDao {
         boolean res = true;
         String sql = "insert into segmento(idfil, satellite, id_segmento, tipo, " + 
                 "glon_se, glat_se, n, flusso) values (?, ?, ?, ?, ?, ?, ?, ?) " + 
-                "on conflict (idfil, satellite, id_segmento, glon_se, glat_se) do update set " + 
+                "on conflict (glon_se, glat_se) do update set " +
+                "idfil = excluded.idfil, " + 
+                "satellite = excluded.satellite, " + 
+                "id_segmento = excluded.id_segmento, " + 
                 "tipo = excluded.tipo, " + 
                 "n = excluded.n, " + 
                 "flusso = excluded.flusso";
+//                "on conflict (idfil, satellite, id_segmento, glon_se, glat_se) do update set " + 
+//                "tipo = excluded.tipo, " + 
+//                "n = excluded.n, " + 
+//                "flusso = excluded.flusso";
         try {
             conn.setAutoCommit(false);
             PreparedStatement ps = conn.prepareStatement(sql);

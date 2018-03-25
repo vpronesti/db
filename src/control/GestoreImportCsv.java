@@ -73,19 +73,21 @@ public class GestoreImportCsv {
         DBAccess.getInstance().disableAutoCommit(conn);
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
-        while (rigaInizioLettura < totaleRighe) {
-            List<Contorno> listaContorni = csvReader.leggiContorni(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
-            if (listaContorni == null)
-                break;
-            rigaInizioLettura += listaContorni.size();
-
-            List<BeanIdFilamento> filamentiOk = new ArrayList<>();
+//        while (rigaInizioLettura < totaleRighe) {
+//            List<Contorno> listaContorni = csvReader.leggiContorni(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+//            if (listaContorni == null)
+//                break;
+//            rigaInizioLettura += listaContorni.size();
+//
+//            List<BeanIdFilamento> filamentiOk = new ArrayList<>();
 
 //            List<Segmento> listaPuntiUltimoSegmento = new ArrayList<>();
-            Iterator<Contorno> i = listaContorni.iterator();
-            while (i.hasNext()) {
-                Contorno con = i.next();
-                BeanIdFilamento idFil = new BeanIdFilamento(con.getIdFil(), con.getSatellite());
+
+//            Iterator<Contorno> i = listaContorni.iterator();
+//            while (i.hasNext()) {
+//                Contorno con = i.next();
+//                BeanIdFilamento idFil = new BeanIdFilamento(con.getIdFil(), con.getSatellite());
+                
 //                if (!filamentiOk.contains(idFil)) {
 //                    if (!filamentoDao.queryEsistenzaFilamento(conn, idFil)) {
 //                        contornoInseribile = false;
@@ -100,25 +102,27 @@ public class GestoreImportCsv {
                  * fare i confronti per trovare sovrapposizioni (segmento-contorno) solo se si 
                  * tratta di un segmento mai letto prima
                  */
-                SegmentoDao segmentoDao = SegmentoDao.getInstance();
-                List<Segmento> listaSegmenti = segmentoDao.queryPuntiSegmento(conn, idFil);
+//                SegmentoDao segmentoDao = SegmentoDao.getInstance();
+//                List<Segmento> listaSegmenti = segmentoDao.queryPuntiSegmento(conn, idFil);
+
 //                if (listaPuntiUltimoSegmento.size() == 0 || !(new BeanIdFilamento(listaPuntiUltimoSegmento.get(0).getIdFil(), listaPuntiUltimoSegmento.get(0).getSatellite()).equals(idFil))) {
 //                    listaPuntiUltimoSegmento = segmentoDao.queryPuntiSegmento(conn, idFil);
 //                }
-                Iterator<Segmento> j = listaSegmenti.iterator();
-                while (j.hasNext()) {
-                    Segmento s = j.next();
-                    // il punto di un contorno non puo' sovrapporsi ai punti 
-                    // dei segmenti del filamento a cui appartiene
-                    if (s.getgLonSe() == con.getgLonCont() && 
-                            s.getgLatSe() == con.getgLatCont()) {
-                        contornoInseribile = false;
-                        break;
-                    }
-                }
-            }
 
-        }
+//                Iterator<Segmento> j = listaSegmenti.iterator();
+//                while (j.hasNext()) {
+//                    Segmento s = j.next();
+//                    // il punto di un contorno non puo' sovrapporsi ai punti 
+//                    // dei segmenti del filamento a cui appartiene
+//                    if (s.getgLonSe() == con.getgLonCont() && 
+//                            s.getgLatSe() == con.getgLatCont()) {
+//                        contornoInseribile = false;
+//                        break;
+//                    }
+//                }
+//            }
+
+//        }
 
         if (contornoInseribile) {
             rigaInizioLettura = 0;
@@ -133,15 +137,22 @@ public class GestoreImportCsv {
                 }
             }
         }
+System.out.println("fine import inizio controllo sovrapposizione");
+        if (contornoDao.controlloSovrapposizioneContornoSegmento(conn))
+            contornoInseribile = false;
         /**
              * quando si modificano i contorni dei filamenti bisogna 
              * aggiornare la tabella stella_filamento perche' qualche 
              * stella potrebbe entrare o uscire da un filamento
              */
+System.out.println("fine controllo sovrapposizione inizio appartenenza st-fil");
         if (contornoInseribile)
             ContornoDao.getInstance().aggiornamentoStellaFilamento(conn);
         
-        DBAccess.getInstance().commit(conn);
+        if (contornoInseribile)
+            DBAccess.getInstance().commit(conn);
+        else
+            DBAccess.getInstance().rollback(conn);
         DBAccess.getInstance().closeConnection(conn);
         return contornoInseribile;
     }
@@ -219,20 +230,21 @@ public class GestoreImportCsv {
         boolean segmentoInseribile = true;
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
-        while (rigaInizioLettura < totaleRighe) {
-            List<Segmento> listaSegmenti = csvReader.leggiSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
-            if (listaSegmenti == null)
-                break;
-            rigaInizioLettura += listaSegmenti.size();
+//        while (rigaInizioLettura < totaleRighe) {
+//            List<Segmento> listaSegmenti = csvReader.leggiSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+//            if (listaSegmenti == null)
+//                break;
+//            rigaInizioLettura += listaSegmenti.size();
+//
+//            Iterator<Segmento> i = listaSegmenti.iterator();
+//
+//
+//            List<BeanIdFilamento> filamentiOk = new ArrayList<>();
 
-            Iterator<Segmento> i = listaSegmenti.iterator();
+//            while (i.hasNext()) {
+//                Segmento seg = i.next();
+//                BeanIdFilamento idFil = new BeanIdFilamento(seg.getIdFil(), seg.getSatellite());
 
-
-            List<BeanIdFilamento> filamentiOk = new ArrayList<>();
-
-            while (i.hasNext()) {
-                Segmento seg = i.next();
-                BeanIdFilamento idFil = new BeanIdFilamento(seg.getIdFil(), seg.getSatellite());
 //                if (!filamentiOk.contains(idFil)) {
 //                    if (!filamentoDao.queryEsistenzaFilamento(conn, idFil)) {
 //                        System.out.println("seg: " + seg);
@@ -243,26 +255,31 @@ public class GestoreImportCsv {
 //                        filamentiOk.add(idFil);
 //                    }
 //                }
+
                 /**
                  * controllare che il segmento che si vuole definire 
                  * non si sovrapponga ad un segmento gia esistente
+                 * 
+                 * la tabella per come definita ha un vincolo unique su 
+                 * latitudine e longitudine quindi l'inserimento verrebbe 
+                 * rifiutato e non c'e' bisogno di un controllo esplicito
                  */
-                if (segmentoDao.querySegmentoAppartenteAltroSegmento(conn, seg)) {
-                    segmentoInseribile = false;
-                    break;
-                }
+//                if (segmentoDao.querySegmentoAppartenteAltroSegmento(conn, seg)) {
+//                    segmentoInseribile = false;
+//                    break;
+//                }
                 /**
                  * controllare che il segmento che si vuole definire 
                  * non si sovrapponga al perimetro del segmento
                  */
-                List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
-                if (puntiContorno.contains(new Contorno(seg.getIdFil(), seg.getSatellite(), seg.getgLonSe(), seg.getgLatSe()))) {
-                    segmentoInseribile = false;
-                    break;
-                }
-            }
+//                List<Contorno> puntiContorno = contornoDao.queryPuntiContornoFilamento(conn, idFil);
+//                if (puntiContorno.contains(new Contorno(seg.getIdFil(), seg.getSatellite(), seg.getgLonSe(), seg.getgLatSe()))) {
+//                    segmentoInseribile = false;
+//                    break;
+//                }
+//            }
 
-        }
+//        }
         if (segmentoInseribile) {
             rigaInizioLettura = 0;
             while (rigaInizioLettura < totaleRighe) {
@@ -276,7 +293,13 @@ public class GestoreImportCsv {
                 }
             }
         }
-        DBAccess.getInstance().commit(conn);
+        if (segmentoInseribile)
+            segmentoInseribile = !contornoDao.controlloSovrapposizioneContornoSegmento(conn);
+        
+        if (segmentoInseribile)
+            DBAccess.getInstance().commit(conn);
+        else
+            DBAccess.getInstance().rollback(conn);
         DBAccess.getInstance().closeConnection(conn);
         return segmentoInseribile;
     }
@@ -331,7 +354,10 @@ public class GestoreImportCsv {
 //        } else {
 //            stellaInseribile = false;
 //        }
-        DBAccess.getInstance().commit(conn);
+        if (stellaInseribile) 
+            DBAccess.getInstance().commit(conn);
+        else
+            DBAccess.getInstance().rollback(conn);
         DBAccess.getInstance().closeConnection(conn);
         return stellaInseribile;
     }

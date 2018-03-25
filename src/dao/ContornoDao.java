@@ -25,6 +25,31 @@ public class ContornoDao {
         return instance;
     }
     
+    public boolean controlloSovrapposizioneContornoSegmento(Connection conn) {
+        boolean res = false;
+        String sql = "select glog_cont, glat_cont " + 
+                "from contorno c1 " + 
+                "where exists " + 
+                    "(select * " + 
+                    "from segmento s1 " + 
+                    "where c1.glog_cont = s1.glon_se and c1.glat_cont = s1.glat_se)";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                double lon = rs.getDouble(1);
+                double lat = rs.getDouble(2);
+System.out.println("lon " + lon + " lat " + lat);
+                res = true;
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
     /**
      * questo metodo serve per aggiornare la tabella che rappresenta la 
      * relazione di appartenenza tra le stelle e i filamenti 
@@ -48,6 +73,12 @@ public class ContornoDao {
                 "satellite_stella = excluded.satellite_stella, " + 
                 "idfil = excluded.idfil, " + 
                 "satellite_filamento = excluded.satellite_filamento";
+        /**
+         * per ciascuno dei filamenti di cui si conosce il contorno
+         *      si selezionano i punti del contorno
+         *      per ogni insieme di punti del contorno del filamento
+         *          per ogni stella verifica se e' interna
+         */
         Iterator<BeanIdFilamento> i = listaId.iterator();
         try {
 //            conn.setAutoCommit(false);

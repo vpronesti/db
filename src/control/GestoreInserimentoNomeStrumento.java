@@ -36,7 +36,9 @@ public class GestoreInserimentoNomeStrumento {
         StrumentoDao strumentoDao = StrumentoDao.getInstance();
 //        if (satelliteDao.queryEsistenzaSatellite(conn, new BeanSatellite(beanStrumento.getSatellite()))){
 //            if (!strumentoDao.queryEsistenzaStrumento(conn, beanStrumento.getNome())) {
-                strumentoDao.inserisciNomeStrumento(conn, beanStrumento.getNome());
+                res = strumentoDao.inserisciNomeStrumento(conn, beanStrumento.getNome());
+                if (!res)
+                    DBAccess.getInstance().rollback(conn);
 //            }
 //            if (!strumentoDao.queryEsistenzaSatelliteStrumento(conn, beanStrumento.getSatellite(), beanStrumento.getNome())) {
                 res = strumentoDao.inserisciSatelliteStrumento(conn, beanStrumento);
@@ -46,7 +48,10 @@ public class GestoreInserimentoNomeStrumento {
 //        } else {
 //            res = false;
 //        }
-        DBAccess.getInstance().commit(conn);
+        if (res)
+            DBAccess.getInstance().commit(conn);
+        else
+            DBAccess.getInstance().rollback(conn);
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }
