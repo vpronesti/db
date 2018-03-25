@@ -107,6 +107,7 @@ public class StrumentoDao {
             stmt.close();
         } catch (SQLException e) {
             if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                System.out.println("doppia pk in banda");
                 res = false;
             } else {
                 e.printStackTrace();

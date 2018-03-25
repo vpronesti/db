@@ -32,7 +32,9 @@ public class GestoreInserimentoBandaStrumento {
         StrumentoDao strumentoDao = StrumentoDao.getInstance();
 //        if (strumentoDao.queryEsistenzaStrumento(conn, beanStrumento.getNome())) {
 //            if (!strumentoDao.queryEsistenzaBanda(conn, beanStrumento.getBanda())) {
-                strumentoDao.inserisciBanda(conn, beanStrumento.getBanda());
+                res = strumentoDao.inserisciBanda(conn, beanStrumento.getBanda());
+                if (!res)
+                    DBAccess.getInstance().rollback(conn);
 //            }
 //            if (!strumentoDao.queryEsistenzaStrumentoBanda(conn, beanStrumento)) {
                 res = strumentoDao.inserisciStrumentoBanda(conn, beanStrumento.getNome(), beanStrumento.getBanda());
