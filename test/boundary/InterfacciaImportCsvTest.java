@@ -5,8 +5,8 @@ import bean.BeanUtente;
 import dao.UtenteDao;
 import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
-import exception.ImpossibileAprireFileException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,8 +42,10 @@ public class InterfacciaImportCsvTest {
             {true, AMMINISTRATORE, new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
             
             {true, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel"},
+            // satellite non esicstente
             {false, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel!!!"},
-            {false, AMMINISTRATORE, new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA, null}
+            // file non esistente
+            {false, AMMINISTRATORE, new File("stelle_Spitzer.csv"), TipoFileCsv.STELLA, "Spitzer"}
         });
     }
     
@@ -74,7 +76,7 @@ public class InterfacciaImportCsvTest {
             res = interfacciaImportCsv.importaCsv(beanRichiesta);
         } catch (FormatoFileNonSupportatoException e) {
             res = false;
-        } catch (ImpossibileAprireFileException e) {
+        } catch (FileNotFoundException e) {
             res = false;
         }
         assertEquals("errore", res && azioneConsentita, expected);

@@ -5,7 +5,6 @@ import entity.Filamento;
 import entity.Segmento;
 import entity.Stella;
 import exception.FormatoFileNonSupportatoException;
-import exception.ImpossibileAprireFileException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +18,7 @@ public class CSVReader {
     public List<Filamento> leggiFilamenti(File file, 
             int maxRighe, int posInizio, int totaleRighe) 
             throws FormatoFileNonSupportatoException, 
-            ImpossibileAprireFileException {
+            FileNotFoundException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -87,7 +86,7 @@ public class CSVReader {
                 }
             }
         } else {
-            throw new ImpossibileAprireFileException("Il percorso specificato o non esiste o e' una directory");
+            throw new FileNotFoundException("Il file specificato non esiste");
         }
         return listaFilamenti;
     }
@@ -95,7 +94,7 @@ public class CSVReader {
     public List<Contorno> leggiContorni(File file, 
             int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException, 
-            ImpossibileAprireFileException {
+            FileNotFoundException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -148,7 +147,7 @@ public class CSVReader {
                 }
             }
         } else {
-            throw new ImpossibileAprireFileException("Il percorso specificato o non esiste o e' una directory");
+            throw new FileNotFoundException("Il file specificato non esiste");
         }
         return listaContorni;
     }
@@ -156,7 +155,7 @@ public class CSVReader {
     public List<Segmento> leggiSegmenti(File file, 
             int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException, 
-            ImpossibileAprireFileException {
+            FileNotFoundException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -226,7 +225,7 @@ public class CSVReader {
                 }
             }
         } else {
-            throw new ImpossibileAprireFileException("Il percorso specificato o non esiste o e' una directory");
+            throw new FileNotFoundException("Il file specificato non esiste");
         }
         return listaSegmenti;
     }
@@ -234,81 +233,84 @@ public class CSVReader {
     public List<Stella> leggiStelle(File file, 
             int maxRighe, int posInizio, int totaleRighe, String satellite) 
             throws FormatoFileNonSupportatoException, 
-            ImpossibileAprireFileException {
+            FileNotFoundException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
 
         List<Stella> listaStelle = new ArrayList<>();
-        if (file.exists() && !file.isDirectory()) {
-            try {
-                br = new BufferedReader(new FileReader(file));
-                line = br.readLine(); // linea con nomi
-                // IDSTAR,NAMESTAR,GLON_ST,GLAT_ST,FLUX_ST,TYPE_ST
-                String[] header = line.split(cvsSplitBy);
-                if (!header[0].equals("IDSTAR") || 
-                        !header[1].equals("NAMESTAR") || 
-                        !header[2].equals("GLON_ST") || 
-                        !header[3].equals("GLAT_ST") || 
-                        !header[4].equals("FLUX_ST") || 
-                        !header[5].equals("TYPE_ST")) {
-                    throw new FormatoFileNonSupportatoException("Errore nell'header del file");
+        try {
+            br = new BufferedReader(new FileReader(file));
+            line = br.readLine(); // linea con nomi
+            // IDSTAR,NAMESTAR,GLON_ST,GLAT_ST,FLUX_ST,TYPE_ST
+            String[] header = line.split(cvsSplitBy);
+            if (!header[0].equals("IDSTAR") || 
+                    !header[1].equals("NAMESTAR") || 
+                    !header[2].equals("GLON_ST") || 
+                    !header[3].equals("GLAT_ST") || 
+                    !header[4].equals("FLUX_ST") || 
+                    !header[5].equals("TYPE_ST")) { 
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                int i = 0;
-                // in caso di file con piu di maxRighe si 
-                // saltano quelle gia lette alla chiamata precedente
-                String l = null;
-                while (i < posInizio && (l = br.readLine()) != null) {
-                    i++;
-                }
+                throw new FormatoFileNonSupportatoException("Errore nell'header del file");
+            }
+            int i = 0;
+            // in caso di file con piu di maxRighe si 
+            // saltano quelle gia lette alla chiamata precedente
+            String l = null;
+            while (i < posInizio && (l = br.readLine()) != null) {
+                i++;
+            }
 
-                int numRigheLette = 0;
-                while ((line = br.readLine()) != null && numRigheLette < maxRighe && (numRigheLette + posInizio) < totaleRighe) {
+            int numRigheLette = 0;
+            while ((line = br.readLine()) != null && numRigheLette < maxRighe && (numRigheLette + posInizio) < totaleRighe) {
 
-                    String[] values = line.split(cvsSplitBy);
-                    int idStar = Integer.parseInt(values[0]);
-                    String nameStar = values[1];
-                    double glon_st = Double.parseDouble(values[2]);
-                    double glat_st = Double.parseDouble(values[3]);
-                    double flux_st = Double.parseDouble(values[4]);
-                    String type_st = values[5];
+                String[] values = line.split(cvsSplitBy);
+                int idStar = Integer.parseInt(values[0]);
+                String nameStar = values[1];
+                double glon_st = Double.parseDouble(values[2]);
+                double glat_st = Double.parseDouble(values[3]);
+                double flux_st = Double.parseDouble(values[4]);
+                String type_st = values[5];
 
-                    Stella st = new Stella(idStar, satellite, nameStar, glon_st, 
-                            glat_st, flux_st, type_st);
-                    listaStelle.add(st);
+                Stella st = new Stella(idStar, satellite, nameStar, glon_st, 
+                        glat_st, flux_st, type_st);
+                listaStelle.add(st);
 
-                    numRigheLette++;
-                }
+                numRigheLette++;
+            }
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-               throw new FormatoFileNonSupportatoException("Errore durante la lettura del file");
-            } finally {
-                if (br != null) {
-                    try {
-                        br.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+            throw new FileNotFoundException("Il file specificato non esiste");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+           throw new FormatoFileNonSupportatoException("Errore durante la lettura del file");
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        } else {
-            throw new ImpossibileAprireFileException("Il percorso specificato o non esiste o e' una directory");
         }
         return listaStelle;
     }
 
-    public int numeroRighe(File file) {
+    public int numeroRighe(File file) 
+            throws FileNotFoundException {
         int lines = 0;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file.toString()));
             while (reader.readLine() != null) lines++;
             reader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new FileNotFoundException("Il file specificato non esiste");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -6,7 +6,7 @@ import control.GestoreImportCsv;
 import dao.UtenteDao;
 import entity.TipoFileCsv;
 import exception.FormatoFileNonSupportatoException;
-import exception.ImpossibileAprireFileException;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import util.DBAccess;
 
@@ -47,7 +47,7 @@ public class InterfacciaImportCsv {
     
     public boolean importaCsv(BeanRichiestaImport beanRichiesta) 
             throws FormatoFileNonSupportatoException, 
-            ImpossibileAprireFileException {
+            FileNotFoundException {
         Connection conn = DBAccess.getInstance().getConnection();
         boolean azioneConsentita = UtenteDao.getInstance().queryEsistenzaAmministratore(conn, new BeanUtente(this.userId));
         DBAccess.getInstance().closeConnection(conn);

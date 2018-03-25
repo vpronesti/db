@@ -3,7 +3,7 @@ package gui;
 import bean.BeanRichiestaImport;
 import boundary.InterfacciaImportCsv;
 import exception.FormatoFileNonSupportatoException;
-import exception.ImpossibileAprireFileException;
+import java.io.FileNotFoundException;
 import javafx.concurrent.Task;
 
 public class TaskImport extends Task<Boolean> {
@@ -18,7 +18,7 @@ public class TaskImport extends Task<Boolean> {
     
     @Override
     protected Boolean call() throws FormatoFileNonSupportatoException, 
-            ImpossibileAprireFileException {
+            FileNotFoundException {
         boolean res = boundaryImportCsv.importaCsv(beanRichiestaImport);
         return res;
     }
