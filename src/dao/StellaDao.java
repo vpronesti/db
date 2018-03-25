@@ -80,7 +80,7 @@ public class StellaDao {
                 double gLonSt = rs.getDouble("glon_st");
                 double gLatSt = rs.getDouble("glat_st");
                 double flussoSt = rs.getDouble("flusso_st");
-                String tipoSt = rs.getString("tiop_st");
+                String tipoSt = rs.getString("tipo_st");
                 Stella s = new Stella(idStella, satelliteStella, nomeStella, gLonSt, gLatSt, flussoSt, tipoSt);
                 listaStelle.add(s);
             }

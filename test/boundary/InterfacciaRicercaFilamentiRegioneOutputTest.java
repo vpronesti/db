@@ -101,7 +101,7 @@ public class InterfacciaRicercaFilamentiRegioneOutputTest {
     @Test
     public void testRicercaFilamentiRegione() {
         InterfacciaRicercaFilamentiRegione interfacciaFilamentiRegione = 
-                new InterfacciaRicercaFilamentiRegione("a");
+                new InterfacciaRicercaFilamentiRegione(userId);
         BeanRichiestaFilamentiRegione beanRichiesta = new
          BeanRichiestaFilamentiRegione(longCentroide, latiCentroide, 
                  dimensione, tipoFigura);

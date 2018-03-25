@@ -120,7 +120,7 @@ System.out.println("lon " + lon + " lat " + lat);
         double longCentr = beanRichiesta.getLongCentroide();
         double latiCentr = beanRichiesta.getLatiCentroide();
         double dim = beanRichiesta.getDimensione();
-        String sql = "select filamento.idfil, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, filamento.satellite, instrument " + 
+        String sql = "select filamento.idfil, nome, flusso_totale, dens_media, temp_media, ellitticita, contrasto, filamento.satellite, strumento " + 
                 "from ( " + 
                     "select distinct c1.idfil, c1.satellite " + 
                     "from contorno c1 " + 
@@ -145,17 +145,17 @@ System.out.println("lon " + lon + " lat " + lat);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int idFil = rs.getInt(1);
-                String name = rs.getString("name");
-                double total_flux = rs.getDouble("total_flux");
-                double mean_dens = rs.getDouble("mean_dens");
-                double mean_temp = rs.getDouble("mean_temp");
-                double ellipticity = rs.getDouble("ellipticity");
-                double contrast = rs.getDouble("contrast");
+                String nome = rs.getString("nome");
+                double flussoTotale = rs.getDouble("flusso_totale");
+                double densMedia = rs.getDouble("dens_media");
+                double tempMedia = rs.getDouble("temp_media");
+                double ellitticita = rs.getDouble("ellitticita");
+                double contrasto = rs.getDouble("contrasto");
                 String satellite = rs.getString("satellite");
-                String instrument = rs.getString("instrument");
-                Filamento f = new Filamento(idFil, name, total_flux, 
-                        mean_dens, mean_temp, ellipticity, contrast, 
-                        satellite, instrument);
+                String strumento = rs.getString("strumento");
+                Filamento f = new Filamento(idFil, nome, flussoTotale, 
+                        densMedia, tempMedia, ellitticita, contrasto, 
+                        satellite, strumento);
                 if (!listaFilamenti.contains(f))
                     listaFilamenti.add(f);
             }
@@ -180,7 +180,7 @@ System.out.println("lon " + lon + " lat " + lat);
         double latiMax = beanRichiesta.getLatiCentroide() + dist;
         double latiMin = beanRichiesta.getLatiCentroide() - dist;
         
-        String sql = "select filamento.idfil, name, total_flux, mean_dens, mean_temp, ellipticity, contrast, filamento.satellite, instrument " + 
+        String sql = "select filamento.idfil, nome, flusso_totale, dens_media, temp_media, ellitticita, contrasto, filamento.satellite, strumento " + 
                 "from ( " + 
                     "select distinct c1.idfil, c1.satellite " + 
                     "from contorno c1 " + 
@@ -203,17 +203,17 @@ System.out.println("lon " + lon + " lat " + lat);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int idFil = rs.getInt(1);
-                String name = rs.getString("name");
-                double total_flux = rs.getDouble("total_flux");
-                double mean_dens = rs.getDouble("mean_dens");
-                double mean_temp = rs.getDouble("mean_temp");
-                double ellipticity = rs.getDouble("ellipticity");
-                double contrast = rs.getDouble("contrast");
+                String nome = rs.getString("nome");
+                double flussoTotale = rs.getDouble("flusso_totale");
+                double densMedia = rs.getDouble("dens_media");
+                double tempMedia = rs.getDouble("temp_media");
+                double ellitticita = rs.getDouble("ellitticita");
+                double contrasto = rs.getDouble("contrasto");
                 String satellite = rs.getString("satellite");
-                String instrument = rs.getString("instrument");
-                Filamento f = new Filamento(idFil, name, total_flux, 
-                        mean_dens, mean_temp, ellipticity, contrast, 
-                        satellite, instrument);
+                String strumento = rs.getString("strumento");
+                Filamento f = new Filamento(idFil, nome, flussoTotale, 
+                        densMedia, tempMedia, ellitticita, contrasto, 
+                        satellite, strumento);
                 if (!listaFilamenti.contains(f))
                     listaFilamenti.add(f);
             }
