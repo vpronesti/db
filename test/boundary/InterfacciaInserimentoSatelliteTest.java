@@ -53,6 +53,7 @@ public class InterfacciaInserimentoSatelliteTest {
             // la data di fine non e' obbligatoria
             {true, AMMINISTRATORE, "sat4", LocalDate.of(2016, Month.OCTOBER, 15), null, "a1"}, 
             
+            // i seguenti input vengono inseriti da utenti non amministratori quindi i test falliscono
             {false, REGISTRATO, "sat", LocalDate.of(2016, Month.OCTOBER, 15), LocalDate.of(2016, Month.OCTOBER, 15), "a2"},
             {false, REGISTRATO, "Herschel", LocalDate.of(2016, Month.OCTOBER, 15), LocalDate.of(2016, Month.OCTOBER, 15), "a2"},
             {false, REGISTRATO, "sat", LocalDate.of(2016, Month.OCTOBER, 15), LocalDate.of(2016, Month.OCTOBER, 3), "a2"},

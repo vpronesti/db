@@ -75,7 +75,7 @@ public class SatelliteDao {
     }
     
     /**
-     * utilizzato nel per rqfn 3.3
+     * utilizzato nel rqfn 3.3
      * @param satellite
      * @return 
      */

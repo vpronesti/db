@@ -7,6 +7,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import util.DBAccess;
 
+/**
+ * REQ-2
+ * REQ-3.2
+ */
 public class GestoreRegistrazioneUtente {
     private InterfacciaRegistrazioneUtente amministratore;
     
@@ -15,29 +19,14 @@ public class GestoreRegistrazioneUtente {
     }
     
     /**
-     * se l'utente non e' gia' definito lo inserisce nel DB 
-     * per evitare modifiche tra il controllo dell'esistenza 
-     * dell'utente e l'inserimento, l'autocommit e' impostato a false 
-     * quindi viene fatto manualmente dopo l'eventuale inserimento
      * @param beanUtente
-     * @return 
+     * @return true se l'utente viene inserito, 
+     * false se non e' possibile perche' userId e' gia' stato usato
      */
     public boolean gestioneRegistrazioneUtente(BeanUtente beanUtente) {
         Connection conn = DBAccess.getInstance().getConnection();
         UtenteDao utenteDao = UtenteDao.getInstance();
-//        try {
-//            conn.setAutoCommit(false);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        boolean res = false;
-//        if (!utenteDao.queryEsistenzaUtente(conn, beanUtente))
-            res = utenteDao.inserisciUtente(conn, beanUtente);
-//        try {
-//            conn.commit();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        boolean res = utenteDao.inserisciUtente(conn, beanUtente);
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }

@@ -6,6 +6,10 @@ import dao.UtenteDao;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-2
+ * REQ-3.2
+ */
 public class InterfacciaRegistrazioneUtente {
     private GestoreRegistrazioneUtente controllerRegistrazioneUtente;
     private String userId;

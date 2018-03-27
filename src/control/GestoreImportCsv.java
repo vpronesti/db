@@ -37,20 +37,14 @@ public class GestoreImportCsv {
     
     /**
      * la lettura del file avviene in blocchi di dimensione MAXRIGHE 
-     * per ciascuna delle righe lette si controlla che i vincoli del 
-     * DB siano rispettati 
+     * per ciascuno dei blocchi letti si prova a effettuare l'inserimento nel DB 
      * 
      * se una riga fa riferimento ad un filamento non presente nel DB oppure 
      * uno dei punti dei contorni che si vogliono inserire si sovrappone 
-     * ai punti dei segmenti del filmento
-     * allora l'import viene rifiutato
+     * ai punti dei segmenti del filmento, allora l'import viene rifiutato
      * 
-     * se i vincoli sono rispettati da tutte le righe si esegue 
-     * nuovamente una lettura a blocchi e le righe 
-     * vengono inserite in modalita' batch 
-     * 
-     * prima di fare il commit si aggiorna la tabella delle 
-     * relazioni tra stelle e filamenti 
+     * se i vincoli sono rispettati prima di fare il commit si aggiorna 
+     * la tabella delle relazioni tra stelle e filamenti 
      * 
      * @param file
      * @param satellite
@@ -63,38 +57,39 @@ public class GestoreImportCsv {
             FileNotFoundException {
         boolean contornoInseribile = true;
         ContornoDao contornoDao = ContornoDao.getInstance();
-        FilamentoDao filamentoDao = FilamentoDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
         DBAccess.getInstance().disableAutoCommit(conn);
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
-        if (contornoInseribile) {
-            List<Contorno> listaContorni;
-            rigaInizioLettura = 0;
-            while (rigaInizioLettura < totaleRighe) {
-                try {
-                    listaContorni = csvReader.leggiContorni(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
-                } catch (FileNotFoundException e) {
-                    DBAccess.getInstance().rollback(conn);
-                    DBAccess.getInstance().closeConnection(conn);
-                    throw new FileNotFoundException(e.getMessage());
-                } catch (FormatoFileNonSupportatoException e) {
-                    DBAccess.getInstance().rollback(conn);
-                    DBAccess.getInstance().closeConnection(conn);
-                    throw new FormatoFileNonSupportatoException(e.getMessage());
-                }
-                if (listaContorni == null)
-                    break;
-                rigaInizioLettura += listaContorni.size();
-                if (!contornoDao.inserisciContornoBatch(conn, listaContorni)) {
-                    contornoInseribile = false;
-                    break;
-                }
+        
+        List<Contorno> listaContorni;
+        rigaInizioLettura = 0;
+        while (rigaInizioLettura < totaleRighe) {
+            try {
+                listaContorni = csvReader.leggiContorni(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+            } catch (FileNotFoundException e) {
+                // se il file non esiste si abortisce la transazione, si chiude la connessione e si rilancia l'eccezione 
+                // il file esiste altrimenti l'eccezione verrebbe lanciata dal metodo per la lettura del numero di righe
+                DBAccess.getInstance().rollback(conn);
+                DBAccess.getInstance().closeConnection(conn);
+                throw new FileNotFoundException(e.getMessage());
+            } catch (FormatoFileNonSupportatoException e) {
+                // se il formato del file non va bene si abortisce la transazione, si chiude la connessione e e si rilancia l'eccezione 
+                DBAccess.getInstance().rollback(conn);
+                DBAccess.getInstance().closeConnection(conn);
+                throw new FormatoFileNonSupportatoException(e.getMessage());
+            }
+            if (listaContorni == null)
+                break;
+            rigaInizioLettura += listaContorni.size();
+            if (!contornoDao.inserisciContornoBatch(conn, listaContorni)) {
+                contornoInseribile = false;
+                break;
             }
         }
         /**
-         * controllare che i contorni che si vogliono definire 
-         * non si sovrappongano a dei segmenti esistenti
+         * controlla che i contorni inseriti non creino sovrapposizioni 
+         * con i segmenti nel DB
          */
         if (contornoInseribile)
             contornoInseribile = !contornoDao.controlloSovrapposizioneContornoSegmento(conn);
@@ -116,15 +111,10 @@ public class GestoreImportCsv {
 
     /**
      * la lettura del file avviene in blocchi di dimensione MAXRIGHE 
-     * per ciascuna delle righe lette si controlla che i vincoli del 
-     * DB siano rispettati 
+     * per ciascuno dei blocchi letti si prova a effettuare l'inserimento nel DB 
      * 
-     * se una riga non rispetta le foreign key verso satellite-strumento 
-     * allora l'import viene rifiutato
-     * 
-     * se i vincoli sono rispettati da tutte le righe si esegue 
-     * nuovamente una lettura a blocchi e le righe 
-     * vengono inserite in modalita' batch 
+     * se una riga fa riferimento ad una coppia strumento-satellite 
+     * non presente nel DB, allora l'import viene rifiutato
      * 
      * @param file
      * @return
@@ -147,10 +137,13 @@ public class GestoreImportCsv {
             try {
                 listaFilamenti = csvReader.leggiFilamenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe);
             } catch (FileNotFoundException e) {
+                // se il file non esiste si abortisce la transazione, si chiude la connessione e si rilancia l'eccezione 
+                // il file esiste altrimenti l'eccezione verrebbe lanciata dal metodo per la lettura del numero di righe
                 DBAccess.getInstance().rollback(conn);
                 DBAccess.getInstance().closeConnection(conn);
                 throw new FileNotFoundException(e.getMessage());
             } catch (FormatoFileNonSupportatoException e) {
+                // se il formato del file non va bene si abortisce la transazione, si chiude la connessione e e si rilancia l'eccezione 
                 DBAccess.getInstance().rollback(conn);
                 DBAccess.getInstance().closeConnection(conn);
                 throw new FormatoFileNonSupportatoException(e.getMessage());
@@ -172,52 +165,58 @@ public class GestoreImportCsv {
     }
     
     /**
+     * la lettura del file avviene in blocchi di dimensione MAXRIGHE 
+     * per ciascuno dei blocchi letti si prova a effettuare l'inserimento nel DB 
+     * 
+     * se una riga fa riferimento ad un filamento non presente nel DB oppure 
+     * uno dei punti dei segmenti che si vogliono inserire si sovrappone 
+     * ai punti dei contorni del filmento, allora l'import viene rifiutato
      * 
      * @param file
      * @param satellite
      * @return
      * @throws FormatoFileNonSupportatoException
-     * @throws ImpossibileAprireFileException 
+     * @throws FileNotFoundException 
      */
     public boolean importSegmenti(File file, String satellite) 
             throws FormatoFileNonSupportatoException, 
             FileNotFoundException {
         SegmentoDao segmentoDao = SegmentoDao.getInstance();
         ContornoDao contornoDao = ContornoDao.getInstance();
-        FilamentoDao filamentoDao = FilamentoDao.getInstance();
-        SatelliteDao satelliteDao = SatelliteDao.getInstance();
         Connection conn = DBAccess.getInstance().getConnection();
         DBAccess.getInstance().disableAutoCommit(conn);
         boolean segmentoInseribile = true;
         int rigaInizioLettura = 0;
         int totaleRighe = csvReader.numeroRighe(file);
-        if (segmentoInseribile) {
-            rigaInizioLettura = 0;
-            List<Segmento> listaSegmenti;
-            while (rigaInizioLettura < totaleRighe) {
-                try {
-                    listaSegmenti = csvReader.leggiSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
-                } catch (FileNotFoundException e) {
-                    DBAccess.getInstance().rollback(conn);
-                    DBAccess.getInstance().closeConnection(conn);
-                    throw new FileNotFoundException(e.getMessage());
-                } catch (FormatoFileNonSupportatoException e) {
-                    DBAccess.getInstance().rollback(conn);
-                    DBAccess.getInstance().closeConnection(conn);
-                    throw new FormatoFileNonSupportatoException(e.getMessage());
-                }
-                if (listaSegmenti == null)
-                    break;
-                rigaInizioLettura += listaSegmenti.size();
-                if (!segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti)) {
-                    segmentoInseribile = false;
-                    break;
-                }
+        
+        rigaInizioLettura = 0;
+        List<Segmento> listaSegmenti;
+        while (rigaInizioLettura < totaleRighe) {
+            try {
+                listaSegmenti = csvReader.leggiSegmenti(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
+            } catch (FileNotFoundException e) {
+                // se il file non esiste si abortisce la transazione, si chiude la connessione e si rilancia l'eccezione 
+                // il file esiste altrimenti l'eccezione verrebbe lanciata dal metodo per la lettura del numero di righe
+                DBAccess.getInstance().rollback(conn);
+                DBAccess.getInstance().closeConnection(conn);
+                throw new FileNotFoundException(e.getMessage());
+            } catch (FormatoFileNonSupportatoException e) {
+                // se il formato del file non va bene si abortisce la transazione, si chiude la connessione e e si rilancia l'eccezione 
+                DBAccess.getInstance().rollback(conn);
+                DBAccess.getInstance().closeConnection(conn);
+                throw new FormatoFileNonSupportatoException(e.getMessage());
+            }
+            if (listaSegmenti == null)
+                break;
+            rigaInizioLettura += listaSegmenti.size();
+            if (!segmentoDao.inserisciSegmentoBatch(conn, listaSegmenti)) {
+                segmentoInseribile = false;
+                break;
             }
         }
         /**
-         * controllare che i segmenti che si vogliono definire 
-         * non si sovrappongano ai perimetri dei filamenti
+         * controlla che i segmenti inseriti non creino sovrapposizioni 
+         * con i contorni nel DB
          */
         if (segmentoInseribile)
             segmentoInseribile = !contornoDao.controlloSovrapposizioneContornoSegmento(conn);
@@ -233,19 +232,13 @@ public class GestoreImportCsv {
 
     /**
      * la lettura del file avviene in blocchi di dimensione MAXRIGHE 
-     * per ciascuna delle righe lette si controlla che i vincoli del 
-     * DB siano rispettati 
+     * per ciascuno dei blocchi letti si prova a effettuare l'inserimento nel DB 
      * 
      * se una riga fa riferimento ad un satellite non presente nel DB 
      * allora l'import viene rifiutato
      * 
-     * se il vincolo e' rispettato da tutte le righe si esegue 
-     * nuovamente una lettura a blocchi e le righe 
-     * vengono inserite in modalita' batch 
-     * 
      * prima di fare il commit si aggiorna la tabella delle 
      * relazioni tra stelle e filamenti 
-     * 
      * 
      * @param file
      * @param satellite
@@ -267,10 +260,13 @@ public class GestoreImportCsv {
             try {
                 listaStelle = csvReader.leggiStelle(file, MAXRIGHE, rigaInizioLettura, totaleRighe, satellite);
             } catch (FileNotFoundException e) {
+                // se il file non esiste si abortisce la transazione, si chiude la connessione e si rilancia l'eccezione 
+                // il file esiste altrimenti l'eccezione verrebbe lanciata dal metodo per la lettura del numero di righe
                 DBAccess.getInstance().rollback(conn);
                 DBAccess.getInstance().closeConnection(conn);
                 throw new FileNotFoundException(e.getMessage());
             } catch (FormatoFileNonSupportatoException e) {
+                // se il formato del file non va bene si abortisce la transazione, si chiude la connessione e e si rilancia l'eccezione 
                 DBAccess.getInstance().rollback(conn);
                 DBAccess.getInstance().closeConnection(conn);
                 throw new FormatoFileNonSupportatoException(e.getMessage());
@@ -284,6 +280,10 @@ public class GestoreImportCsv {
             }
         }
         ContornoDao contornoDao = ContornoDao.getInstance();
+        /**
+         * si aggiorna la tabella delle relazioni tra stelle e filamenti per 
+         * vedere se tra le stelle inserite qualcuna e' interna ad un filamento
+         */
         if (stellaInseribile) {
             contornoDao.aggiornamentoStellaFilamento(conn);
         }

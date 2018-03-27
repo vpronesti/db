@@ -7,6 +7,9 @@ import dao.UtenteDao;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-3.3
+ */
 public class InterfacciaInserimentoSatellite {
     private GestoreInserimentoSatellite controllerInserimento;
     private String userId;

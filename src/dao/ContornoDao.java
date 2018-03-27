@@ -25,6 +25,13 @@ public class ContornoDao {
         return instance;
     }
     
+    /**
+     * 
+     * per ogni punto dei contorni controlla se esiste un punto dei segmenti che 
+     * occupa la stessa posizione 
+     * @param conn
+     * @return 
+     */
     public boolean controlloSovrapposizioneContornoSegmento(Connection conn) {
         boolean res = false;
         String sql = "select glog_cont, glat_cont " + 
@@ -37,9 +44,9 @@ public class ContornoDao {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                double lon = rs.getDouble(1);
-                double lat = rs.getDouble(2);
-System.out.println("lon " + lon + " lat " + lat);
+//                double lon = rs.getDouble(1);
+//                double lat = rs.getDouble(2);
+//System.out.println("lon " + lon + " lat " + lat);
                 res = true;
             }
             rs.close();
@@ -66,7 +73,6 @@ System.out.println("lon " + lon + " lat " + lat);
      */
     public void aggiornamentoStellaFilamento(Connection conn) {
         List<BeanIdFilamento> listaId = this.queryIdFilamentiContorno(conn);
-//System.out.println("numId: " + listaId.size());
         String sql = "insert into stella_filamento(idstella, satellite_stella, idfil, satellite_filamento) values (?, ?, ?, ?) " + 
                 "on conflict (idstella, satellite_stella, idfil, satellite_filamento) do update set " + 
                 "idstella = excluded.idstella, " + 
@@ -81,16 +87,12 @@ System.out.println("lon " + lon + " lat " + lat);
          */
         Iterator<BeanIdFilamento> i = listaId.iterator();
         try {
-//            conn.setAutoCommit(false);
-//            Connection conn2 = DBAccess.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             while (i.hasNext()) {
                 BeanIdFilamento idFil = i.next();
                 List<Contorno> puntiContorno = this.queryPuntiContornoFilamento(conn, idFil);
-//System.out.println("listCon: " + puntiContorno.size());
                 StellaDao stellaDao = StellaDao.getInstance();
                 List<BeanIdStella> listaIdStelle = stellaDao.queryIdStelleContornoFilamento(conn, puntiContorno);
-//System.out.println("idStelle: " + listaIdStelle.size());
                 Iterator<BeanIdStella> iS = listaIdStelle.iterator();
                 while (iS.hasNext()) {
                     BeanIdStella idS = iS.next();
@@ -103,8 +105,6 @@ System.out.println("lon " + lon + " lat " + lat);
             }
             ps.executeBatch();
             ps.close();
-//            conn.commit();
-//            DBAccess.getInstance().closeConnection(conn2);
         } catch (SQLException e) {
             e.printStackTrace();
         }

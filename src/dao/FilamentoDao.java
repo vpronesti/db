@@ -144,8 +144,6 @@ public class FilamentoDao {
     }
     
     /**
-     * utilizzato nell'import dei contorni per controllare il riferimento
-     * utilizzato nell'import dei segmenti per controllare il riferimento
      * utilizzato per recupero informazioni su filamento
      * utilizzato per la distanza delle stelle interne ad un filamento
      * @param conn

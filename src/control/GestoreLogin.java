@@ -21,7 +21,7 @@ public class GestoreLogin {
     /**
      * @param userId
      * @param password
-     * @return tipo di utente ha fatto il log in
+     * @return tipo di utente che ha fatto il log in
      */
     public String login(String userId, String password) {
         Connection conn = DBAccess.getInstance().getConnection();

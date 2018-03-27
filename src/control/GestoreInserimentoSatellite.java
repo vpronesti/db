@@ -7,6 +7,9 @@ import entity.Satellite;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-3.3
+ */
 public class GestoreInserimentoSatellite {
     private InterfacciaInserimentoSatellite amministratore;
     
@@ -15,12 +18,10 @@ public class GestoreInserimentoSatellite {
     }
 
     public boolean inserisciSatellite(BeanSatellite beanSatellite) {
-        boolean res = false;
         Connection conn = DBAccess.getInstance().getConnection();
         SatelliteDao satelliteDao = SatelliteDao.getInstance();
-//        if (!satelliteDao.queryEsistenzaSatellite(conn, beanSatellite)) {
-            res = satelliteDao.inserisciSatellite(conn, beanSatellite);
-//        }
+        boolean res = satelliteDao.inserisciSatellite(conn, beanSatellite);
+        DBAccess.getInstance().closeConnection(conn);
         return res;
     }    
 }
