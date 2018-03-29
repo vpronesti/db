@@ -43,6 +43,9 @@ public class InterfacciaRicercaNumeroSegmentiInputTest {
         this.fineIntervallo = fineIntervallo;
     }
     
+    /**
+     * controlla che il vincolo sull'ampiezza dell'intervallo sia rispettato
+     */
     @Test
     public void testRicercaNumeroSegmenti() {
         InterfacciaRicercaNumeroSegmenti interfacciaNumeroSegmenti = 

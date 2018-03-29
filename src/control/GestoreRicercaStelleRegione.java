@@ -24,10 +24,10 @@ import util.DBAccess;
  * REQ-10
  */
 public class GestoreRicercaStelleRegione {
-    private InterfacciaRicercaStelleRegione amministratore;
+    private InterfacciaRicercaStelleRegione utente;
     
-    public GestoreRicercaStelleRegione(InterfacciaRicercaStelleRegione amministratore) {
-        this.amministratore = amministratore;
+    public GestoreRicercaStelleRegione(InterfacciaRicercaStelleRegione utente) {
+        this.utente = utente;
     }
     
     public BeanRispostaStelleRegione ricercaStelleRegione(BeanRichiestaStelleRegione beanRichiesta) {
@@ -60,9 +60,11 @@ public class GestoreRicercaStelleRegione {
         
         int totaleStelleInterne = listaStelleInterne.size();
         int totaleStelleEsterne = listaStelleEsterne.size();
+        
         iS = listaStelleInterne.iterator();
         /**
-         * si associa ad ogni tipo di stella interna il corrispettivo numero di stelle trovate
+         * si associa ad ogni tipo di stella interna il 
+         * corrispettivo numero di stelle trovate
          */
         while (iS.hasNext()) {
             Stella s = iS.next();
@@ -72,6 +74,7 @@ public class GestoreRicercaStelleRegione {
                 tipiStelleNumeroInterne.put(s.getTipo(), 1);
         }
         iS = listaStelleEsterne.iterator();
+        
         /**
          * si associa ad ogni tipo di stella esterna il corrispettivo numero di stelle trovate
          */
@@ -94,8 +97,7 @@ public class GestoreRicercaStelleRegione {
             int numTipoStella = tipiStelleNumeroInterne.get(s);
             double percentualeTipoStella = ((totaleStelleInterne != 0) ? (double) numTipoStella * 100 /totaleStelleInterne : 0); 
             tipiStellePercentualeInterne.put(s, percentualeTipoStella);
-        }
-           
+        }     
         double percentualeStelleEsterne = ((totaleStelleRegione != 0) ? (double) totaleStelleEsterne * 100 /totaleStelleRegione : 0); 
         Map<String, Double> tipiStellePercentualeEsterne = new HashMap<>();
         Set<String> tipiStelleEsterne = tipiStelleNumeroEsterne.keySet();

@@ -9,11 +9,14 @@ import dao.SegmentoDao;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-5
+ */
 public class GestoreRecuperoInformazioniFilamento {
-    private InterfacciaRecuperoInformazioniDerivateFilamento amministratore;
+    private InterfacciaRecuperoInformazioniDerivateFilamento utente;
     
-    public GestoreRecuperoInformazioniFilamento(InterfacciaRecuperoInformazioniDerivateFilamento amministratore) {
-        this.amministratore = amministratore;
+    public GestoreRecuperoInformazioniFilamento(InterfacciaRecuperoInformazioniDerivateFilamento utente) {
+        this.utente = utente;
     }
     
     public boolean recuperaInfoFilamento(BeanInformazioniFilamento beanFil) {
@@ -22,7 +25,8 @@ public class GestoreRecuperoInformazioniFilamento {
         FilamentoDao filamentoDao = FilamentoDao.getInstance();
         boolean res = true;
         if (!beanFil.isRicercaId()) {
-            // inserisce l'id del filamento nel bean
+            // in caso si voglia effettuare la ricerca per nome, 
+            // questo viene convertito in id
             res = filamentoDao.queryIdFilamento(conn, beanFil);
         } else {
             res = filamentoDao.queryEsistenzaFilamento(conn, new BeanIdFilamento(beanFil.getIdFil(), beanFil.getSatellite()));
@@ -34,13 +38,10 @@ public class GestoreRecuperoInformazioniFilamento {
             int numSegmenti = segmentoDao.queryNumeroSegmentiFilamento(conn, idFil);
             beanFil.setNumSegmenti(numSegmenti);
             ContornoDao contornoDao = ContornoDao.getInstance();
+            // posizione del centroide ed estensione del contorno 
+            // vengono inserite nel bean
             contornoDao.queryInfoContornoFilamento(conn, beanFil);
-//            contornoDao.queryPosizioneCentroide(conn, beanFil);
-//            contornoDao.queryEstensioneContorno(conn, beanFil);
         }
-//        else {
-//            res = false; // segmento non esistente
-//        }
         DBAccess.getInstance().commit(conn);
         DBAccess.getInstance().closeConnection(conn);
         return res;

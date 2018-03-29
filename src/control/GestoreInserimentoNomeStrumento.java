@@ -8,6 +8,9 @@ import dao.StrumentoDao;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-FN-3.4
+ */
 public class GestoreInserimentoNomeStrumento {
         private InterfacciaInserimentoNomeStrumento amministratore;
     
@@ -18,13 +21,6 @@ public class GestoreInserimentoNomeStrumento {
     /**
      * inserisce nel DB la rappresentazione per la coppia strumento-satellite
      * 
-     * verifica l'esistenza del satellite, poi se lo strumento non e' gia' 
-     * stato definito nel DB si provvede ad inserirne il nome nella 
-     * relativa tabella
-     * 
-     * successivamente si inserisce la coppia strumento-satellite nella 
-     * tabella del DB che associa le due entita'
-     * se la corrispondenza esiste gia' l'inserimento viene rifiutato
      * @param beanStrumento
      * @return 
      */
@@ -32,22 +28,15 @@ public class GestoreInserimentoNomeStrumento {
         boolean res;
         Connection conn = DBAccess.getInstance().getConnection();
         DBAccess.getInstance().disableAutoCommit(conn);
-        SatelliteDao satelliteDao = SatelliteDao.getInstance();
         StrumentoDao strumentoDao = StrumentoDao.getInstance();
-//        if (satelliteDao.queryEsistenzaSatellite(conn, new BeanSatellite(beanStrumento.getSatellite()))){
-//            if (!strumentoDao.queryEsistenzaStrumento(conn, beanStrumento.getNome())) {
-                res = strumentoDao.inserisciNomeStrumento(conn, beanStrumento.getNome());
-                if (!res)
-                    DBAccess.getInstance().rollback(conn);
-//            }
-//            if (!strumentoDao.queryEsistenzaSatelliteStrumento(conn, beanStrumento.getSatellite(), beanStrumento.getNome())) {
-                res = strumentoDao.inserisciSatelliteStrumento(conn, beanStrumento);
-//                res = true;
-//            } else 
-//                res = false;
-//        } else {
-//            res = false;
-//        }
+
+        res = strumentoDao.inserisciNomeStrumento(conn, beanStrumento.getNome());
+        // se il nome dello strumento esiste gia' nella tabella strumento, si 
+        // fa il rollback e poi si procede all'inserimento nella tabella 
+        // strumento_satellite
+        if (!res)
+            DBAccess.getInstance().rollback(conn);
+        res = strumentoDao.inserisciSatelliteStrumento(conn, beanStrumento);
         if (res)
             DBAccess.getInstance().commit(conn);
         else

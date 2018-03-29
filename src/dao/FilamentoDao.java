@@ -23,47 +23,48 @@ public class FilamentoDao {
         return instance;
     }
     
-    /**
-     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
-     * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
-     * @param conn
-     * @param idFil
-     * @return 
-     */
-    public Filamento queryCampiFilamento(Connection conn, BeanIdFilamento idFil) {
-        String sql = "select nome, flusso_totale, dens_media, temp_media, ellitticita, contrasto, satellite, strumento " + 
-                "from filamento " + 
-                "where idFil = " + idFil.getIdFil() + " and satellite = '" + idFil.getSatellite() + "'";
-        Filamento fil = null;
-        
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                String nome = rs.getString("nome");
-                double flussoTotale = rs.getDouble("flusso_totale");
-                double densMedia = rs.getDouble("dens_media");
-                double tempMedia = rs.getDouble("temp_media");
-                double ellitticita = rs.getDouble("ellitticita");
-                double contrasto = rs.getDouble("contrasto");
-                String satellite = rs.getString("satellite");
-                String strumento = rs.getString("strumento");
-                fil = new Filamento(idFil.getIdFil(), nome, flussoTotale, 
-                        densMedia, tempMedia, ellitticita, contrasto, satellite, 
-                        strumento);
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return fil;
-    }
+//    /**
+//     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
+//     * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
+//     * @param conn
+//     * @param idFil
+//     * @return 
+//     */
+//    public Filamento queryCampiFilamento(Connection conn, BeanIdFilamento idFil) {
+//        String sql = "select nome, flusso_totale, dens_media, temp_media, ellitticita, contrasto, satellite, strumento " + 
+//                "from filamento " + 
+//                "where idFil = " + idFil.getIdFil() + " and satellite = '" + idFil.getSatellite() + "'";
+//        Filamento fil = null;
+//        
+//        try {
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(sql);
+//            if (rs.next()) {
+//                String nome = rs.getString("nome");
+//                double flussoTotale = rs.getDouble("flusso_totale");
+//                double densMedia = rs.getDouble("dens_media");
+//                double tempMedia = rs.getDouble("temp_media");
+//                double ellitticita = rs.getDouble("ellitticita");
+//                double contrasto = rs.getDouble("contrasto");
+//                String satellite = rs.getString("satellite");
+//                String strumento = rs.getString("strumento");
+//                fil = new Filamento(idFil.getIdFil(), nome, flussoTotale, 
+//                        densMedia, tempMedia, ellitticita, contrasto, satellite, 
+//                        strumento);
+//            }
+//            rs.close();
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return fil;
+//    }
     
     /**
-     * utilizzato per la ricerca di filamenti in base a contrasto e range di ellitticita
+     * utilizzato per la ricerca di filamenti in base a contrasto e range di ellitticita'
+     * 
      * @param conn
-     * @return 
+     * @return numero di filamenti totali nel DB
      */
     public int queryNumeroFilamenti(Connection conn) {
         String sql = "select count(*) " + 
@@ -84,7 +85,8 @@ public class FilamentoDao {
     }
     
     /**
-     * utilizzato nella ricerca dei filamenti in base a contrasto e range di ellitticita
+     * utilizzato nella ricerca dei filamenti in base a contrasto e range di ellitticita'
+     * 
      * @param beanRichiesta
      * @return 
      */
@@ -122,6 +124,17 @@ public class FilamentoDao {
         return listaFilamenti;
     }
     
+    /**
+     * utilizzato per recupero informazioni su filamento
+     * 
+     * un filamento puo' essere identificato tramite la coppia nome-satellite 
+     * oppure id-satellite, questo metodo si occupa di convertire il nome di 
+     * un filamento nel suo id
+     * 
+     * @param conn
+     * @param beanFil
+     * @return 
+     */
     public boolean queryIdFilamento(Connection conn, BeanInformazioniFilamento beanFil) {
         String sql = "select idfil from filamento where nome = '" + beanFil.getNome() + 
                 "' and satellite = '" + beanFil.getSatellite() + "'";
@@ -146,6 +159,7 @@ public class FilamentoDao {
     /**
      * utilizzato per recupero informazioni su filamento
      * utilizzato per la distanza delle stelle interne ad un filamento
+     * 
      * @param conn
      * @param idFil
      * @return 
@@ -168,43 +182,6 @@ public class FilamentoDao {
             e.printStackTrace();
         }
         return res;
-    }
-    
-    /**
-     * utilizzato per l'import
-     * @param conn
-     * @param fil 
-     */
-    public void inserisciFilamento(Connection conn, Filamento fil) {
-        Statement stmt = null;
-        String sql = "insert into filamento(idfil, nome, flusso_totale, " + 
-                "dens_media, temp_media, ellitticita, contrasto, satellite, " + 
-                "strumento) values (" + 
-                "" + fil.getIdFil() + ", " + 
-                "'" + fil.getNome()+ "', " + 
-                "" + fil.getFlussoTotale()+ ", " + 
-                "" + fil.getDensMedia()+ ", " + 
-                "" + fil.getTempMedia()+ ", " + 
-                "" + fil.getEllitticita()+ ", " + 
-                "" + fil.getContrasto() + ", " + 
-                "'" + fil.getSatellite() + "', " + 
-                "'" + fil.getStrumento() + "'" + 
-                ") on conflict (idfil, satellite) do update set " + 
-                "nome = excluded.nome, " + 
-                "flusso_totale = excluded.flusso_totale, " + 
-                "dens_media = excluded.dens_media, " + 
-                "temp_media = excluded.temp_media, " + 
-                "ellitticita = excluded.ellitticita, " + 
-                "contrasto = excluded.contrasto, " +
-                "strumento = excluded.strumento;";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            System.out.println("");
-            e.printStackTrace();
-        }
     }
     
     /**
@@ -261,5 +238,37 @@ public class FilamentoDao {
                 e.printStackTrace();
         }
         return res;
+    }
+    
+    public void inserisciFilamento(Connection conn, Filamento fil) {
+        Statement stmt = null;
+        String sql = "insert into filamento(idfil, nome, flusso_totale, " + 
+                "dens_media, temp_media, ellitticita, contrasto, satellite, " + 
+                "strumento) values (" + 
+                "" + fil.getIdFil() + ", " + 
+                "'" + fil.getNome()+ "', " + 
+                "" + fil.getFlussoTotale()+ ", " + 
+                "" + fil.getDensMedia()+ ", " + 
+                "" + fil.getTempMedia()+ ", " + 
+                "" + fil.getEllitticita()+ ", " + 
+                "" + fil.getContrasto() + ", " + 
+                "'" + fil.getSatellite() + "', " + 
+                "'" + fil.getStrumento() + "'" + 
+                ") on conflict (idfil, satellite) do update set " + 
+                "nome = excluded.nome, " + 
+                "flusso_totale = excluded.flusso_totale, " + 
+                "dens_media = excluded.dens_media, " + 
+                "temp_media = excluded.temp_media, " + 
+                "ellitticita = excluded.ellitticita, " + 
+                "contrasto = excluded.contrasto, " +
+                "strumento = excluded.strumento;";
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println("");
+            e.printStackTrace();
+        }
     }
 }

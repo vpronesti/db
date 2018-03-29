@@ -7,6 +7,9 @@ import dao.UtenteDao;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-3.4
+ */
 public class InterfacciaInserimentoBandaStrumento {
     private GestoreInserimentoBandaStrumento controllerInserimento;
     private String userId;

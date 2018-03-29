@@ -45,19 +45,10 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
 
     }
     
-    private boolean controllaBrillanza(BeanRispostaContrastoEllitticita beanRisposta) {
-        boolean res = true;
-        Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
-        while (i.hasNext()) {
-            Filamento f = i.next();
-            if (f.getContrasto() < this.contrasto) {
-                res = false;
-                break;
-            }
-        }
-        return res;
-    }
-    
+    /**
+     * per tutti i filamenti ottenuti dal DB controlla che questi 
+     * abbiano contrasto maggiore di quello specificato
+     */
     @Test
     public void testRicercaBrillanza() {
         InterfacciaRicercaContrastoEllitticita interfacciaContrastoEllitticita = 
@@ -71,7 +62,38 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
             res = false;
         assertEquals("errore", res, expected);
     }
+        
+    private boolean controllaBrillanza(BeanRispostaContrastoEllitticita beanRisposta) {
+        boolean res = true;
+        Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
+        while (i.hasNext()) {
+            Filamento f = i.next();
+            if (f.getContrasto() < this.contrasto) {
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
     
+    /**
+     * per tutti i filamenti ottenuti dal DB controlla che questi 
+     * abbiano ellitticita' nel range specificato
+     */
+    @Test
+    public void testRicercaEllitticita() {
+        InterfacciaRicercaContrastoEllitticita interfacciaContrastoEllitticita = 
+                new InterfacciaRicercaContrastoEllitticita(userId);
+        BeanRichiestaContrastoEllitticita beanRichiesta = new BeanRichiestaContrastoEllitticita(brillanza, inizioIntervalloEllitticita, fineIntervalloEllitticita);
+        BeanRispostaContrastoEllitticita beanRisposta = interfacciaContrastoEllitticita.ricercaContrastoEllitticita(beanRichiesta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaEllitticita(beanRisposta);
+        else
+            res = false;
+        assertEquals("errore", res, expected);
+    }
+        
     private boolean controllaEllitticita(BeanRispostaContrastoEllitticita beanRisposta) {
         boolean res = true;
         Iterator<Filamento> i = beanRisposta.getListaFilamenti().iterator();
@@ -89,20 +111,4 @@ public class InterfacciaRicercaContrastoEllitticitaOutputTest {
         }
         return res;
     }
-    
-    @Test
-    public void testRicercaEllitticita() {
-        InterfacciaRicercaContrastoEllitticita interfacciaContrastoEllitticita = 
-                new InterfacciaRicercaContrastoEllitticita(userId);
-        BeanRichiestaContrastoEllitticita beanRichiesta = new BeanRichiestaContrastoEllitticita(brillanza, inizioIntervalloEllitticita, fineIntervalloEllitticita);
-        BeanRispostaContrastoEllitticita beanRisposta = interfacciaContrastoEllitticita.ricercaContrastoEllitticita(beanRichiesta);
-        boolean res;
-        if (beanRisposta.isAzioneConsentita())
-            res = this.controllaEllitticita(beanRisposta);
-        else
-            res = false;
-        assertEquals("errore", res, expected);
-    }
-    
-    
 }

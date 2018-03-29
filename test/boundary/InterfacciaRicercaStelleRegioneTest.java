@@ -49,6 +49,19 @@ public class InterfacciaRicercaStelleRegioneTest {
         this.latoB = latoB;
     }
  
+    @Test
+    public void testRicercaStelleRegione() {
+        InterfacciaRicercaStelleRegione interfacciaStelleRegione = 
+                new InterfacciaRicercaStelleRegione(userId);
+        BeanRichiestaStelleRegione beanRichiesta = new BeanRichiestaStelleRegione(longCentr, latiCentr, latoA, latoB);
+        BeanRispostaStelleRegione beanRisposta = interfacciaStelleRegione.ricercaStelleRegione(beanRichiesta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaRisposta(beanRisposta);
+        else
+            res = false;
+        assertEquals("errore", res, expected);
+    }
     
     private boolean controllaRisposta(BeanRispostaStelleRegione beanRisp) {
         boolean res = true;
@@ -81,19 +94,5 @@ public class InterfacciaRicercaStelleRegioneTest {
             res = false;
         }
         return res;
-    } 
-    
-    @Test
-    public void testRicercaStelleRegione() {
-        InterfacciaRicercaStelleRegione interfacciaStelleRegione = 
-                new InterfacciaRicercaStelleRegione(userId);
-        BeanRichiestaStelleRegione beanRichiesta = new BeanRichiestaStelleRegione(longCentr, latiCentr, latoA, latoB);
-        BeanRispostaStelleRegione beanRisposta = interfacciaStelleRegione.ricercaStelleRegione(beanRichiesta);
-        boolean res;
-        if (beanRisposta.isAzioneConsentita())
-            res = this.controllaRisposta(beanRisposta);
-        else
-            res = false;
-        assertEquals("errore", res, expected);
     }
 }

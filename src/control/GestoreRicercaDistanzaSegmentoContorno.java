@@ -14,11 +14,14 @@ import java.util.List;
 import util.DBAccess;
 import util.DistanzaEuclidea;
 
+/**
+ * REQ-11
+ */
 public class GestoreRicercaDistanzaSegmentoContorno {
-    private InterfacciaRicercaDistanzaSegmentoContorno amministratore;
+    private InterfacciaRicercaDistanzaSegmentoContorno utente;
     
-    public GestoreRicercaDistanzaSegmentoContorno(InterfacciaRicercaDistanzaSegmentoContorno amministratore) {
-        this.amministratore = amministratore;
+    public GestoreRicercaDistanzaSegmentoContorno(InterfacciaRicercaDistanzaSegmentoContorno utente) {
+        this.utente = utente;
     }
     
     public BeanRispostaSegmentoContorno ricercaDistanzaSegmentoContorno(BeanRichiestaSegmentoContorno beanRichiesta) {

@@ -44,9 +44,11 @@ public class InterfacciaRicercaContrastoEllitticita {
                 controllerFilamento = new GestoreRicercaContrastoEllitticita(this);
                 beanRisposta = controllerFilamento.ricercaContrastoEllitticita(beanRichiesta);
             } else {
+                // l'input non e' valido
                 beanRisposta = new BeanRispostaContrastoEllitticita(false, true);
             }
         } else {
+            // l'utente non e' registrato
             beanRisposta = new BeanRispostaContrastoEllitticita(false, false);
         }
         return beanRisposta;

@@ -34,26 +34,26 @@ public class InterfacciaImportCsvTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
-//            {true, AMMINISTRATORE, new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
-//            {true, AMMINISTRATORE, new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO, null},
+            {true, AMMINISTRATORE, new File("filamenti_Herschel.csv"), TipoFileCsv.FILAMENTO, null},
+            {true, AMMINISTRATORE, new File("filamenti_Spitzer.csv"), TipoFileCsv.FILAMENTO, null},
             // file non esistente
             {false, AMMINISTRATORE, new File("filamenti_Herschel!!!.csv"), TipoFileCsv.FILAMENTO, null},
             
-//            {true, AMMINISTRATORE, new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
-//            {true, AMMINISTRATORE, new File("contorni_filamenti_Spitzer.csv"), TipoFileCsv.CONTORNO, "Spitzer"},
+            {true, AMMINISTRATORE, new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel"},
+            {true, AMMINISTRATORE, new File("contorni_filamenti_Spitzer.csv"), TipoFileCsv.CONTORNO, "Spitzer"},
             // satellite non esistente
             {false, AMMINISTRATORE, new File("contorni_filamenti_Herschel.csv"), TipoFileCsv.CONTORNO, "Herschel!!!"},
             // file non esistente
             {false, AMMINISTRATORE, new File("contorni_filamenti_Herschel!!!.csv"), TipoFileCsv.CONTORNO, "Spitzer"}, 
             
-//            {true, AMMINISTRATORE, new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel"},
-//            {true, AMMINISTRATORE, new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
+            {true, AMMINISTRATORE, new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel"},
+            {true, AMMINISTRATORE, new File("scheletro_filamenti_Spitzer.csv"), TipoFileCsv.SEGMENTO, "Spitzer"},
             // satellite non esistente
             {false, AMMINISTRATORE, new File("scheletro_filamenti_Herschel.csv"), TipoFileCsv.SEGMENTO, "Herschel!!!"},
             // file non esistente
             {false, AMMINISTRATORE, new File("scheletro_filamenti_Herschel!!!.csv"), TipoFileCsv.SEGMENTO, "Spitzer"}, 
             
-//            {true, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel"}, 
+            {true, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel"}, 
             // satellite non esistente
             {false, AMMINISTRATORE, new File("stelle_Herschel.csv"), TipoFileCsv.STELLA, "Herschel!!!"},
             // file non esistente

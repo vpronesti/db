@@ -45,6 +45,24 @@ public class InterfacciaRicercaNumeroSegmentiOutputTest {
         this.fineIntervallo = fineIntervallo;
     }
     
+    /**
+     * controlla che tutti i filamenti restituiti abbiano un 
+     * numero di segmenti compreso nel range stabilito
+     */    
+    @Test
+    public void testRicercaNumeroSegmenti() {
+        InterfacciaRicercaNumeroSegmenti interfacciaNumeroSegmenti = 
+                new InterfacciaRicercaNumeroSegmenti(userId);
+        BeanRichiestaNumeroSegmenti beanRichiesta = new BeanRichiestaNumeroSegmenti(inizioIntervallo, fineIntervallo);
+        BeanRispostaFilamenti beanRisposta = interfacciaNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaNumeroSegmenti(beanRisposta);
+        else
+            res = false;
+        assertEquals("errore", res, expected);
+    }
+    
     private boolean controllaNumeroSegmenti(BeanRispostaFilamenti beanRisposta) {
         boolean res = true;
         Connection conn = DBAccess.getInstance().getConnection();
@@ -65,19 +83,5 @@ public class InterfacciaRicercaNumeroSegmentiOutputTest {
         }
         DBAccess.getInstance().closeConnection(conn);
         return res;
-    }
-    
-    @Test
-    public void testRicercaNumeroSegmenti() {
-        InterfacciaRicercaNumeroSegmenti interfacciaNumeroSegmenti = 
-                new InterfacciaRicercaNumeroSegmenti(userId);
-        BeanRichiestaNumeroSegmenti beanRichiesta = new BeanRichiestaNumeroSegmenti(inizioIntervallo, fineIntervallo);
-        BeanRispostaFilamenti beanRisposta = interfacciaNumeroSegmenti.ricercaNumeroSegmenti(beanRichiesta);
-        boolean res;
-        if (beanRisposta.isAzioneConsentita())
-            res = this.controllaNumeroSegmenti(beanRisposta);
-        else
-            res = false;
-        assertEquals("errore", res, expected);
     }
 }

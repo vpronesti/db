@@ -18,64 +18,36 @@ public class SatelliteDao {
         return instance;
     }
     
-    public void rimuoviSatellite(Connection conn, BeanSatellite beanS) {
-        String sql = "delete from satellite where nome = '" + 
-                beanS.getNome() + "'";
-        try {
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
     
-    public List<String> querySatelliti(Connection conn) {
-        String sql = "select nome from satellite";
-        List<String> listaSatelliti = new ArrayList<>();
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String sat = rs.getString("nome");
-                listaSatelliti.add(sat);
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listaSatelliti;
-    }
+//    /**
+//     * utilizzato per l'import delle stelle
+//     * utilizzato per l'inserimento di un sattelite nel db 
+//     * utilizzate per l'inserimento di un filamento 
+//     * @param satellite
+//     * @return 
+//     */
+//    public boolean queryEsistenzaSatellite(Connection conn, BeanSatellite satellite) {
+//        boolean res = false;
+//        Statement stmt = null;
+//        try {
+//            stmt = conn.createStatement();
+//            String sql = "select * from satellite where nome = '" + 
+//                    satellite.getNome() + "'";
+//            ResultSet rs = stmt.executeQuery(sql);
+//            if (rs.next()){
+//                res = true;
+//            }
+//            rs.close();
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return res;
+//    }
     
     /**
-     * utilizzato per l'import delle stelle
-     * utilizzato per l'inserimento di un sattelite nel db 
-     * utilizzate per l'inserimento di un filamento 
-     * @param satellite
-     * @return 
-     */
-    public boolean queryEsistenzaSatellite(Connection conn, BeanSatellite satellite) {
-        boolean res = false;
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = "select * from satellite where nome = '" + 
-                    satellite.getNome() + "'";
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()){
-                res = true;
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-    
-    /**
-     * utilizzato nel rqfn 3.3
+     * utilizzato nel req 3.3
      * @param satellite
      * @return 
      */
@@ -110,5 +82,45 @@ public class SatelliteDao {
             }
         }
         return res;
+    }
+    
+    /**
+     * utilizzato per eliminare delle modifiche fatte nei test
+     * @param conn
+     * @param beanS 
+     */
+    public void rimuoviSatellite(Connection conn, BeanSatellite beanS) {
+        String sql = "delete from satellite where nome = '" + 
+                beanS.getNome() + "'";
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * utilizzato per popolare le combo box nella grafica
+     * @param conn
+     * @return 
+     */
+    public List<String> querySatelliti(Connection conn) {
+        String sql = "select nome from satellite";
+        List<String> listaSatelliti = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String sat = rs.getString("nome");
+                listaSatelliti.add(sat);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaSatelliti;
     }
 }

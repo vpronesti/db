@@ -15,22 +15,22 @@ public class UtenteDao {
         return instance;
     }
     
-    /**
-     * utilizzato solo nei test
-     * @param conn
-     * @param beanUtente 
-     */
-    public void rimuoviUtente(Connection conn, BeanUtente beanUtente) {
-        String sql = "delete from utente where userid = '" + 
-                beanUtente.getUserId() + "'";
-        try {
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * utilizzato solo nei test
+//     * @param conn
+//     * @param beanUtente 
+//     */
+//    public void rimuoviUtente(Connection conn, BeanUtente beanUtente) {
+//        String sql = "delete from utente where userid = '" + 
+//                beanUtente.getUserId() + "'";
+//        try {
+//            Statement stmt = conn.createStatement();
+//            stmt.executeUpdate(sql);
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
     
     public boolean queryEsistenzaAmministratore(Connection conn, BeanUtente beanUtente) {
         boolean res = false;

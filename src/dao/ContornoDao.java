@@ -26,7 +26,6 @@ public class ContornoDao {
     }
     
     /**
-     * 
      * per ogni punto dei contorni controlla se esiste un punto dei segmenti che 
      * occupa la stessa posizione 
      * @param conn
@@ -112,6 +111,11 @@ public class ContornoDao {
     
     /**
      * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
+     * 
+     * seleziona dalla tabella dei contorni gli id dei filamenti che hanno 
+     * tutti i punti interni alla regione specificata e fa il join con la 
+     * tabella dei filamenti per ottenere le informazioni da mostrare all'utente
+     * 
      * @param conn
      * @return 
      */
@@ -169,6 +173,11 @@ public class ContornoDao {
     
     /**
      * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
+     * 
+     * seleziona dalla tabella dei contorni gli id dei filamenti che hanno 
+     * tutti i punti interni alla regione specificata e fa il join con la 
+     * tabella dei filamenti per ottenere le informazioni da mostrare all'utente
+     * 
      * @param conn
      * @return 
      */
@@ -294,6 +303,14 @@ public class ContornoDao {
         return listaContorni;
     }
     
+    /**
+     * utilizzato per recupero informazioni su filamento
+     * 
+     * la ricerca viene effettuata su una vista
+     * 
+     * @param conn
+     * @param beanFil 
+     */
     public void queryInfoContornoFilamento(Connection conn, BeanInformazioniFilamento beanFil) {
         String sql = "select min_glon_estensione, max_glon_estensione, " + 
                         "min_glat_estensione, max_glat_estensione, glon_centroide, glat_centroide " + 
@@ -385,22 +402,6 @@ public class ContornoDao {
         beanFil.setgLatCentroide(gLatCont);
     }
     
-    public void inserisciContorno(Connection conn, Contorno cont) {
-        Statement stmt = null;
-        String sql = "insert into contorno(idfil, satellite, glog_cont, glat_cont) " + 
-                "values(" + cont.getIdFil() + 
-                ", '" + cont.getSatellite() + "'" + 
-                ", " + cont.getgLonCont() + 
-                ", " + cont.getgLatCont() + ") on conflict do update";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
     /**
      * utilizzato per l'import
      * questo metodo viene chiamato piu' volte dal controller perche' i 
@@ -446,5 +447,25 @@ public class ContornoDao {
             }
         }
         return res;
+    }
+    
+    public void inserisciContorno(Connection conn, Contorno cont) {
+        Statement stmt = null;
+        String sql = "insert into contorno(idfil, satellite, glog_cont, glat_cont) " + 
+                "values(" + cont.getIdFil() + 
+                ", '" + cont.getSatellite() + "'" + 
+                ", " + cont.getgLonCont() + 
+                ", " + cont.getgLatCont() + ") on conflict do update set " + 
+                "idfil = excluded.idfil, " + 
+                "satellite = excluded.satellite, " + 
+                "glog_cont = excluded.glog_cont, " + 
+                "glat_cont = excluded.glat_cont;";
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

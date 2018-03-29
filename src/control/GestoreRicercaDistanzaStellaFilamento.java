@@ -17,11 +17,14 @@ import java.util.List;
 import util.DBAccess;
 import static util.DistanzaEuclidea.distanza;
 
+/**
+ * REQ-12
+ */
 public class GestoreRicercaDistanzaStellaFilamento {
-    private InterfacciaRicercaDistanzaStellaFilamento amministratore;
+    private InterfacciaRicercaDistanzaStellaFilamento utente;
     
-    public GestoreRicercaDistanzaStellaFilamento(InterfacciaRicercaDistanzaStellaFilamento amministratore) {
-        this.amministratore = amministratore;
+    public GestoreRicercaDistanzaStellaFilamento(InterfacciaRicercaDistanzaStellaFilamento utente) {
+        this.utente = utente;
     }
     
     public BeanRispostaStellaFilamento ricercaDistanzaStellaFilamento(BeanIdFilamento idFil) {

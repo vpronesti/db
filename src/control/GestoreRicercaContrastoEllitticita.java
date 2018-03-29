@@ -9,11 +9,14 @@ import java.sql.Connection;
 import java.util.List;
 import util.DBAccess;
 
+/**
+ * REQ-6
+ */
 public class GestoreRicercaContrastoEllitticita {
-    private InterfacciaRicercaContrastoEllitticita amministratore;
+    private InterfacciaRicercaContrastoEllitticita utente;
     
-    public GestoreRicercaContrastoEllitticita(InterfacciaRicercaContrastoEllitticita amministratore) {
-        this.amministratore = amministratore;
+    public GestoreRicercaContrastoEllitticita(InterfacciaRicercaContrastoEllitticita utente) {
+        this.utente = utente;   
     }
     
     public BeanRispostaContrastoEllitticita ricercaContrastoEllitticita(BeanRichiestaContrastoEllitticita beanRichiesta) {

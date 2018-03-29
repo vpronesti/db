@@ -2,12 +2,16 @@ package boundary;
 
 import bean.BeanRichiestaContrastoEllitticita;
 import bean.BeanRispostaContrastoEllitticita;
+import entity.Filamento;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static util.UserId.AMMINISTRATORE;
+import static util.UserId.NONREGISTRATO;
 import static util.UserId.REGISTRATO;
 
 /**
@@ -30,7 +34,9 @@ public class InterfacciaRicercaContrastoEllitticitaInputTest {
             {false, REGISTRATO, 23, 1, 4},
             {false, REGISTRATO, 23, 3, 10},
             {true, REGISTRATO, 23, 3, 8},
-            {false, REGISTRATO, -23, 1, 10}
+            {false, REGISTRATO, -23, 1, 10},
+            {true, AMMINISTRATORE, 23, 3, 8},
+            {false, NONREGISTRATO, 23, 3, 8},
         });
     }
     
@@ -45,6 +51,10 @@ public class InterfacciaRicercaContrastoEllitticitaInputTest {
 
     }
     
+    /**
+     * controlla che i vincoli sui valori di brillanza 
+     * ed ellitticita' siano rispettati
+     */
     @Test
     public void testRicercaContrastoEllitticita() {
         InterfacciaRicercaContrastoEllitticita interfacciaContrastoEllitticita = 

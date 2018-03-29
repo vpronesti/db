@@ -39,13 +39,6 @@ public class InterfacciaRicercaDistanzaStellaFilamentoTest {
         this.satellite = satellite;
     }
     
-    private boolean controllaRisposta(BeanRispostaStellaFilamento beanRisposta) {
-        boolean res = true;
-        if (beanRisposta.getListaDistanze().size() != beanRisposta.getListaStelle().size())
-            res = false;
-        return res;
-    }
-    
     @Test
     public void testRicercaDistanzaStellaFilamento() {
         InterfacciaRicercaDistanzaStellaFilamento interfacciaStellaFilamento = 
@@ -55,10 +48,16 @@ public class InterfacciaRicercaDistanzaStellaFilamentoTest {
         boolean res;
         if (beanRisposta.isFilamentoEsiste() && beanRisposta.isAzioneConsentita()) {
             res = this.controllaRisposta(beanRisposta);
-System.out.println("dim " + beanRisposta.getListaStelle().size());
         } else {
             res = false;
         }
         assertEquals("errore", res, expected);
+    }
+    
+    private boolean controllaRisposta(BeanRispostaStellaFilamento beanRisposta) {
+        boolean res = true;
+        if (beanRisposta.getListaDistanze().size() != beanRisposta.getListaStelle().size())
+            res = false;
+        return res;
     }
 }

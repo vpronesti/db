@@ -59,6 +59,4 @@ public class InterfacciaRicercaFilamentiRegioneInputTest {
         
         assertEquals("errore", beanRisposta.isInputValido() && beanRisposta.isAzioneConsentita(), expected);
     }
-    
-    
 }

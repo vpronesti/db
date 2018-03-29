@@ -107,8 +107,6 @@ public class InterfacciaRecuperoInformazioniDerivateFilamentoTest {
     public void testRicercaFilamenti() {
         InterfacciaRecuperoInformazioniDerivateFilamento interfacciaFilamento = 
                 new InterfacciaRecuperoInformazioniDerivateFilamento(userId);
-//        BeanInformazioniFilamento beanRichiesta = new
-//         BeanInformazioniFilamento(id, satellite);
         BeanInformazioniFilamento beanRichiesta;
         if (ricercaId) {
             beanRichiesta = new BeanInformazioniFilamento(id, satellite);

@@ -27,7 +27,9 @@ public class InterfacciaRicercaStelleFilamentoTest {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][] {
             // utente amministratore
+            // filamento esistente con stelle interne
             {true, AMMINISTRATORE, 4178, "Herschel"},
+            // filamento esistente senza stelle interne
             {true, AMMINISTRATORE, 45, "Herschel"},
             // filamento non esistente
             {false, AMMINISTRATORE, 46, "Herschel"},
@@ -52,6 +54,20 @@ public class InterfacciaRicercaStelleFilamentoTest {
         this.satellite = satellite;
     }
     
+    @Test
+    public void testRicercaStelleFilamento() {
+        InterfacciaRicercaStelleFilamento interfacciaStelleFilamento = 
+                new InterfacciaRicercaStelleFilamento(userId);
+        BeanIdFilamento beanRichiesta = new BeanIdFilamento(id, satellite);
+        BeanRispostaStelleFilamento beanRisposta = interfacciaStelleFilamento.ricercaStelleFilamento(beanRichiesta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaRisposta(beanRisposta);
+        else
+            res = false;
+        assertEquals("errore", res, expected);
+    }
+    
     private boolean controllaRisposta(BeanRispostaStelleFilamento beanRisp) {
         boolean res = true;
         if (beanRisp.isFilamentoEsiste()) {
@@ -70,19 +86,5 @@ public class InterfacciaRicercaStelleFilamentoTest {
             res = false;
         }
         return res;
-    } 
-    
-    @Test
-    public void testRicercaStelleFilamento() {
-        InterfacciaRicercaStelleFilamento interfacciaStelleFilamento = 
-                new InterfacciaRicercaStelleFilamento(userId);
-        BeanIdFilamento beanRichiesta = new BeanIdFilamento(id, satellite);
-        BeanRispostaStelleFilamento beanRisposta = interfacciaStelleFilamento.ricercaStelleFilamento(beanRichiesta);
-        boolean res;
-        if (beanRisposta.isAzioneConsentita())
-            res = this.controllaRisposta(beanRisposta);
-        else
-            res = false;
-        assertEquals("errore", res, expected);
     }
 }

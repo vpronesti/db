@@ -18,10 +18,10 @@ import static util.DistanzaEuclidea.distanza;
  * REQ-8
  */
 public class GestoreRicercaFilamentiRegione {
-    private InterfacciaRicercaFilamentiRegione amministratore;
+    private InterfacciaRicercaFilamentiRegione utente;
     
-    public GestoreRicercaFilamentiRegione(InterfacciaRicercaFilamentiRegione amministratore) {
-        this.amministratore = amministratore;
+    public GestoreRicercaFilamentiRegione(InterfacciaRicercaFilamentiRegione utente) {
+        this.utente = utente;
     }
     
     public BeanRispostaFilamenti ricercaFilamentiCerchio(BeanRichiestaFilamentiRegione beanRichiesta) {
@@ -39,14 +39,10 @@ public class GestoreRicercaFilamentiRegione {
     }
     
     public BeanRispostaFilamenti ricercaFilamentiQuadrato(BeanRichiestaFilamentiRegione beanRichiesta) {
-//long start = System.currentTimeMillis();
         Connection conn = DBAccess.getInstance().getConnection();
         ContornoDao contornoDao = ContornoDao.getInstance();
         
         List<Filamento> listaFilamenti = contornoDao.queryFilamentiInterniQuadrato(conn, beanRichiesta);
-
-//System.out.println("check time: " + (System.currentTimeMillis() - start));
-//System.out.println("len: " + listaFilamenti.size());
 
         BeanRispostaFilamenti beanRisposta = new BeanRispostaFilamenti(listaFilamenti, true, true);
         DBAccess.getInstance().closeConnection(conn);

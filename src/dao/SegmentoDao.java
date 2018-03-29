@@ -27,9 +27,10 @@ public class SegmentoDao {
     
     /**
      * utilizzato per la distanza delle stelle interne ad un filamento
+     * 
      * @param conn
      * @param idFil
-     * @return 
+     * @return lista di punti che compongono l'asse principale del segmento
      */
     public List<Segmento> queryPuntiSegmentoPrincipaleFilamento(Connection conn, BeanIdFilamento idFil) {
         String sql = "select id_segmento, glon_se, glat_se, n, flusso " + 
@@ -38,82 +39,17 @@ public class SegmentoDao {
                 "' and tipo = 'S'";
         List<Segmento> listaSegmenti = new ArrayList<>();
         try {
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        while (rs.next()) {
-            int idSegmento = rs.getInt("id_segmento");
-            double gLonSe = rs.getDouble("glon_se");
-            double gLatSe = rs.getDouble("glat_se");
-            int n = rs.getInt("n");
-            double flusso = rs.getDouble("flusso");
-            Segmento s = new Segmento(idFil.getIdFil(), idFil.getSatellite(),
-                    idSegmento, "S", gLonSe, gLatSe, n, flusso);
-            listaSegmenti.add(s);
-        }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listaSegmenti;
-    }
-    
-    /**
-     * utilizzato per gli import
-     * controlla che il punto di un segmento non faccia parte di segmenti di altri filamenti 
-     * 
-     * la tabella per come definita ha un vincolo unique su 
-     * latitudine e longitudine quindi l'inserimento verrebbe 
-     * rifiutato e non c'e' bisogno di un controllo esplicito
-     * 
-     * @param conn
-     * @param s
-     * @return 
-     */
-    public boolean querySegmentoAppartenteAltroSegmento(Connection conn, Segmento s) {
-        boolean res = false;
-        String sql = "select * from segmento where (idfil <> " + 
-                s.getIdFil() + " or satellite <> '" + s.getSatellite() + "') and " + 
-                "glon_se = " + s.getgLonSe() + " and glat_se = " + s.getgLatSe();
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                res = true;
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-    
-    /**
-     * utilizzato per l'import dei file
-     * 
-     * cerca quali sono i punti dei segmenti di un determinato filamento
-     * 
-     * @param conn
-     * @param idFil
-     * @return 
-     */
-    public List<Segmento> queryPuntiSegmento(Connection conn, BeanIdFilamento idFil) {
-        String sql = "select  id_segmento, tipo, glon_se, glat_se, n, flusso " + 
-                "from segmento where idfil = " + idFil.getIdFil() + 
-                " and satellite = '" + idFil.getSatellite() + "'";
-        List<Segmento> listaSegmenti = new ArrayList<>();
-        try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int idSegmento = rs.getInt("id_segmento");
-                String tipo = rs.getString("tipo");
                 double gLonSe = rs.getDouble("glon_se");
                 double gLatSe = rs.getDouble("glat_se");
                 int n = rs.getInt("n");
-                double flusso = rs.getDouble("flux");
-                Segmento seg = new Segmento(idFil.getIdFil(), idFil.getSatellite(), 
-                        idSegmento, tipo, gLonSe, gLatSe, n, flusso);
-                listaSegmenti.add(seg);
+                double flusso = rs.getDouble("flusso");
+                Segmento s = new Segmento(idFil.getIdFil(), idFil.getSatellite(),
+                        idSegmento, "S", gLonSe, gLatSe, n, flusso);
+                listaSegmenti.add(s);
             }
             rs.close();
             stmt.close();
@@ -123,9 +59,77 @@ public class SegmentoDao {
         return listaSegmenti;
     }
     
+//    /**
+//     * utilizzato per gli import
+//     * controlla che il punto di un segmento non faccia parte di segmenti di altri filamenti 
+//     * 
+//     * la tabella per come definita ha un vincolo unique su 
+//     * latitudine e longitudine quindi l'inserimento verrebbe 
+//     * rifiutato e non c'e' bisogno di un controllo esplicito
+//     * 
+//     * @param conn
+//     * @param s
+//     * @return 
+//     */
+//    public boolean querySegmentoAppartenteAltroSegmento(Connection conn, Segmento s) {
+//        boolean res = false;
+//        String sql = "select * from segmento where (idfil <> " + 
+//                s.getIdFil() + " or satellite <> '" + s.getSatellite() + "') and " + 
+//                "glon_se = " + s.getgLonSe() + " and glat_se = " + s.getgLatSe();
+//        try {
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(sql);
+//            if (rs.next()) {
+//                res = true;
+//            }
+//            rs.close();
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return res;
+//    }
+    
+//    /**
+//     * utilizzato per l'import dei file
+//     * 
+//     * cerca quali sono i punti dei segmenti di un determinato filamento
+//     * 
+//     * @param conn
+//     * @param idFil
+//     * @return 
+//     */
+//    public List<Segmento> queryPuntiSegmento(Connection conn, BeanIdFilamento idFil) {
+//        String sql = "select  id_segmento, tipo, glon_se, glat_se, n, flusso " + 
+//                "from segmento where idfil = " + idFil.getIdFil() + 
+//                " and satellite = '" + idFil.getSatellite() + "'";
+//        List<Segmento> listaSegmenti = new ArrayList<>();
+//        try {
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(sql);
+//            while (rs.next()) {
+//                int idSegmento = rs.getInt("id_segmento");
+//                String tipo = rs.getString("tipo");
+//                double gLonSe = rs.getDouble("glon_se");
+//                double gLatSe = rs.getDouble("glat_se");
+//                int n = rs.getInt("n");
+//                double flusso = rs.getDouble("flux");
+//                Segmento seg = new Segmento(idFil.getIdFil(), idFil.getSatellite(), 
+//                        idSegmento, tipo, gLonSe, gLatSe, n, flusso);
+//                listaSegmenti.add(seg);
+//            }
+//            rs.close();
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return listaSegmenti;
+//    }
+    
     
     /**
      * utilizzato per la distanza tra segmento e contorno 
+     * 
      * @param conn
      * @param idFil
      * @param idSeg
@@ -151,6 +155,7 @@ public class SegmentoDao {
     
     /**
      * utilizzato per la distanza tra segmento e contorno 
+     * 
      * @param conn
      * @param beanRichiesta
      * @return 
@@ -162,8 +167,8 @@ public class SegmentoDao {
                 " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
                 " and id_segmento = " + beanRichiesta.getIdSeg() + 
                 " and n = (select max(n) from segmento where idfil = " + beanRichiesta.getIdFil() + 
-                " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
-                " and id_segmento = " + beanRichiesta.getIdSeg() + ")";
+                            " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
+                            " and id_segmento = " + beanRichiesta.getIdSeg() + ")";
         Segmento s = null;
         try {
             Statement stmt = conn.createStatement();
@@ -187,7 +192,7 @@ public class SegmentoDao {
     
     /**
      * utilizzato per la distanza tra segmento e contorno 
-     * il minimo dovrebbe essere sempre 1
+     * 
      * @param conn
      * @param beanRichiesta
      * @return 
@@ -199,8 +204,8 @@ public class SegmentoDao {
                 " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
                 " and id_segmento = " + beanRichiesta.getIdSeg() + 
                 " and n = (select min(n) from segmento where idfil = " + beanRichiesta.getIdFil() + 
-                " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
-                " and id_segmento = " + beanRichiesta.getIdSeg() + ")";
+                            " and satellite = '" + beanRichiesta.getSatellite() + "'" + 
+                            " and id_segmento = " + beanRichiesta.getIdSeg() + ")";
         Segmento s = null;
         try {
             Statement stmt = conn.createStatement();
@@ -222,37 +227,13 @@ public class SegmentoDao {
         return s;
     }
     
-//    /**
-//     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
-//     * @param conn
-//     * @param beanRichiesta 
-//     */
-//    public List<BeanIdFilamento> queryIdFilamentiConNSegmenti(Connection conn, BeanRichiestaNumeroSegmenti beanRichiesta) {
-//        String sql = "select idfil, satellite " + 
-//                "from filamento_numero_segmenti " + 
-//                "where numsegmenti >= " + beanRichiesta.getInizioIntervallo() + 
-//                " and numsegmenti <= " + beanRichiesta.getFineIntervallo();
-//        List<BeanIdFilamento> idFilamenti = new ArrayList<>();
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//
-//            while (rs.next()) {
-//                int id = rs.getInt("idfil");
-//                String satellite = rs.getString("satellite");
-//                BeanIdFilamento idFil = new BeanIdFilamento(id, satellite);
-//                idFilamenti.add(idFil);   
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return idFilamenti;
-//    }
-    
     /**
      * utilizzato per la ricerca dei filamenti in base al numero di segmenti
+     * 
+     * utilizza la vista che associa i filamenti al numero di segmenti e fa 
+     * il join con la tabella dei filamenti per ottenere 
+     * le relative informazioni
+     * 
      * @param conn
      * @param beanRichiesta 
      */
@@ -290,8 +271,10 @@ public class SegmentoDao {
     }
     
     /**
-     * utilizzato per il recupero di informazioni derivate di un filamento	
-     * si potrebbe modificare e utilizzare la vista
+     * utilizzato per recupero informazioni su filamento	
+     * 
+     * la ricerca viene effettuata su una vista
+     * 
      * @param conn
      * @param idFil
      * @return 
@@ -301,10 +284,6 @@ public class SegmentoDao {
                 "from filamento_numero_segmenti " + 
                 "where idfil = " + idFil.getIdFil() + " and satellite = '" + 
                 idFil.getSatellite() + "'";
-//        String sql = "select count(distinct id_segmento) " + 
-//                "from segmento " + 
-//                "where idFil = " + idFil.getIdFil() + " and satellite = '" + 
-//                idFil.getSatellite() + "'";
         Integer res = null;
         try {
             Statement stmt = conn.createStatement();
@@ -319,31 +298,6 @@ public class SegmentoDao {
             e.printStackTrace();
         }
         return res;
-    }
-    
-    public void inserisciSegmento(Connection conn, Segmento seg) {
-        Statement stmt = null;
-        String sql = "insert into segmento(idfil, satellite, id_segmento, tipo, " + 
-                "glon_se, glat_se, n, flusso) values (" + 
-                seg.getIdFil() + ", " + 
-                "'" + seg.getSatellite() + "', " + 
-                seg.getIdSegmento()+ ", " + 
-                "'" + seg.getTipo()+ "', " + 
-                seg.getgLonSe() + ", " +
-                seg.getgLatSe() + ", " + 
-                seg.getN() + ", " + 
-                seg.getFlusso()+ 
-                ") on conflict (idfil, satellite, id_segmento, glon_se, glat_se) do update set " + 
-                "tipo = excluded.tipo, " + 
-                "n = excluded.n, " + 
-                "flusso = excluded.flusso";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
     
     public boolean inserisciSegmentoBatch(Connection conn, List<Segmento> ls) {
@@ -389,5 +343,30 @@ public class SegmentoDao {
             }
         }
         return res;
+    }
+    
+    public void inserisciSegmento(Connection conn, Segmento seg) {
+        Statement stmt = null;
+        String sql = "insert into segmento(idfil, satellite, id_segmento, tipo, " + 
+                "glon_se, glat_se, n, flusso) values (" + 
+                seg.getIdFil() + ", " + 
+                "'" + seg.getSatellite() + "', " + 
+                seg.getIdSegmento()+ ", " + 
+                "'" + seg.getTipo()+ "', " + 
+                seg.getgLonSe() + ", " +
+                seg.getgLatSe() + ", " + 
+                seg.getN() + ", " + 
+                seg.getFlusso()+ 
+                ") on conflict (idfil, satellite, id_segmento, glon_se, glat_se) do update set " + 
+                "tipo = excluded.tipo, " + 
+                "n = excluded.n, " + 
+                "flusso = excluded.flusso";
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -6,6 +6,9 @@ import dao.StrumentoDao;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-3.4
+ */
 public class GestoreInserimentoBandaStrumento {
     private InterfacciaInserimentoBandaStrumento amministratore;
     
@@ -16,12 +19,6 @@ public class GestoreInserimentoBandaStrumento {
     /**
      * inserisce nel DB la rappresentazione per la coppia strumento-banda
      * 
-     * verifica l'esistenza dello strumento, poi se la banda non e' gia' 
-     * presente nel BD se ne inserisce il valore nella relativa tabella 
-     * 
-     * si inserisce la coppia strumento-banda nella tabella del DB che 
-     * associa le due entita'
-     * se la corrispondenza esiste gia' l'inserimento viene rifiutato
      * @param beanStrumento
      * @return 
      */
@@ -30,22 +27,18 @@ public class GestoreInserimentoBandaStrumento {
         DBAccess.getInstance().disableAutoCommit(conn);
         boolean res;
         StrumentoDao strumentoDao = StrumentoDao.getInstance();
-//        if (strumentoDao.queryEsistenzaStrumento(conn, beanStrumento.getNome())) {
-//            if (!strumentoDao.queryEsistenzaBanda(conn, beanStrumento.getBanda())) {
-                res = strumentoDao.inserisciBanda(conn, beanStrumento.getBanda());
-                if (!res)
-                    DBAccess.getInstance().rollback(conn);
-//            }
-//            if (!strumentoDao.queryEsistenzaStrumentoBanda(conn, beanStrumento)) {
-                res = strumentoDao.inserisciStrumentoBanda(conn, beanStrumento.getNome(), beanStrumento.getBanda());
-//                res = true;
-//            } else {
-//                res = false;
-//            }
-//        } else {
-//            res = false;
-//        }
-        DBAccess.getInstance().commit(conn);
+        
+        res = strumentoDao.inserisciBanda(conn, beanStrumento.getBanda());
+        // se la banda dello strumento esiste gia' nella tabella banda, si 
+        // fa il rollback e poi si procede all'inserimento nella tabella 
+        // strumento_banda
+        if (!res)
+            DBAccess.getInstance().rollback(conn);
+        res = strumentoDao.inserisciStrumentoBanda(conn, beanStrumento.getNome(), beanStrumento.getBanda());
+        if (res)
+            DBAccess.getInstance().commit(conn);
+        else 
+            DBAccess.getInstance().rollback(conn);
         DBAccess.getInstance().closeConnection(conn);
         return res;
     }

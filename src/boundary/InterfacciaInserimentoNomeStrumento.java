@@ -7,6 +7,9 @@ import dao.UtenteDao;
 import java.sql.Connection;
 import util.DBAccess;
 
+/**
+ * REQ-FN-3.4
+ */
 public class InterfacciaInserimentoNomeStrumento {
     private GestoreInserimentoNomeStrumento controllerInserimento;
     private String userId;

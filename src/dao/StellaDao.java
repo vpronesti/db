@@ -27,10 +27,11 @@ public class StellaDao {
     }
     
     /**
+     * utilizzato per la ricerca delle stelle in una regione rettangolare
+     * 
      * interroga la tabella stella_filamento del DB per 
      * vedere se una stella fa parte di un filamento
      * 
-     * utilizzato per la ricerca delle stelle in una regione rettangolare
      * @param conn
      * @param idStella
      * @return 
@@ -50,16 +51,16 @@ public class StellaDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        System.out.println("returning " + res + " for: " + idStella);
         return res;
     }
     
     /**
+     * utilizzato per la ricerca delle stelle all'interno di un filamento
+     * utilizzato per la distanza delle stelle interne ad un filamento
+     * 
      * interroga la tabella stella_filamento per cercare quali sono le 
      * stelle che appartengono ad un determinato filamento
      * 
-     * utilizzato per la ricerca delle stelle all'interno di un filamento
-     * utilizzato per la distanza delle stelle interne ad un filamento
      * @param conn
      * @param idFil
      * @return 
@@ -93,10 +94,11 @@ public class StellaDao {
     }
     
     /**
+     * utilizzato per la ricerca delle stelle in una regione rettangolare
+     * 
      * restituisce la lista di stelle che si trovano all'interno di una 
      * determinata regione
      * 
-     * utilizzato per la ricerca delle stelle in una regione rettangolare
      * @param conn
      * @param beanRichiesta
      * @return 
@@ -131,150 +133,7 @@ public class StellaDao {
             e.printStackTrace();
         }
         return listaStelle;
-    }
-    
-//    /**
-//     * elimina
-//     * @param conn
-//     * @param listaPunti
-//     * @return 
-//     */
-//    public void aggiornaStelleFilamento(Connection conn) {
-//        String sql = "select idstar, satellite, glon_st, glat_st " + 
-//                "from stella";
-//        List<Stella> listaStelle = new ArrayList<>();
-////        List<AppartenenzaStellaFilamento> listaAppartenenza = new ArrayList<>();
-////        List<Thread> listaThread = new ArrayList<>();
-//        List<BeanIdFilamento> listaIdFil = ContornoDao.getInstance().queryIdFilamentiContorno(conn);
-//        List<CoppiaStellaFilamento> listaStFil = new ArrayList<>();
-////    System.out.println("lista id fil:" + listaIdFil.size());
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            while (rs.next()) {
-//                int idStar = rs.getInt(1);
-//                String satellite = rs.getString("satellite");
-//                double gLonSt = rs.getDouble("glon_st");
-//                double gLatSt = rs.getDouble("glat_st");
-//                Stella s = new Stella(idStar, satellite, gLonSt, gLatSt);
-//                
-//                Iterator<BeanIdFilamento> i = listaIdFil.iterator();
-//                while (i.hasNext()) {
-//                    BeanIdFilamento idFil = i.next();
-//                    List<Contorno> listaPunti = ContornoDao.getInstance().queryPuntiContornoFilamento(conn, idFil);
-//                    if (s.internoFilamento(listaPunti)) {
-//                        BeanIdStella idStella = new BeanIdStella(s.getIdStar(), s.getSatellite());
-//                        CoppiaStellaFilamento csf = new CoppiaStellaFilamento(idStella, idFil);
-//                        listaStFil.add(csf);
-//                    }
-//                }
-//                
-//                
-////                listaStelle.add(s);
-////                if (listaStelle.size() >= MAX_DIM_ST) {
-////                    int c = 0;
-////                    for (c = 0; c + MAX_DIM_FIL < listaIdFil.size(); c += MAX_DIM_FIL) {
-////                    
-////                        AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c, c + MAX_DIM_FIL));
-////                        listaAppartenenza.add(a);
-////                        Thread t = new Thread(a);
-////                        listaThread.add(t);
-////System.out.println("adding thread: " + listaThread.size());
-////                        t.start();
-////
-////                        listaStelle = new ArrayList<>();
-////                    }
-////                    if (listaIdFil.size() % MAX_DIM_FIL != 0) {
-////                        AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c - MAX_DIM_FIL, listaIdFil.size()));
-////                        listaAppartenenza.add(a);
-////                        Thread t = new Thread(a);
-////                        listaThread.add(t);
-////System.out.println("adding thread: " + listaThread.size());
-////                        t.start();
-////
-////                        listaStelle = new ArrayList<>();
-////                    }
-////                }
-////            }
-////            if (listaStelle.size() > 0) {
-////                int c = 0;
-////                for (c = 0; c + MAX_DIM_FIL < listaIdFil.size(); c += MAX_DIM_FIL) {
-////
-////                    AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c, c + MAX_DIM_FIL));
-////                    listaAppartenenza.add(a);
-////                    Thread t = new Thread(a);
-////                    listaThread.add(t);
-////System.out.println("adding thread: " + listaThread.size());
-////                    t.start();
-////
-////                    listaStelle = new ArrayList<>();
-////                }
-////                if (listaIdFil.size() % MAX_DIM_FIL != 0) {
-////                    AppartenenzaStellaFilamento a = new AppartenenzaStellaFilamento(listaStelle, listaIdFil.subList(c - MAX_DIM_FIL, listaIdFil.size()));
-////                    listaAppartenenza.add(a);
-////                    Thread t = new Thread(a);
-////                    listaThread.add(t);
-////System.out.println("adding thread: " + listaThread.size());
-////                    t.start();
-////
-////                    listaStelle = new ArrayList<>();
-////                }
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-////        
-////        Iterator<Thread> iT = listaThread.iterator();
-////        while (iT.hasNext()) {
-////            Thread t = iT.next();
-////            try {
-////                t.join();
-////System.out.println("thread finished ");
-////            } catch (InterruptedException e) {
-////                e.printStackTrace();
-////            }
-////        }
-////        
-////        Iterator<AppartenenzaStellaFilamento> iSF = listaAppartenenza.iterator();
-////        while (iSF.hasNext()) {
-////            AppartenenzaStellaFilamento a = iSF.next();
-////            List<CoppiaStellaFilamento> listaCSF = a.getListaAppartenenza();
-////            this.inserisciStellaFilamentoBatch(conn, listaCSF);
-////        }
-//        this.inserisciStellaFilamentoBatch(conn, listaStFil);
-//    }
-//    public void inserisciStellaFilamentoBatch(Connection conn, List<CoppiaStellaFilamento> lsf) {
-//        
-//        String sql = "insert into stella_filamento(idstar, satellite_star, idfil, satellite_filamento) " + 
-//                "values(?, ?, ?, ?) " + 
-//                "on conflict (idstar, satellite_star, idfil, satellite_filamento) do update set " + 
-//                "idstar = excluded.idstar, " + 
-//                "satellite_star = excluded.satellite_star, " + 
-//                "idfil = excluded.idfil, " + 
-//                "satellite_filamento = excluded.satellite_filamento" + 
-//                ";";
-//        try {
-//            conn.setAutoCommit(false);
-//            PreparedStatement ps = conn.prepareStatement(sql);
-//            Iterator<CoppiaStellaFilamento> i = lsf.iterator();
-//            while (i.hasNext()) { 
-//                CoppiaStellaFilamento csf = i.next();
-//                ps.setInt(1, csf.getIdStella().getIdStella());
-//                ps.setString(2, csf.getIdStella().getSatellite());
-//                ps.setInt(3, csf.getIdFil().getIdFil());
-//                ps.setString(4, csf.getIdFil().getSatellite());
-//                ps.addBatch();
-//            }
-//            ps.executeBatch();
-//            ps.close();
-//            conn.commit();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-    
+    }    
 
     /**
      * utilizzato per l'aggiornamento della tabella stella-filamento invocata quando si fa l'import di file di contorni oppure stelle
@@ -311,38 +170,6 @@ public class StellaDao {
         }
         return listaIdStelle;
     }
-    
-//    /**
-//     * utilizzato per la ricerca delle stelle all'interno di un filamento (SOSTITUITO forse)
-//     * @param conn
-//     * @param con
-//     * @return 
-//     */
-//    public List<Stella> queryStelleContornoFilamento(Connection conn, List<Contorno> listaPunti) {
-//        String sql = "select * from stella";
-//        List<Stella> listaStelle = new ArrayList<>();
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            while (rs.next()) {
-//                int idStar = rs.getInt("idstar");
-//                String satellite = rs.getString("satellite");
-//                String nameStar = rs.getString("namestar");
-//                double gLonSt = rs.getDouble("glon_st");
-//                double gLatSt = rs.getDouble("glat_st");
-//                double fluxSt = rs.getDouble("flux_st");
-//                String typeSt = rs.getString("type_st");
-//                Stella s = new Stella(idStar, satellite, nameStar, gLonSt, gLatSt, fluxSt, typeSt);
-//                if (s.internoFilamento(listaPunti))
-//                    listaStelle.add(s);
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return listaStelle;
-//    }
     
     /**
      * utilizzato per l'import

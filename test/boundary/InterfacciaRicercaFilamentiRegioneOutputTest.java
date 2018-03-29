@@ -56,6 +56,23 @@ public class InterfacciaRicercaFilamentiRegioneOutputTest {
         this.tipoFigura = tipoFigura;
     }
     
+    @Test
+    public void testRicercaFilamentiRegione() {
+        InterfacciaRicercaFilamentiRegione interfacciaFilamentiRegione = 
+                new InterfacciaRicercaFilamentiRegione(userId);
+        BeanRichiestaFilamentiRegione beanRichiesta = new
+         BeanRichiestaFilamentiRegione(longCentroide, latiCentroide, 
+                 dimensione, tipoFigura);
+        BeanRispostaFilamenti beanRisposta = 
+                interfacciaFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
+        boolean res;
+        if (beanRisposta.isAzioneConsentita())
+            res = this.controllaFilamentiRegione(beanRisposta);
+        else
+            res = false;
+        assertEquals("errore", res, expected);
+    }
+    
     private boolean internoRegione(double glon, double glat) {
         boolean res = true;
         if (tipoFigura == TipoFigura.CERCHIO) {
@@ -96,22 +113,5 @@ public class InterfacciaRicercaFilamentiRegioneOutputTest {
         }
         DBAccess.getInstance().closeConnection(conn);
         return res;
-    }
-    
-    @Test
-    public void testRicercaFilamentiRegione() {
-        InterfacciaRicercaFilamentiRegione interfacciaFilamentiRegione = 
-                new InterfacciaRicercaFilamentiRegione(userId);
-        BeanRichiestaFilamentiRegione beanRichiesta = new
-         BeanRichiestaFilamentiRegione(longCentroide, latiCentroide, 
-                 dimensione, tipoFigura);
-        BeanRispostaFilamenti beanRisposta = 
-                interfacciaFilamentiRegione.ricercaFilamentiRegione(beanRichiesta);
-        boolean res;
-        if (beanRisposta.isAzioneConsentita())
-            res = this.controllaFilamentiRegione(beanRisposta);
-        else
-            res = false;
-        assertEquals("errore", res, expected);
     }
 }

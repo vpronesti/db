@@ -45,6 +45,8 @@ public class InterfacciaInserimentoBandaStrumentoTest {
             {false, AMMINISTRATORE, "Str", new Double(3.6)},
             // strumento esistente banda esistente
             {true, AMMINISTRATORE, "MIPS", new Double(3.6)},
+            // coppia strumento banda gia' esistente
+            {false, AMMINISTRATORE, "MIPS", new Double(24)},
             
             {false, REGISTRATO, "Str", new Double(3.141)},
             {false, REGISTRATO, "MIPS", new Double(3.2)},
