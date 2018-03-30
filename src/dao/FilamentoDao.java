@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import static util.DBAccess.FOREIGN_KEY_VIOLATION;
+import static util.DBAccess.UNIQUE_VIOLATION;
 
 public class FilamentoDao {
     private static FilamentoDao instance;
@@ -195,7 +196,10 @@ public class FilamentoDao {
         } catch (SQLException e) {
             if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
                 res = false;
-                System.out.println("eccezione lanciata in dao");
+                System.out.println("violazione f.k. in inserimento filamenti");
+            } else if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                res = false;
+                System.out.println("violazione vincolo unique in inserimento filamenti");
             }
             else
                 e.printStackTrace();

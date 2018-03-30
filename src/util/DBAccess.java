@@ -22,6 +22,7 @@ public class DBAccess {
     
     public static final String UNIQUE_VIOLATION = "23505";
     public static final String FOREIGN_KEY_VIOLATION = "23503";
+    public static final String CHECK_VIOLATION = "23514";
     
     public static synchronized DBAccess getInstance() {
         if(instance == null)

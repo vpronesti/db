@@ -61,9 +61,9 @@ public class InterfacciaRegistrazioneUtenteTest {
             // inserire la password
             {false, AMMINISTRATORE, "u1", "u1", "utente", "", "email1", "Registrato"},
             // inserire l'email
-            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "", "Registrato"},
+            {false, AMMINISTRATORE, "u1", "u1", "utente", "password", "", "Registrato"},
             // inserire il tipo di utente
-            {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "email1", ""},
+            {false, AMMINISTRATORE, "u1", "u1", "utente", "password", "email1", ""},
             
             // userId meno di 6 caratteri
             {false, AMMINISTRATORE, "u1", "u1", "utent", "password", "email1", "Registrato"},

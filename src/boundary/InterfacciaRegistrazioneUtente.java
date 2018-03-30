@@ -44,11 +44,7 @@ public class InterfacciaRegistrazioneUtente {
         if (beanUtente.getEmail() == null || beanUtente.getEmail().isEmpty()) {
             res = false;
         }
-        if (beanUtente.getTipo() != null && !beanUtente.getTipo().isEmpty()) {
-            if (!beanUtente.getTipo().equals("Amministratore") && !beanUtente.getTipo().equals("Registrato")) {
-                res = false;
-            } 
-        } else {
+        if (beanUtente.getTipo() == null || beanUtente.getTipo().isEmpty()) {
             res = false;
         }
         return res;

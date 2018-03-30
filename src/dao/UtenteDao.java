@@ -4,6 +4,7 @@ import bean.BeanUtente;
 import entity.*;
 
 import java.sql.*;
+import static util.DBAccess.CHECK_VIOLATION;
 import static util.DBAccess.UNIQUE_VIOLATION;
 
 public class UtenteDao {
@@ -118,10 +119,15 @@ public class UtenteDao {
             try {
                 stmt.executeUpdate(sql);
             } catch (SQLException e) {
-                if (e.getSQLState().equals(UNIQUE_VIOLATION))
+                if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                    System.out.println("violazione unique in inserimento utente");
                     res = false;
-                else
+                } else if (e.getSQLState().equals(CHECK_VIOLATION)) {
+                    System.out.println("violazione tipo utente in inserimento utente");
+                    res = false;
+                } else {
                     e.printStackTrace();
+                }
             }
         try {
             stmt.close();

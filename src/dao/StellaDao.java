@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import static util.DBAccess.FOREIGN_KEY_VIOLATION;
+import static util.DBAccess.UNIQUE_VIOLATION;
 
 public class StellaDao {
     private static StellaDao instance;
@@ -216,8 +217,12 @@ public class StellaDao {
             if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION)) {
                 System.out.println("fk violation in stellaDao batch");
                 res = false;
-            } else
+            } else if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
+                System.out.println("violazione vincolo unique in stellaDao batch");
+                res = false;
+            } else {
                 e.printStackTrace();
+            }
         }
         return res;
     }
