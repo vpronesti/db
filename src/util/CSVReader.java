@@ -162,7 +162,7 @@ public class CSVReader {
 
         List<Segmento> listaSegmenti = new ArrayList<>();
         
-        Segmento seg = new Segmento();
+//        Segmento seg;s
         
         if (file.exists() && !file.isDirectory()) {
             try {
@@ -200,10 +200,8 @@ public class CSVReader {
                     int n = Integer.parseInt(values[5]);
                     double flux = Double.parseDouble(values[6]);
 
-                    seg = new Segmento(idFil, satellite, idBranch, type, 
+                    Segmento seg = new Segmento(idFil, satellite, idBranch, type, 
                             glon_br, glat_br, n, flux);
-    //               Segmento seg = new Segmento(idFil, idBranch, type, 
-    //                        glon_br, glat_br, n, flux);
                     listaSegmenti.add(seg);
                     numRigheLette++;
                 }
@@ -213,7 +211,6 @@ public class CSVReader {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
-                System.out.println(seg);
                throw new FormatoFileNonSupportatoException("Errore durante la lettura del file");
             } finally {
                 if (br != null) {

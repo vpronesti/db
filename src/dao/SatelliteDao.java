@@ -18,34 +18,6 @@ public class SatelliteDao {
         return instance;
     }
     
-
-    
-//    /**
-//     * utilizzato per l'import delle stelle
-//     * utilizzato per l'inserimento di un sattelite nel db 
-//     * utilizzate per l'inserimento di un filamento 
-//     * @param satellite
-//     * @return 
-//     */
-//    public boolean queryEsistenzaSatellite(Connection conn, BeanSatellite satellite) {
-//        boolean res = false;
-//        Statement stmt = null;
-//        try {
-//            stmt = conn.createStatement();
-//            String sql = "select * from satellite where nome = '" + 
-//                    satellite.getNome() + "'";
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()){
-//                res = true;
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return res;
-//    }
-    
     /**
      * utilizzato nel req 3.3
      * @param satellite

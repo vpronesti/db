@@ -10,12 +10,8 @@ public class Segmento {
     private double flusso;
     private String satellite;
     
-    public Segmento() {
-        
-    }
-    
     public String toString() {
-        return "idFil: " + this.getIdFil() + "idBranch: " + 
+        return "idFil: " + this.getIdFil() + "idSegmento: " + 
                 this.getIdSegmento() + "idLon: " + this.getgLonSe() + "idLat: " + this.getgLatSe();
     }
     

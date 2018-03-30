@@ -63,11 +63,9 @@ public class StrumentoDao {
                 + strumento + "', " + banda 
                 + ")";
         try {
-            conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             stmt.close();
-            conn.commit();
         } catch (SQLException e) {
             if (e.getSQLState().equals(UNIQUE_VIOLATION)) {
                 res = false;
@@ -130,86 +128,6 @@ public class StrumentoDao {
         }
         return res;
     }
-    
-//    public boolean queryEsistenzaSatelliteStrumento(Connection conn, String sat, String str) {
-//        String sql = "select * from strumento_satellite where satellite = '"+ 
-//                sat + "' and strumento = '" + str + "'";
-//        boolean res = false;
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                res = true;
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return res;
-//    }
-
-//    public boolean queryEsistenzaStrumentoBanda(Connection conn, BeanStrumento beanS) {
-//        String sql = "select * from strumento_banda where strumento = '" + 
-//                beanS.getNome() + "' and banda = " + beanS.getBanda();
-//        boolean res = false;
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                res = true;
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return res;
-//    }
-    
-//    public boolean queryEsistenzaBanda(Connection conn, double banda) {
-//        String sql = "select * from banda where banda = " + banda;
-//        boolean res = false;
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                res = true;
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return res;
-//    }
-    
-//    /**
-//     * utilizzato per l'import del file dei filamenti, bisogna controllare che 
-//     * lo strumento esista
-//     * @param strumento
-//     * @return 
-//     */    
-//    public boolean queryEsistenzaStrumento(Connection conn, String strumento) {
-//        boolean res = false;
-//        Statement stmt = null;
-//        try {
-//            stmt = conn.createStatement();
-//            String sql = "select * from strumento where nome = '" + 
-//                    strumento + "'";
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()){
-//                res = true;
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } 
-//        return res;
-//    }
-    
-    
     
     /**
      * utilizzato per popolare le combo box della grafica

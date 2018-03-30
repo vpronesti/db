@@ -52,6 +52,4 @@ public class Satellite {
     public void setAgenzia(String agenzia) {
         this.agenzia = agenzia;
     }
-    
-
 }

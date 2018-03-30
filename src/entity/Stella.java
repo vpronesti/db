@@ -13,7 +13,8 @@ public class Stella {
     private double flussoSt;
     private String tipo;
 
-    public Stella(int idStella, String satellite, String nome, double gLonSt, double gLatSt, double flussoSt, String tipo) {
+    public Stella(int idStella, String satellite, String nome, 
+            double gLonSt, double gLatSt, double flussoSt, String tipo) {
         this.idStella = idStella;
         this.satellite = satellite;
         this.nome = nome;
@@ -22,8 +23,6 @@ public class Stella {
         this.flussoSt = flussoSt;
         this.tipo = tipo;
     }
-    
-
 
     public Stella(int idStella, String satellite, double gLonSt, double gLatSt) {
         this.idStella = idStella;
@@ -31,8 +30,13 @@ public class Stella {
         this.gLonSt = gLonSt;
         this.gLatSt = gLatSt;
     }
-
     
+    /**
+     * data la lista di punti che forma il contorno di un filamento controlla 
+     * se una stella e' interna o esterna
+     * @param listaPunti
+     * @return 
+     */
     public boolean internoFilamento(List<Contorno> listaPunti) {
         double sum = 0;
         double STL = this.getgLonSt();

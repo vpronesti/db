@@ -57,75 +57,7 @@ public class SegmentoDao {
             e.printStackTrace();
         }
         return listaSegmenti;
-    }
-    
-//    /**
-//     * utilizzato per gli import
-//     * controlla che il punto di un segmento non faccia parte di segmenti di altri filamenti 
-//     * 
-//     * la tabella per come definita ha un vincolo unique su 
-//     * latitudine e longitudine quindi l'inserimento verrebbe 
-//     * rifiutato e non c'e' bisogno di un controllo esplicito
-//     * 
-//     * @param conn
-//     * @param s
-//     * @return 
-//     */
-//    public boolean querySegmentoAppartenteAltroSegmento(Connection conn, Segmento s) {
-//        boolean res = false;
-//        String sql = "select * from segmento where (idfil <> " + 
-//                s.getIdFil() + " or satellite <> '" + s.getSatellite() + "') and " + 
-//                "glon_se = " + s.getgLonSe() + " and glat_se = " + s.getgLatSe();
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                res = true;
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return res;
-//    }
-    
-//    /**
-//     * utilizzato per l'import dei file
-//     * 
-//     * cerca quali sono i punti dei segmenti di un determinato filamento
-//     * 
-//     * @param conn
-//     * @param idFil
-//     * @return 
-//     */
-//    public List<Segmento> queryPuntiSegmento(Connection conn, BeanIdFilamento idFil) {
-//        String sql = "select  id_segmento, tipo, glon_se, glat_se, n, flusso " + 
-//                "from segmento where idfil = " + idFil.getIdFil() + 
-//                " and satellite = '" + idFil.getSatellite() + "'";
-//        List<Segmento> listaSegmenti = new ArrayList<>();
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            while (rs.next()) {
-//                int idSegmento = rs.getInt("id_segmento");
-//                String tipo = rs.getString("tipo");
-//                double gLonSe = rs.getDouble("glon_se");
-//                double gLatSe = rs.getDouble("glat_se");
-//                int n = rs.getInt("n");
-//                double flusso = rs.getDouble("flux");
-//                Segmento seg = new Segmento(idFil.getIdFil(), idFil.getSatellite(), 
-//                        idSegmento, tipo, gLonSe, gLatSe, n, flusso);
-//                listaSegmenti.add(seg);
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return listaSegmenti;
-//    }
-    
+    }    
     
     /**
      * utilizzato per la distanza tra segmento e contorno 

@@ -23,43 +23,6 @@ public class FilamentoDao {
         return instance;
     }
     
-//    /**
-//     * utilizzato per la ricerca dei filamenti in base al numero di segmenti SOSTITUITO
-//     * utilizzato per la ricerca di filamenti all'interno di una regione (cerchio o quadrato)
-//     * @param conn
-//     * @param idFil
-//     * @return 
-//     */
-//    public Filamento queryCampiFilamento(Connection conn, BeanIdFilamento idFil) {
-//        String sql = "select nome, flusso_totale, dens_media, temp_media, ellitticita, contrasto, satellite, strumento " + 
-//                "from filamento " + 
-//                "where idFil = " + idFil.getIdFil() + " and satellite = '" + idFil.getSatellite() + "'";
-//        Filamento fil = null;
-//        
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                String nome = rs.getString("nome");
-//                double flussoTotale = rs.getDouble("flusso_totale");
-//                double densMedia = rs.getDouble("dens_media");
-//                double tempMedia = rs.getDouble("temp_media");
-//                double ellitticita = rs.getDouble("ellitticita");
-//                double contrasto = rs.getDouble("contrasto");
-//                String satellite = rs.getString("satellite");
-//                String strumento = rs.getString("strumento");
-//                fil = new Filamento(idFil.getIdFil(), nome, flussoTotale, 
-//                        densMedia, tempMedia, ellitticita, contrasto, satellite, 
-//                        strumento);
-//            }
-//            rs.close();
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return fil;
-//    }
-    
     /**
      * utilizzato per la ricerca di filamenti in base a contrasto e range di ellitticita'
      * 

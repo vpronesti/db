@@ -63,8 +63,6 @@ public class Contorno {
                     ptr.getgLonCont() == this.gLonCont && 
                     ptr.getgLatCont() == this.gLatCont;
         }
-
         return retVal;
-    }
-    
+    }   
 }

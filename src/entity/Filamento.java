@@ -25,11 +25,6 @@ public class Filamento {
         return "Filamento id: " + this.idFil + "\n\tnome: " + this.nome;
     }
     
-//    public Filamento(int idFil, String satellite) {
-//        this.idFil = idFil;
-//        this.satellite = satellite;
-//    }
-    
     public Filamento(int idFil, String nome, double flussoTotale, 
             double densMedia, double tempMedia, double ellitticita, 
             double contrasto, String satellite, String strumento) {

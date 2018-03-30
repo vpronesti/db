@@ -2,17 +2,15 @@ package boundary;
 
 import bean.BeanRichiestaContrastoEllitticita;
 import bean.BeanRispostaContrastoEllitticita;
-import entity.Filamento;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import static util.UserId.AMMINISTRATORE;
-import static util.UserId.NONREGISTRATO;
-import static util.UserId.REGISTRATO;
+import static util.DBAccess.AMMINISTRATORE;
+import static util.DBAccess.NONREGISTRATO;
+import static util.DBAccess.REGISTRATO;
 
 /**
  * test per il requisito funzionale n. 6

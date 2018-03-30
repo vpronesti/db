@@ -14,9 +14,6 @@ public abstract class Utente {
     
     public Utente(String nome, String cognome, String userId, 
             String password, String email, String tipo) {
-        if (!tipo.equals("Registrato") && !tipo.equals("Amministratore")) {
-            System.out.println("error"); // tipo errato
-        }
         this.nome = nome;
         this.cognome = cognome;
         this.userId = userId;
@@ -70,9 +67,6 @@ public abstract class Utente {
     }
 
     public void setTipo(String tipo) {
-        if (!tipo.equals("Registrato") && !tipo.equals("Ammnistratore")) {
-            System.out.println("error"); //tipo errato
-        }
         this.tipo = tipo;
     }
 }
