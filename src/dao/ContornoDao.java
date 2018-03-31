@@ -448,24 +448,4 @@ public class ContornoDao {
         }
         return res;
     }
-    
-    public void inserisciContorno(Connection conn, Contorno cont) {
-        Statement stmt = null;
-        String sql = "insert into contorno(idfil, satellite, glog_cont, glat_cont) " + 
-                "values(" + cont.getIdFil() + 
-                ", '" + cont.getSatellite() + "'" + 
-                ", " + cont.getgLonCont() + 
-                ", " + cont.getgLatCont() + ") on conflict do update set " + 
-                "idfil = excluded.idfil, " + 
-                "satellite = excluded.satellite, " + 
-                "glog_cont = excluded.glog_cont, " + 
-                "glat_cont = excluded.glat_cont;";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

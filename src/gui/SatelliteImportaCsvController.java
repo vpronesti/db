@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 import util.DBAccess;
@@ -43,48 +44,6 @@ public class SatelliteImportaCsvController implements Initializable {
             InterfacciaImportCsv boundaryImportCsv = new
                     InterfacciaImportCsv(LogInController.interfacciaUtenteLogin.getUserId());
             try {
-//                Service<Boolean> service = new Service<Boolean>(){
-//                    @Override
-//                    protected Task<Boolean> createTask() {
-//                    return new Task<Boolean>() {
-//                       @Override
-//                       protected Boolean call() throws Exception {
-//                            return boundaryImportCsv.importaCsv(beanRichiestaImport);                      
-//                       }
-//                       };
-//                   }
-//                 };
-//                 service.setOnSucceeded(e -> {
-//                     text.setText("Import effettuato correttamente");
-//                 });
-//                 service.setOnFailed(e -> {
-//                     text.setText("Impossibilile importare il file");
-//                 });              
-//                 ProgressDialog pd = new ProgressDialog(service);
-//                 pd.setContentText("Please wait while the window loads...");
-//                 pd.initModality(Modality.WINDOW_MODAL);
-//                 pd.initOwner(stage);
-//                 service.start();
-                
-                
-//                TaskImport task = new TaskImport(boundaryImportCsv, beanRichiestaImport);
-//                task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-//                    @Override
-//                    public void handle(WorkerStateEvent t)
-//                    {
-//                        // Code to run once runFactory() is completed **successfully**
-//                        text.setText("Import effettuato correttamente");
-//                    }
-//                });
-//                task.setOnFailed(new EventHandler<WorkerStateEvent>() {
-//                    @Override
-//                    public void handle(WorkerStateEvent t)
-//                    {
-//                        text.setText("Impossibilile importare il file");
-//                    }
-//                });
-//                new Thread(task).start();
-
                 if (boundaryImportCsv.importaCsv(beanRichiestaImport)) {
                     text.setText("Import effettuato correttamente");
                 } else {
@@ -93,7 +52,7 @@ public class SatelliteImportaCsvController implements Initializable {
             } catch (FormatoFileNonSupportatoException e) {
                 text.setText("Il formato del file scelto non e' supportato");
             } catch (FileNotFoundException e) {
-                text.setText("Il percorso specificato o non esiste o e' una directory");
+                text.setText("Il file specificato non esiste");
             }
         }
     }

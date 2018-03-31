@@ -61,12 +61,7 @@ public class ImportaCsvController {
                 InterfacciaImportCsv boundaryImportCsv = new
                         InterfacciaImportCsv(LogInController.interfacciaUtenteLogin.getUserId());
                 try {
-//                    TaskImport task = new TaskImport(boundaryImportCsv, beanRichiestaImport);
-//                    Thread t = new Thread(task);
-//                    t.start();
-//                    res = task.get();
-//                    if (res) {
-                    if (boundaryImportCsv.importaCsv(beanRichiestaImport)) {
+                   if (boundaryImportCsv.importaCsv(beanRichiestaImport)) {
                         text.setText("Import effettuato correttamente");
                     } else {
                         text.setText("Impossibilile importare il file");
@@ -74,7 +69,7 @@ public class ImportaCsvController {
                 } catch (FormatoFileNonSupportatoException e) {
                     text.setText("Il formato del file scelto non e' supportato");
                 } catch (FileNotFoundException e) {
-                    text.setText("Il percorso specificato o non esiste o e' una directory");
+                    text.setText("Il file specificato non esiste");
                 }
             } else {
             SatelliteImportaCsvController satelliteController = 

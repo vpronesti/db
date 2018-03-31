@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 
 public class ViewSwap {
-    //singleton instance because getClass cannot be used from static context
     protected static String LOGIN = "logIn.fxml";
     protected static String MENU = "menu.fxml";
     protected static String REGISTRAUTENTE = "registraUtente.fxml";
@@ -45,39 +44,20 @@ public class ViewSwap {
 
 
     public void swap(ActionEvent event, String url) throws Exception {
-        //swap scene inside stage to newly created stage taken from url
-        //NB -> url have to be in static attribute of swapClass :)
-        //event needed to access to main Stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //stage -> main windows of GUI
+        
         Parent newRoot = FXMLLoader.load(getClass().getResource(url));
         stage.setScene(new Scene(newRoot));
-        //change scene in the stage=====> other controller loaded
-        //DONE
-
     }
 
     public void swap(ActionEvent event, String url, Initializable controller) throws Exception {
-        //version to swapWithState
-        //todo nB CAST PER CONTROLLER in caller
-        //swap scene inside stage to newly created stage taken from url
-        //set fxml controller to instantiated controller controller (casted from caller)
-        //to pass data among controllers instatiates...
-        //NB -> url have to be in static attribute of swapClass :)
-        //event needed to access to main Stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //stage -> main windows of GUI
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
         loader.setController(controller); //set controller to fxml from instance of controller passed
         Parent newRoot = loader.load();
-        //todo controller implement initialize so every  time will be callsed initialize metod
-        //this belong to swap logic... :))
-        //controller.initialize();      //chiamato automaticamente vedi JAVAFX doc
-        //polymporfism from interface :) xD
+        
         stage.setScene(new Scene(newRoot));
-        //change scene in the stage=====> other controller loaded
-        //DONE
-
     }
 
 }

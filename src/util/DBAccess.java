@@ -16,9 +16,9 @@ public class DBAccess {
     // nei test, per verificare che un'azione si consentita solo 
     // ad un determinato tipo di utente vengono utilizzati 
     // gli user id degli utenti qui specificati
-    public static final String AMMINISTRATORE = "a";
-    public static final String REGISTRATO = "z";
-    public static final String NONREGISTRATO = "b"; 
+    public static final String AMMINISTRATORE = "amministratore";
+    public static final String REGISTRATO = "registrato";
+    public static final String NONREGISTRATO = "nonregistrato"; 
     
     public static final String UNIQUE_VIOLATION = "23505";
     public static final String FOREIGN_KEY_VIOLATION = "23503";

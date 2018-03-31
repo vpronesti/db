@@ -16,8 +16,6 @@ public class LogInController {
     private PasswordField password;
     @FXML
     private Text textArea;
-    @FXML
-    private javafx.scene.text.Text negativeOutput;
 
     @FXML
     public void logIn(ActionEvent event) throws Exception {
@@ -32,10 +30,4 @@ public class LogInController {
             this.textArea.setText("Accesso non consentito");
         }
     }
-
-    private void displayNotFoundUser() {
-        this.negativeOutput.setFont(new Font(22));
-        this.negativeOutput.setText("error");
-    }
-
 }

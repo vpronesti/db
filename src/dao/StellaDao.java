@@ -226,31 +226,4 @@ public class StellaDao {
         }
         return res;
     }
-    
-    public void inserisciStella(Connection conn, Stella st) {
-        Statement stmt = null;
-        String sql = "insert into stella(idstella, satellite, nomestella, " + 
-                "glon_st, glat_st, flusso_st, tipo_st) values(" + 
-                st.getIdStella()+ ", " + 
-                "'" + st.getSatellite()+ "', " + 
-                "'" + st.getNome() + "', " + 
-                st.getgLonSt() + ", " +
-                st.getgLatSt() + ", " + 
-                st.getFlussoSt()+ ", " + 
-                "'" + st.getTipo()+ "'" + 
-                ") on conflict (idstella, satellite) do update set " + 
-                "nomestella = excluded.nomestella, " + 
-                "glon_st = excluded.glon_st, " + 
-                "glat_st = excluded.glat_st, " + 
-                "flusso_st = excluded.flusso_st, " + 
-                "tipo_st = excluded.tipo_st " + 
-                ";";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -91,44 +91,6 @@ public class RicercaStelleRegioneController {
         if (beanRichiesta != null) {
             InterfacciaRicercaStelleRegione boundaryStelleRegione = 
                     new  InterfacciaRicercaStelleRegione(LogInController.interfacciaUtenteLogin.getUserId());
-            
-            
-//            Task<BeanRispostaStelleRegione> task = new Task<BeanRispostaStelleRegione>() {
-//                @Override
-//                protected BeanRispostaStelleRegione call() throws Exception {
-//                    BeanRispostaStelleRegione beanRisposta = boundaryStelleRegione.ricercaStelleRegione(beanRichiesta);
-//                    return beanRisposta;
-//                }
-//            };
-//            Stage loadingDialog = new Stage(); // new stage
-//                loadingDialog.initModality(Modality.APPLICATION_MODAL);
-//                // Defines a modal window that blocks events from being
-//                // delivered to any other application window.
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                loadingDialog.initOwner(stage);
-//                VBox vb = new VBox(20);
-//                Scene dialogScene = new Scene(vb, 300, 200);
-//                loadingDialog.setScene(dialogScene);
-//                loadingDialog.show();
-//            task.setOnRunning((e) -> loadingDialog.show());
-//            task.setOnSucceeded((e) -> {
-//                loadingDialog.hide();
-//                try {
-//                    BeanRispostaStelleRegione beanRisposta = task.get();
-//                    // process return value again in JavaFX thread
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(RicercaStelleRegioneController.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (ExecutionException ex) {
-//                    Logger.getLogger(RicercaStelleRegioneController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            });
-//            task.setOnFailed((e) -> {
-//            // eventual error handling by catching exceptions from task.get()  
-//             });
-//            new Thread(task).start();
-//            BeanRispostaStelleRegione beanRisposta = task.get();
-            
-
 
             BeanRispostaStelleRegione beanRisposta = boundaryStelleRegione.ricercaStelleRegione(beanRichiesta);
             String res = "";

@@ -276,29 +276,4 @@ public class SegmentoDao {
         }
         return res;
     }
-    
-    public void inserisciSegmento(Connection conn, Segmento seg) {
-        Statement stmt = null;
-        String sql = "insert into segmento(idfil, satellite, id_segmento, tipo, " + 
-                "glon_se, glat_se, n, flusso) values (" + 
-                seg.getIdFil() + ", " + 
-                "'" + seg.getSatellite() + "', " + 
-                seg.getIdSegmento()+ ", " + 
-                "'" + seg.getTipo()+ "', " + 
-                seg.getgLonSe() + ", " +
-                seg.getgLatSe() + ", " + 
-                seg.getN() + ", " + 
-                seg.getFlusso()+ 
-                ") on conflict (idfil, satellite, id_segmento, glon_se, glat_se) do update set " + 
-                "tipo = excluded.tipo, " + 
-                "n = excluded.n, " + 
-                "flusso = excluded.flusso";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -206,36 +206,4 @@ public class FilamentoDao {
         }
         return res;
     }
-    
-    public void inserisciFilamento(Connection conn, Filamento fil) {
-        Statement stmt = null;
-        String sql = "insert into filamento(idfil, nome, flusso_totale, " + 
-                "dens_media, temp_media, ellitticita, contrasto, satellite, " + 
-                "strumento) values (" + 
-                "" + fil.getIdFil() + ", " + 
-                "'" + fil.getNome()+ "', " + 
-                "" + fil.getFlussoTotale()+ ", " + 
-                "" + fil.getDensMedia()+ ", " + 
-                "" + fil.getTempMedia()+ ", " + 
-                "" + fil.getEllitticita()+ ", " + 
-                "" + fil.getContrasto() + ", " + 
-                "'" + fil.getSatellite() + "', " + 
-                "'" + fil.getStrumento() + "'" + 
-                ") on conflict (idfil, satellite) do update set " + 
-                "nome = excluded.nome, " + 
-                "flusso_totale = excluded.flusso_totale, " + 
-                "dens_media = excluded.dens_media, " + 
-                "temp_media = excluded.temp_media, " + 
-                "ellitticita = excluded.ellitticita, " + 
-                "contrasto = excluded.contrasto, " +
-                "strumento = excluded.strumento;";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (SQLException e) {
-            System.out.println("");
-            e.printStackTrace();
-        }
-    }
 }
